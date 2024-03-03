@@ -1,0 +1,53 @@
+body{
+    margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.popover {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.lessonsContainer {
+    margin-bottom: 20px;
+}
+
+.exercise {
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+}
+
+.optionButton {
+    background-color: white;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: 1px solid blue
+}
+
+.optionButton:hover {
+    background-color:aqua;
+    border: 1px solid aqua;
+}
+
+.clicked{
+    background-color:aqua;
+    border: 1px solid aqua;
+}
+
+.checkAnswer {
+    display: block;
+}
+
+.displayNone {
+    display: none;
+}

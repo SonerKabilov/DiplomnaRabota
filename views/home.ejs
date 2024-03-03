@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+<body>
+    <% for(let lesson of lessons) { %>
+        <div class = "lessonsContainer">
+            <button id="popoverBtn<%= lesson.id %>">Lesson <%= lesson.id %></button>
+            <div class="popover" id="myPopover<%= lesson.id %>">
+                <%= lesson.description %>
+                <a href="/lesson/<%= lesson.id %>">Старт</a>
+            </div>
+        </div>
+    <% } %>
+    
+    <script src="js/togglePopover.js"></script>
+</body>
+</html>
