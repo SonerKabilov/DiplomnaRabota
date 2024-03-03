@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <title>Lessons</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
 </head>
 <body>
-    <% for(let lesson of lessons) { %>
-        <div class = "lessonsContainer">
+    <%- include('partials/header') %>
+
+    <section class = "lessons">
+    <% for(let lesson of allLessons) { %>
+        <div class = "lesson">
             <button id="popoverBtn<%= lesson.id %>">Lesson <%= lesson.id %></button>
             <div class="popover" id="myPopover<%= lesson.id %>">
                 <%= lesson.description %>
@@ -16,7 +19,8 @@
             </div>
         </div>
     <% } %>
+    </section>
     
-    <script src="js/togglePopover.js"></script>
+    <script src="/js/togglePopover.js"></script>
 </body>
 </html>

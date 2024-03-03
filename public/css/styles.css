@@ -5,6 +5,32 @@ body{
     flex-direction: column;
 }
 
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #87A922;
+    color: white;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+header ul {
+    list-style-type: none;
+    display: flex;
+}
+
+header li {
+    margin-right: 2rem
+}
+
+header a {
+    text-decoration: none;
+    color: white;
+}
+
+/* SECTIONS & LESSONS */
+
 .popover {
     display: none;
     position: absolute;
@@ -14,17 +40,65 @@ body{
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.lessonsContainer {
-    margin-bottom: 20px;
+.sections,
+.lessons {
+    display: grid;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.section,
+.lesson {
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.section {
+    padding: 1.5rem 15rem 1.5rem 1rem;
+    background-color: #ffd900;
+    border-radius: 15px;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    align-content: flex-start;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+.section p {
+    margin-top: 0;
+}
+
+.section a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 2px solid #c9ab00;
+    background-color: #ffd900;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.section a:hover {
+    background-color: #e6c302;
+}
+
+.section a:active {
+    box-shadow: none;
+}
+
+/* EXERCISES */
+.exerciseSection {
+    margin-top: 1rem;
 }
 
 .exercise {
     padding: 2rem;
     text-align: center;
     position: relative;
-            bottom: 0;
-            width: 100%;
-            box-sizing: border-box;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .optionButton {
@@ -50,4 +124,18 @@ body{
 
 .displayNone {
     display: none;
+}
+
+#myProgress {
+    width: 50%;
+    background-color: #ddd;
+    margin: 0 auto;
+    border-radius: 15px;
+}
+  
+#myBar {
+    width: 0;
+    border-radius: 15px;
+    height: 30px;
+    background-color: #04AA6D;
 }

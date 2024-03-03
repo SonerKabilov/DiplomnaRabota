@@ -7,14 +7,22 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
 </head>
 <body>
-    <div class="exercise">
-        
-    </div>
+    <%- include('partials/header') %>
 
-    <div class="nextExercise displayNone">
-        <p class="message"></p>
-        <button id = "showNext">Напред</button>
-    </div>
+    <section class = "exerciseSection">
+        <div id = "myProgress">
+            <div id = "myBar"></div>
+        </div>
+
+        <div class = "exercise">
+            
+        </div>
+
+        <div class = "nextExercise displayNone">
+            <p class = "message"></p>
+            <button id = "showNext">Напред</button>
+        </div>
+    </section>
     
     <script src="/js/checkCorrectAnswer.js" exercises = "<%= JSON.stringify(lessonExercises) %>" id = "<%= id %>"></script>
 </body>

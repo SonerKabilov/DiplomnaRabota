@@ -6,18 +6,28 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+let sections = [
+    {
+        id: 1,
+        description: "This is section 1"
+    }
+]
+
 let lessons = [
     {
         id: 1,
-        description: "This is lesson 1"
+        description: "This is lesson 1",
+        section_id: 1
     },
     {
         id: 2,
-        description: "This is lesson 2"
+        description: "This is lesson 2",
+        section_id: 1
     },
     {
         id: 3,
-        description: "This is lesson 3"
+        description: "This is lesson 3",
+        section_id: 1
     }
 ]
 
@@ -59,8 +69,15 @@ let exercises = [
     }
 ]
 
-app.get('/home', (req, res) => {
-    res.render("home", { lessons });
+app.get("/sections", (req, res) => {
+    res.render("sections", { sections });
+})
+
+app.get('/section/:id/lessons', (req, res) => {
+    const { id } = req.params;
+    const allLessons = lessons.filter(l => l.section_id === parseInt(id, 10));
+    // res.send(allLessons);
+    res.render("lessons", { allLessons });
 })
 
 app.get('/lesson/:id', (req, res) => {

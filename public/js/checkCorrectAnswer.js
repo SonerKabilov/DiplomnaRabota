@@ -2,15 +2,15 @@ const exercisesJson = document.currentScript.getAttribute("exercises");
 const lessonId = document.currentScript.getAttribute("id");
 const nextExerciseDiv = document.querySelector(".nextExercise");
 const showNextButton = document.querySelector("#showNext");
+const progressBar = document.querySelector("#myBar");
+const currentDiv = document.querySelector(".exercise");
 const audio = new Audio();
 
 let speech = new SpeechSynthesisUtterance();
+let currentExerciseIndex = 0;
+let progressBarCounter = 1;
 
 const exercises = JSON.parse(exercisesJson);
-
-let currentExerciseIndex = 0;
-
-const currentDiv = document.querySelector(".exercise");
 
 // Function to shuffle an array using Fisher-Yates algorithm
 const shuffleArray = (array) => {
@@ -22,13 +22,12 @@ const shuffleArray = (array) => {
 
 shuffleArray(exercises);
 
-const showExercise = async () => {
+const showExercise = () => {
     currentDiv.innerHTML = '';
 
     const exercise = exercises[currentExerciseIndex];
-    console.log(exercise);
+    
     if (exercise) {
-        console.log(currentExerciseIndex);
         const correctAnswer = exercise.correct_answer;
 
         const task = document.createElement("h2");
@@ -76,6 +75,8 @@ const showExercise = async () => {
         const handleCheckAnswerButtonClick = () => {
             if(isAnswerCorrect(userAnswer, correctAnswer)) {
                 audio.src = "/sounds/short-success-sound-glockenspiel-treasure-video-game-6346.mp3";
+                progressBarCounter += 100 / exercises.length;
+                progressBar.style.width = progressBarCounter + "%";
             } else {
                 audio.src = "/sounds/wrong-answer-126515.mp3";
             }
@@ -101,7 +102,7 @@ const showExercise = async () => {
     } else {
         audio.src = "/sounds/goodresult-82807.mp3";
         audio.play();
-        currentDiv.innerHTML = '<p>All exercises completed!</p><a href="/home">Обратно</a>';
+        currentDiv.innerHTML = '<p>All exercises completed!</p><a href="/sections">Обратно</a>';
     }
 };
 
