@@ -1,3 +1,4 @@
+/* @import '/font-awesome/css/font-awesome.css'; */
 body{
     margin: 0 auto;
     overflow-y: hidden;
@@ -86,6 +87,7 @@ main {
     align-content: flex-start;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     margin-left: 1rem;
+    height: 7rem;
 }
 
 .section p {
@@ -168,4 +170,19 @@ main {
     border-radius: 15px;
     height: 30px;
     background-color: #87A922;
+}
+
+/* ICONS */
+
+.fa-star {
+    font-size: 4rem; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0);
+}
+
+.fa-star:active {
+    text-shadow: none;
+}
+
+.completed {
+    color:#ffd900;
 }

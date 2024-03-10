@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lessons</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <%- include('partials/header') %>
@@ -13,19 +14,21 @@
         <section class = "sections">
             <% for(let section of sections) { %>
                 <div class = "section">
-                    <p>Раздел <%= section.id %></p>
-                    <a href="/section/<%= section.id %>/lessons %>">Начало</a>
+                    <p>Раздел <%= section.sequence %></p>
+                    <a href="/section/<%= section.sequence %>/lessons %>">Начало</a>
                 </div>
             <% } %>
         </section>
-
+        
         <section class = "lessons">
-        <% for(let lesson of allLessons) { %>
+        <% for(let lesson of lessons) { %>
             <div class = "lesson">
-                <button id="popoverBtn<%= lesson.id %>">Lesson <%= lesson.id %></button>
+                <i class="fa-solid fa-star completed" id="popoverBtn<%= lesson.sequence %>">
+                    
+                </i>
                 <div class="popover" id="myPopover<%= lesson.id %>">
-                    <%= lesson.description %>
-                    <a href="/lesson/<%= lesson.id %>">Старт</a>
+                    <%= lesson.preview %>
+                    <a href="/lesson/<%= lesson.sequence %>">Старт</a>
                 </div>
             </div>
         <% } %>
@@ -33,5 +36,6 @@
     </main>
 
     <script src="/js/togglePopover.js"></script>
+    
 </body>
 </html>

@@ -2,7 +2,7 @@ const container = document.querySelector('.lessons');
 
 const showPopover = () => {
     container.addEventListener('click', function(event) {
-        const targetButton = event.target.closest('button');
+        const targetButton = event.target.closest('i');
         console.log(targetButton)
     
         if (targetButton) {
