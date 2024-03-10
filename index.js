@@ -10,6 +10,23 @@ let sections = [
     {
         id: 1,
         description: "This is section 1"
+    },
+    {
+        id: 2,
+        description: "This is section 2"
+    },
+    {
+        id: 3,
+        description: "This is section 3"
+    },
+    {
+        id: 4,
+        description: "This is section 4"
+    }
+    ,
+    {
+        id: 5,
+        description: "This is section 4"
     }
 ]
 
@@ -28,6 +45,11 @@ let lessons = [
         id: 3,
         description: "This is lesson 3",
         section_id: 1
+    },
+    {
+        id: 4,
+        description: "This is lesson 4",
+        section_id: 2
     }
 ]
 
@@ -69,15 +91,11 @@ let exercises = [
     }
 ]
 
-app.get("/sections", (req, res) => {
-    res.render("sections", { sections });
-})
-
 app.get('/section/:id/lessons', (req, res) => {
     const { id } = req.params;
     const allLessons = lessons.filter(l => l.section_id === parseInt(id, 10));
     // res.send(allLessons);
-    res.render("lessons", { allLessons });
+    res.render("lessons", { sections, allLessons });
 })
 
 app.get('/lesson/:id', (req, res) => {

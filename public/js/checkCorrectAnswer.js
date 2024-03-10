@@ -102,7 +102,7 @@ const showExercise = () => {
     } else {
         audio.src = "/sounds/goodresult-82807.mp3";
         audio.play();
-        currentDiv.innerHTML = '<p>All exercises completed!</p><a href="/sections">Обратно</a>';
+        currentDiv.innerHTML = '<p>All exercises completed!</p><a href="/section/1/lessons">Обратно</a>';
     }
 };
 

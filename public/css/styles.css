@@ -1,8 +1,10 @@
 body{
     margin: 0 auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+    overflow-y: hidden;
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 /* HEADER */
@@ -30,6 +32,10 @@ header a {
 }
 
 /* SECTIONS & LESSONS */
+main {
+    display: flex;
+    margin-top: 2rem;
+}
 
 .popover {
     display: none;
@@ -42,9 +48,26 @@ header a {
 
 .sections,
 .lessons {
+    overflow-y: scroll;
+    height: 92vh;
+}
+
+.sections {
     display: grid;
+    width: 40%;
+    justify-content: flex-start;
+}
+
+.sections::-webkit-scrollbar,
+.lessons::-webkit-scrollbar {
+    display: none;
+}
+
+.lessons {
+    width: 50%;
     justify-content: center;
-    margin-top: 2rem;
+    display: block;
+    text-align: center;
 }
 
 .section,
@@ -62,7 +85,9 @@ header a {
     font-weight: bold;
     align-content: flex-start;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    margin-left: 1rem;
 }
+
 .section p {
     margin-top: 0;
 }
@@ -103,19 +128,24 @@ header a {
 
 .optionButton {
     background-color: white;
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     margin-right: 10px;
-    border: 1px solid blue
+    border: 1px solid #87A922;
+    border-radius: 5px;
+    box-shadow: 0 2px rgb(222, 255, 122, 0.5);
 }
 
 .optionButton:hover {
-    background-color:aqua;
-    border: 1px solid aqua;
+    background-color: #deff7a;
 }
 
-.clicked{
-    background-color:aqua;
-    border: 1px solid aqua;
+.optionButton:active {
+    box-shadow: none;
+}
+
+.clicked,
+.optionButton:active {
+    background-color:#deff7a;
 }
 
 .checkAnswer {
@@ -137,5 +167,5 @@ header a {
     width: 0;
     border-radius: 15px;
     height: 30px;
-    background-color: #04AA6D;
+    background-color: #87A922;
 }

@@ -9,18 +9,29 @@
 <body>
     <%- include('partials/header') %>
 
-    <section class = "lessons">
-    <% for(let lesson of allLessons) { %>
-        <div class = "lesson">
-            <button id="popoverBtn<%= lesson.id %>">Lesson <%= lesson.id %></button>
-            <div class="popover" id="myPopover<%= lesson.id %>">
-                <%= lesson.description %>
-                <a href="/lesson/<%= lesson.id %>">Старт</a>
+    <main>
+        <section class = "sections">
+            <% for(let section of sections) { %>
+                <div class = "section">
+                    <p>Раздел <%= section.id %></p>
+                    <a href="/section/<%= section.id %>/lessons %>">Начало</a>
+                </div>
+            <% } %>
+        </section>
+
+        <section class = "lessons">
+        <% for(let lesson of allLessons) { %>
+            <div class = "lesson">
+                <button id="popoverBtn<%= lesson.id %>">Lesson <%= lesson.id %></button>
+                <div class="popover" id="myPopover<%= lesson.id %>">
+                    <%= lesson.description %>
+                    <a href="/lesson/<%= lesson.id %>">Старт</a>
+                </div>
             </div>
-        </div>
-    <% } %>
-    </section>
-    
+        <% } %>
+        </section>
+    </main>
+
     <script src="/js/togglePopover.js"></script>
 </body>
 </html>
