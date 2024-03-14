@@ -7,16 +7,16 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-const sectionsRouter = require('./routes/sectionsRoutes')
-const adminRouter = require('./routes/adminRoutes')
+const sectionsRouter = require('./routes/sectionsRoutes');
+const adminRouter = require('./routes/adminRoutes');
+const lessonRouter = require('./routes/lessonRoutes');
 
 app.use("/section", sectionsRouter);
 app.use("/admin", adminRouter);
+app.use("/lesson", lessonRouter);
 
-app.get('/lesson/:id', (req, res) => {
-    const { id } = req.params;
-    const lessonExercises = exercises.filter(e => e.lesson_id === parseInt(id, 10));
-    res.render("exercises", { id, lessonExercises });
+app.get('*', (req, res) => {
+    res.redirect("/section/1/lessons");
 })
 
 app.listen(3000, () => {

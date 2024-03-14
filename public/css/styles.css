@@ -1,6 +1,7 @@
 body{
     margin: 0 auto;
     overflow-y: hidden;
+    background-color: #f8f6f3;
 }
 
 body::-webkit-scrollbar {
@@ -11,8 +12,7 @@ body::-webkit-scrollbar {
 header {
     display: flex;
     justify-content: space-between;
-    background-color: #87A922;
-    color: white;
+    background-color: white;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
@@ -28,7 +28,10 @@ header li {
 
 header a {
     text-decoration: none;
-    color: white;
+}
+
+header a:visited {
+    color: black;
 }
 
 /* SECTIONS & LESSONS */
@@ -68,6 +71,7 @@ main {
     justify-content: center;
     display: block;
     text-align: center;
+    padding-top: 1rem;
 }
 
 .section,
@@ -131,22 +135,20 @@ main {
     background-color: white;
     padding: 1rem 2rem;
     margin-right: 10px;
-    border: 1px solid #87A922;
+    border: 1px solid black;
+    box-shadow: 0px 2px black;
     border-radius: 5px;
-    box-shadow: 0 2px rgb(222, 255, 122, 0.5);
 }
 
-.optionButton:hover {
-    background-color: #deff7a;
+.optionButton:hover,
+.clicked {
+    background-color: #efffbf;
+    border: 1px solid #87A922;
+    box-shadow: 0px 2px #87A922;
 }
 
 .optionButton:active {
     box-shadow: none;
-}
-
-.clicked,
-.optionButton:active {
-    background-color:#deff7a;
 }
 
 .checkAnswer {
@@ -171,11 +173,18 @@ main {
     background-color: #87A922;
 }
 
+.makeSentenceDiv {
+    min-height: 8rem;
+    height: auto;
+    background-color: #F7F6BB;
+    margin-bottom: 2rem;
+}
+
 /* ICONS */
 
 .fa-star {
     font-size: 4rem; 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0);
+    text-shadow: 0px 2px 4px rgba(0, 0, 0);
 }
 
 .fa-star:active {
@@ -184,4 +193,12 @@ main {
 
 .completed {
     color:#ffd900;
+}
+
+.fa-ear-listen {
+    background-color: white;
+    padding: 2rem;
+    border: 1px solid #FCDC2A;
+    font-size: 4rem; 
+    margin-bottom: 2rem;
 }

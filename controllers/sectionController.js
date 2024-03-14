@@ -6,6 +6,6 @@ module.exports = {
         const { id } = req.params;
         const sections = await section.queryAllSections();
         const lessons = await section.queryLessons(id);
-        res.status(200).render("lessons", { sections, lessons });
+        res.status(200).render("user/lessons", { sections, lessons });
     }
 }

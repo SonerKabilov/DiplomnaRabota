@@ -1,27 +1,31 @@
 const { pool } = require("../db/database");
 
 module.exports = {
-    queryAllSections: () => {
-        const result = pool
-        .query(`
-            SELECT * FROM sections
-            ORDER BY sequence`)
-        .then(([result]) => result)
-        .catch((err) => console.log(err));
+    queryAllSections: async () => {
+        try {
+            const [result] = await pool.query(`
+                SELECT * FROM sections
+                ORDER BY sequence`);
 
-        return result;
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     },
-    queryLessons: (id) => {
-        const result = pool
-        .query(`
-            SELECT * FROM lessons l
-            INNER JOIN sections s
-            ON l.sections_id = s.id
-            WHERE s.sequence = ?
-            ORDER BY l.sequence`, [id])
-        .then(([result]) => result)
-        .catch((err) => console.log(err));
+    queryLessons: async (id) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT * FROM lessons l
+                INNER JOIN sections s
+                ON l.sections_id = s.id
+                WHERE s.sequence = ?
+                ORDER BY l.sequence`, [id]);
 
-        return result;
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }
