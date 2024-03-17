@@ -1,12 +1,28 @@
+const section = require('../models/sectionModel');
+const lesson = require('../models/lessonModel');
 
 module.exports = {
-    showAdminPage: (req, res) => {
-        res.render("admin");
+    showAdminPage: async (req, res) => {
+        const sections = await section.queryAllSections();
+        res.status(200).render("admin/admin", { sections });
     },
-    showAddLessonForm: (req, res) => {
-        res.render("addLesson");
+    showLessons: async (req, res) => {
+        const { sectionSequence } = req.params;
+        const lessons = await lesson.queryLessons(sectionSequence);
+        res.render("admin/showLessons", { lessons })
     },
-    addLesson: (req, res) => {
+    showAddExerciseForm: (req, res) => {
+        res.render("admin/addExercise");
+    },
+    showAddSectionForm: (req, res) => {
+        res.render("admin/addSection");
+    },
+    showLessonDetails: async (req, res) => {
+        const { lessonSequence } = req.params;
+        const lessonDetails = await lesson.queryLessonExercises(lessonSequence);
+        res.render("admin/showLessonDetails", { lessonDetails });
+    },
+    addExercise: (req, res) => {
         // const lesson = req.body;
         res.send(req.body)
     }

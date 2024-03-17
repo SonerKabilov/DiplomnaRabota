@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Уроци</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+</head>
+<body>
+    <p>
+        <a href="/admin">admin</a> > <u>showLessons</u>
+    </p>
+
+    <% for (let lesson of lessons) { %>
+        <p>
+            <a href="/admin/show/lesson/<%= lesson.sequence %>">
+                Урок <%= lesson.sequence %>
+                <span>Преглед</span>
+            </a>
+        </p>
+    <% } %>
+    
+    <form id="addLessonForm" action="/admin/add/lesson" method="POST">
+        <button class="add">Добавяне на урок</button>
+    </form>
+</body>
+</html>

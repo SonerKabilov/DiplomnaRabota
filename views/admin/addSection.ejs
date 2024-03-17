@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавяне на раздел</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+</head>
+
+<body>
+    <form id="addForm" action="/admin/add/section" method="POST">
+        <div class="formInput alignCenter">
+            <p>
+                <a href="/admin">admin</a> > <u>add/section</u>
+            </p>
+        </div>
+
+        <div class="formInput">
+            <label for="description">Описание</label>
+            <input type="text" name="description" id="description">
+        </div>
+
+        <div class="formInput">
+            <label for="sectionTypes">Тип на раздела</label>
+            <select name="optionTypes" id="optionTypes">
+                <option value="free_section">Безплатен раздел</option>
+                <option value="premium_section">Платен раздел</option>
+            </select>
+        </div>
+        
+        <div class="formInput alignCenter">
+            <button class="add">Добавяне</button>
+        </div>
+    </form>
+</body>
+
+</html>

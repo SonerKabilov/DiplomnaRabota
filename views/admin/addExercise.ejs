@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавяне на упражнение</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+</head>
+
+<body>
+    <% let optionNumber = 4; %>
+    <form id="addForm" action="/admin/add/exercise" method="POST">
+        <div class="formInput alignCenter">
+            <p>
+                <a href="/admin">admin</a> > <u>add/exercise</u>
+            </p>
+        </div>
+
+        <div class="formInput">
+            <label for="task">Задание</label>
+            <input type="text" name="task" id="task">
+        </div>
+
+        <div class="formInput">
+            <label for="taskTypes">Тип на задание</label>
+            <select name="taskTypes" id="taskTypes">
+                <option value="reading">Четене</option>
+                <option value="listening">Слушане</option>
+            </select>
+        </div>
+
+        <div class="formInput">
+            <label for="optionTypes">Тип на отговор</label>
+            <select name="optionTypes" id="optionTypes">
+                <option value="multiple_choice">Множествен отговор</option>
+                <option value="make_sentence">Съставяне на изречение</option>
+                <option value="type">Отворен отговор</option>
+            </select>
+        </div>
+
+        <div class="formInput option">
+            <label for="option1">Вариант 1</label>
+            <input type="text" name="option" id="option1">
+        </div>
+
+        <div class="formInput option">
+            <label for="option2">Вариант 2</label>
+            <input type="text" name="option" id="option2">
+        </div>
+
+        <div class="formInput option">
+            <label for="option3">Вариант 3</label>
+            <input type="text" name="option" id="option3">
+        </div>
+
+        <div class="formInput addOption">
+            <button type="button" id="addOptionButton">+</button>
+        </div>
+
+        <div class="formInput">
+            <label for="correctAnswer">Правилен отговор</label>
+            <input type="text" name="correctAnswer" id="correctAnswer">
+        </div>
+        
+        <div class="formInput alignCenter">
+            <button class="add">Добавяне</button>
+        </div>
+    </form>
+
+    <script src="/js/addExerciseFunctions.js" optionNumber = "<%= optionNumber %>"></script>
+</body>
+
+</html>

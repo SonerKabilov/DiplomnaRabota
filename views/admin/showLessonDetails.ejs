@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детайли на урок</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+</head>
+
+<body>
+    <p>
+        <a href="/admin">admin</a> > <u>showLessonDetails</u>
+    </p>
+
+    <h2>Упражнения</h2>
+    <% for (let exercise of lessonDetails) { %>
+        <div class="parent">
+            <p>
+                <button>Упражнение</button>
+            </p>
+            
+            <div class="hidden">
+                <form action="">
+                    <div class="formInput">
+                        <label for="task">Задание</label>
+                        <input type="text" name="task" id="task" value="<%= exercise.task %>">
+                    </div>
+    
+                    <% let optionNumber = 1;  %>
+                    <% for (let option of exercise.options) { %>
+                        <div class="formInput option">
+                            <label for="option<%= optionNumber %>">Вариант <%= optionNumber %></label>
+                            <input type="text" name="option" id="option<%= optionNumber %>" value="<%= option %>">
+                        </div>
+                    <% optionNumber++;
+                    } %>
+    
+                    <div class="formInput">
+                        <label for="correctAnswer">Правилен отговор</label>
+                        <input type="text" name="correctAnswer" id="correctAnswer" value="<%= exercise.correct_answer %>">
+                    </div>
+
+                    <div class="formInput alignCenter">
+                        <button class="update">Редактиране</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <% } %>
+
+    <p>
+        <a class="add" href="/admin/add/exercise">Добавяне на упражнение</a>
+    </p>
+
+    <script src="/js/adminPanelFunctions.js"></script>
+</body>
+
+</html>

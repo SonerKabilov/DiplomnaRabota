@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Админски панел</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
 </head>
+
 <body>
-    <a href="#">Добавяне на език</a>
-    <a href="admin/add/section">Добавяне на раздел</a>
-    <a href="admin/add/lesson">Добавяне на урок</a>
+    <div class="adminPanel">
+        <h2>Преглед на раздели</h2>
+
+        <div class="parent">
+            <button>Английски</button>
+
+            <div class="hidden">
+                <% for (let section of sections) { %>
+                    <p>
+                        <a href="admin/show/<%= section.sequence %>/lessons">Раздел <%= section.sequence %> - <%= section.description %></a>
+                    </p>
+                <% } %>
+                <p>
+                    <a class="add" href="admin/add/section">Добавяне на раздел</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/adminPanelFunctions.js"></script>
 </body>
+
 </html>

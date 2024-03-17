@@ -1,0 +1,76 @@
+#addForm {
+    position: absolute;
+    left: 45%;
+}
+
+.formInput {
+    margin-top: 1rem;
+    display: table-caption;
+}
+
+form input,
+form select {
+    padding: 0.5rem 1rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+form select {
+    width: 100%;
+}
+
+form button {
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a span {
+    color: blue;
+    text-decoration: underline;
+}
+
+.add,
+.update,
+.remove {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Calibri';
+}
+
+.add {
+    background-color: #87A922;
+    border: 1px solid #87A922;
+}
+
+.update {
+    background-color: aqua;
+    border: aqua;
+}
+
+.remove {
+    background-color: red;
+    border: red;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.removeOptionButton {
+    background-color: white;
+    border:none;
+    color: red;
+    display: inline;
+    padding: 0;
+}
+
+.hidden {
+    display: none;
+}
