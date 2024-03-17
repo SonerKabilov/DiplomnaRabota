@@ -9,11 +9,13 @@ app.set('view engine', 'ejs');
 
 const sectionsRouter = require('./routes/sectionsRoutes');
 const adminRouter = require('./routes/adminRoutes');
-const lessonRouter = require('./routes/lessonRoutes');
+const lessonRouter = require('./routes/lessonsRoutes');
+const exercisesRouter = require('./routes/exercisesRoutes');
 
 app.use("/section", sectionsRouter);
 app.use("/admin", adminRouter);
 app.use("/lesson", lessonRouter);
+app.use("/exercises", exercisesRouter);
 
 app.get('*', (req, res) => {
     res.redirect("/section/1/lessons");
