@@ -10,7 +10,7 @@ module.exports = {
     showLessons: async (req, res) => {
         const { sectionSequence } = req.params;
         const lessons = await lessonsService.getAllLessons(sectionSequence);
-        res.render("admin/showLessons", { lessons })
+        res.render("admin/showLessons", { sectionSequence, lessons })
     },
     showAddExerciseForm: (req, res) => {
         res.render("admin/addExercise");
@@ -26,5 +26,11 @@ module.exports = {
     addExercise: (req, res) => {
         // const lesson = req.body;
         res.send(req.body)
+    },
+    addLesson: async (req, res) => {
+        const { sectionSequence } = req.params;
+        const sectionId = await sectionsService.getSectionId(sectionSequence);
+        await lessonsService.addLesson(sectionId);
+        res.redirect("/admin/show/" + sectionSequence + "/lessons");
     }
 }

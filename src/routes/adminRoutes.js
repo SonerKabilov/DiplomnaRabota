@@ -8,5 +8,6 @@ router.get("/show/lesson/:lessonSequence", adminController.showLessonDetails);
 router.get("/add/exercise", adminController.showAddExerciseForm);
 router.get("/add/section", adminController.showAddSectionForm);
 router.post("/add/exercise", adminController.addExercise);
+router.post("/add/:sectionSequence/lesson", adminController.addLesson);
 
 module.exports = router;

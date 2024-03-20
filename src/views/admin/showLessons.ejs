@@ -20,7 +20,7 @@
         </p>
     <% } %>
     
-    <form id="addLessonForm" action="/admin/add/lesson" method="POST">
+    <form id="addLessonForm" action="/admin/add/<%= sectionSequence %>/lesson" method="POST">
         <button class="add">Добавяне на урок</button>
     </form>
 </body>
