@@ -55,20 +55,16 @@ a span {
 }
 
 .remove {
-    background-color: red;
-    border: red;
-}
-
-.alignCenter {
-    text-align: center;
-}
-
-.removeOptionButton {
     background-color: white;
     border:none;
     color: red;
     display: inline;
     padding: 0;
+    cursor: pointer;
+}
+
+.alignCenter {
+    text-align: center;
 }
 
 .hidden {

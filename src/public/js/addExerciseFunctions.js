@@ -1,6 +1,6 @@
 const addOptionButton = document.querySelector("#addOptionButton");
 const addOptionDiv = document.querySelector(".addOption");
-const form = document.querySelector("#addLessonForm");
+const form = document.querySelector("#addForm");
 const optionTypes = document.querySelector("#optionTypes");
 let optionNumber = document.currentScript.getAttribute("optionNumber");
 
@@ -20,9 +20,10 @@ optionTypes.addEventListener("change", function() {
     }
 })
 
-addOptionButton.addEventListener("click", function () { 
+addOptionButton.addEventListener("click", function () {
+    console.log(addOptionDiv)
     const optionDiv = document.createElement("div");
-    optionDiv.classList.add("formInput");
+    optionDiv.classList.add("formInput", "option");
 
     const label = document.createElement("label");
     const optionText = document.createTextNode("Вариант " + optionNumber);
@@ -30,10 +31,13 @@ addOptionButton.addEventListener("click", function () {
     optionDiv.appendChild(label);
 
     const input = document.createElement("input");
+    input.type="text";
+    input.name="option";
+    input.id ="option" + optionNumber;
     optionDiv.appendChild(input);
 
     const removeOption = document.createElement("button");
-    removeOption.classList.add("removeOptionButton");
+    removeOption.classList.add("remove");
     removeOption.type = "button";
     const removeOptionButtonText = document.createTextNode("Премахване");
     removeOption.appendChild(removeOptionButtonText);

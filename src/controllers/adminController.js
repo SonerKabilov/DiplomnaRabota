@@ -24,7 +24,7 @@ module.exports = {
         res.render("admin/showLessonDetails", { lessonDetails });
     },
     addExercise: (req, res) => {
-        // const lesson = req.body;
+        const lesson = req.body;
         res.send(req.body)
     },
     addLesson: async (req, res) => {

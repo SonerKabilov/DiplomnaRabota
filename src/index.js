@@ -17,9 +17,9 @@ app.use("/admin", adminRouter);
 app.use("/lesson", lessonRouter);
 app.use("/exercises", exercisesRouter);
 
-// app.get('*', (req, res) => {
-//     res.redirect("/section/1/lessons");
-// })
+app.get('*', (req, res) => {
+    res.redirect("/section/1/lessons");
+})
 
 app.listen(3000, () => {
     console.log("ON PORT 3000!");
