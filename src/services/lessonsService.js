@@ -17,5 +17,9 @@ module.exports = {
         }
 
         await lessonsRepository.insertLesson(lessonToInsert);
+    },
+    getLessonId: async (lessonSequence) => {
+        const lessonId = await lessonsRepository.getLessonId(lessonSequence);
+        return lessonId;
     }
 }

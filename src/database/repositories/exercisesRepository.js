@@ -29,5 +29,22 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    insertExercise: async (exerciseToInsert) => {
+        try {
+            await pool.query(`
+                INSERT INTO free_exercises (task, options, correct_answer, lessons_id, exercise_task_types_id, exercise_option_types_id)
+                VALUES (?, ?, ?, ?, ?, ?)
+            `, [exerciseToInsert.task, 
+                exerciseToInsert.options, 
+                exerciseToInsert.correctAnswer, 
+                exerciseToInsert.exerciseLessonId, 
+                exerciseToInsert.taskTypesId, 
+                exerciseToInsert.optionTypesId
+            ]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

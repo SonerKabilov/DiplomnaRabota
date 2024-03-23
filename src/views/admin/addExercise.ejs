@@ -9,8 +9,7 @@
 </head>
 
 <body>
-    <% let optionNumber = 4; %>
-    <form id="addForm" action="/admin/add/exercise" method="POST">
+    <form id="addForm" action="/admin/add/<%= lessonSequence %>/exercise" method="POST">
         <div class="formInput alignCenter">
             <p>
                 <a href="/admin">admin</a> > <u>add/exercise</u>
@@ -25,37 +24,39 @@
         <div class="formInput">
             <label for="taskTypes">Тип на задание</label>
             <select name="taskTypes" id="taskTypes">
-                <option value="reading">Четене</option>
-                <option value="listening">Слушане</option>
+                <option value="1">Слушане</option>
+                <option value="2">Четене</option>
             </select>
         </div>
 
         <div class="formInput">
             <label for="optionTypes">Тип на отговор</label>
             <select name="optionTypes" id="optionTypes">
-                <option value="multiple_choice">Множествен отговор</option>
-                <option value="make_sentence">Съставяне на изречение</option>
-                <option value="type">Отворен отговор</option>
+                <option value="1">Множествен отговор</option>
+                <option value="2">Съставяне на изречение</option>
+                <option value="3">Отворен отговор</option>
             </select>
         </div>
 
-        <div class="formInput option">
-            <label for="option1">Вариант 1</label>
-            <input type="text" name="option" id="option1">
-        </div>
+        <div class="options">
+            <div class="formInput option">
+                <label for="option1">Вариант 1</label>
+                <input type="text" name="options" id="option1">
+            </div>
 
-        <div class="formInput option">
-            <label for="option2">Вариант 2</label>
-            <input type="text" name="option" id="option2">
-        </div>
+            <div class="formInput option">
+                <label for="option2">Вариант 2</label>
+                <input type="text" name="options" id="option2">
+            </div>
 
-        <div class="formInput option">
-            <label for="option3">Вариант 3</label>
-            <input type="text" name="option" id="option3">
-        </div>
+            <div class="formInput option">
+                <label for="option3">Вариант 3</label>
+                <input type="text" name="options" id="option3">
+            </div>
 
-        <div class="formInput addOption">
-            <button type="button" id="addOptionButton" class="add">+</button>
+            <div class="formInput addOption">
+                <button type="button" id="addOptionButton" class="add">+</button>
+            </div>
         </div>
 
         <div class="formInput">
@@ -68,7 +69,8 @@
         </div>
     </form>
 
-    <script src="/js/addExerciseFunctions.js" optionNumber = "<%= optionNumber %>"></script>
+    <script src="/js/addOption.js"></script>
+    <script src="/js/addExerciseFunctions.js"></script>
 </body>
 
 </html>

@@ -37,6 +37,24 @@ module.exports = {
             throw err;
         }
     },
+    getLessonId: async (sequence) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT id
+                FROM lessons
+                WHERE sequence = ?
+            `, [sequence]);
+
+            if(result.length === 0) {
+                return 0;
+            }
+
+            return result[0].id;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
     insertLesson: async (lessonToInsert) => {
         try {
             await pool.query(`
