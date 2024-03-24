@@ -65,13 +65,26 @@ module.exports = {
 
         res.status(201).redirect("/admin")
     },
+    updateSectionDescription: async (req, res) => {
+        const { sectionSequence } = req.params;
+        const { description } = req.body;
+
+        const updatedSection = {
+            sequence: sectionSequence,
+            description: description
+        }
+
+        await sectionsService.updateSectionDescription(updatedSection);
+
+        res.status(200).redirect(`/admin/show/${sectionSequence}/lessons`);
+    },
     addExercise: async (req, res) => {
         const { lessonSequence } = req.params;
         const exercise = req.body;
 
         if (
             exercise.task == "" ||
-            exercise.correctAanswer == ""
+            exercise.correctAnswer == ""
         ) {
             res
                 .status(400)
@@ -86,15 +99,26 @@ module.exports = {
         }
 
         const lessonId = await lessonsService.getLessonId(lessonSequence);
-        await exercisesService.addExercise(exercise, lessonId);
 
-        res.status(201).redirect("/admin/show/lesson/" + lessonSequence);
+        const newExercise = {
+            task: exercise.task,
+            taskTypesId: exercise.taskTypes,
+            optionTypesId: exercise.optionTypes,
+            options: exercise.options,
+            correctAnswer: exercise.correctAnswer,
+            lessonId: lessonId
+        }
+
+        await exercisesService.addExercise(newExercise);
+
+        res.status(201).redirect(`/admin/show/lesson/${lessonSequence}`);
     },
     addLesson: async (req, res) => {
         const { sectionSequence } = req.params;
         const sectionId = await sectionsService.getSectionId(sectionSequence);
 
         await lessonsService.addLesson(sectionId);
-        res.redirect("/admin/show/" + sectionSequence + "/lessons");
+
+        res.redirect(`/admin/show/${sectionSequence}/lessons`);
     }
 }

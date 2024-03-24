@@ -11,9 +11,9 @@
         <a href="/admin">admin</a> > <u>showLessons</u>
     </p>
 
-    <form action="">
+    <form action="/admin/show/<%= sectionDetails.sectionSequence %>/lessons?_method=PATCH" method="POST">
         <h2>Редактиране на описанието на раздела</h2>
-        <input type="text" name="" value="<%= sectionDetails.sectionDescription %>">
+        <input type="text" name="description" value="<%= sectionDetails.sectionDescription %>">
         <button class="update">Редактиране</button>
     </form>
 

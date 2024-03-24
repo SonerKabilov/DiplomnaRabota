@@ -3,25 +3,19 @@ const exercisesRepository = require('../database/repositories/exercisesRepositor
 module.exports = {
     getAllLessonExercises: async (lessonSequence) => {
         const exercises = await exercisesRepository.queryLessonExercises(lessonSequence);
+        
         return exercises;
     },
-    addExercise: async (exercise, lessonId) => {
-        for (let option of exercise.options) {
+    addExercise: async (newExercise) => {
+        for (let option of newExercise.options) {
             if (option == "") {
-                const index = exercise.options.indexOf(option);
-                exercise.options.splice(index, 1);
+                const index = newExercise.options.indexOf(option);
+                newExercise.options.splice(index, 1);
             }
         }
 
-        const exerciseToInsert = {
-            task: exercise.task,
-            options: JSON.stringify(exercise.options),
-            correctAnswer: exercise.correctAnswer,
-            exerciseLessonId: lessonId,
-            taskTypesId: exercise.taskTypes,
-            optionTypesId: exercise.optionTypes
-        }
+        newExercise.options = JSON.stringify(newExercise.options);
 
-        await exercisesRepository.insertExercise(exerciseToInsert);
+        await exercisesRepository.insertExercise(newExercise);
     }
 }

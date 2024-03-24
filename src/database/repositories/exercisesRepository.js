@@ -38,7 +38,7 @@ module.exports = {
             `, [exerciseToInsert.task, 
                 exerciseToInsert.options, 
                 exerciseToInsert.correctAnswer, 
-                exerciseToInsert.exerciseLessonId, 
+                exerciseToInsert.lessonId, 
                 exerciseToInsert.taskTypesId, 
                 exerciseToInsert.optionTypesId
             ]);

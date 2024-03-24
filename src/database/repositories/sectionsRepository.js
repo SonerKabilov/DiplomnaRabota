@@ -71,5 +71,17 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    updateSectionDescription: async (sectionToUpdate) => {
+        try {
+            await pool.query(`
+                UPDATE sections
+                SET description = ?
+                WHERE sequence = ?
+            `, [sectionToUpdate.description, sectionToUpdate.sequence]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

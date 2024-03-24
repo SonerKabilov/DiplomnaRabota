@@ -27,5 +27,10 @@ module.exports = {
         const section = await sectionsRepository.insertSection(sectionToInsert);
 
         return section;
+    },
+    updateSectionDescription: async (updatedSection) => {
+        const section = await sectionsRepository.updateSectionDescription(updatedSection);
+
+        return section;
     }
 }
