@@ -8,5 +8,10 @@ module.exports = {
     getSectionId: async (sectionSequence) => {
         const sectionId = await sectionsRepository.querySectionId(sectionSequence);
         return sectionId;
+    },
+    getSectionDescription: async (sectionSequence) => {
+        const sectionDescription = await sectionsRepository.getSectionDescription(sectionSequence);
+
+        return sectionDescription;
     }
 }

@@ -13,8 +13,14 @@
         <a href="/admin">admin</a> > <u>showLessonDetails</u>
     </p>
 
+    <form action="">
+        <h2>Редактиране на урок</h2>
+        <input type="text" value="<%= lessonDetails.lessonPreview %>">
+        <button class="update">Редактиране</button>
+    </form>
+
     <h2>Упражнения</h2>
-    <% for (let exercise of lessonDetails) { %>
+    <% for (let exercise of lessonDetails.exercises) { %>
         <div class="parent">
             <p>
                 <button>Упражнение</button>
@@ -56,7 +62,7 @@
     <% } %>
 
     <p>
-        <a class="add" href="/admin/add/<%= lessonSequence %>/exercise">Добавяне на упражнение</a>
+        <a class="add" href="/admin/add/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
     </p>
 
     <script src="/js/adminPanelFunctions.js"></script>

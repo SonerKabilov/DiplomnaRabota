@@ -27,5 +27,19 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    getSectionDescription: async (sectionSequence) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT description
+                FROM sections
+                WHERE sequence = ?
+            `, [sectionSequence]);
+
+            return result[0].description;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

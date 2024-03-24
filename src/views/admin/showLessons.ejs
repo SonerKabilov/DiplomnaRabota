@@ -11,7 +11,15 @@
         <a href="/admin">admin</a> > <u>showLessons</u>
     </p>
 
-    <% for (let lesson of lessons) { %>
+    <form action="">
+        <h2>Редактиране на описанието на раздела</h2>
+        <input type="text" name="" value="<%= sectionDetails.sectionDescription %>">
+        <button class="update">Редактиране</button>
+    </form>
+
+    <h2>Уроци</h2>
+
+    <% for (let lesson of sectionDetails.lessons) { %>
         <p>
             <a href="/admin/show/lesson/<%= lesson.sequence %>">
                 Урок <%= lesson.sequence %>
@@ -20,7 +28,7 @@
         </p>
     <% } %>
     
-    <form id="addLessonForm" action="/admin/add/<%= sectionSequence %>/lesson" method="POST">
+    <form id="addLessonForm" action="/admin/add/<%= sectionDetails.sectionSequence %>/lesson" method="POST">
         <button class="add">Добавяне на урок</button>
     </form>
 </body>

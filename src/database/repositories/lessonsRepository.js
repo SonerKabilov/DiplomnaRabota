@@ -65,5 +65,19 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    getLessonPreview: async(lessonSequence) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT preview
+                FROM lessons
+                WHERE sequence = ?
+            `, [lessonSequence]);
+
+            return result[0].preview;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

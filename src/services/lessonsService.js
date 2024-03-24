@@ -21,5 +21,10 @@ module.exports = {
     getLessonId: async (lessonSequence) => {
         const lessonId = await lessonsRepository.getLessonId(lessonSequence);
         return lessonId;
+    },
+    getLessonPreview: async (lessonSequence) => {
+        const lessonPreview = await lessonsRepository.getLessonPreview(lessonSequence);
+
+        return lessonPreview;
     }
 }
