@@ -6,7 +6,8 @@ router.get("/", adminController.showAdminPage);
 router.get("/show/:sectionSequence/lessons", adminController.showLessons);
 router.get("/show/lesson/:lessonSequence", adminController.showLessonDetails);
 router.get("/add/:lessonSequence/exercise", adminController.showAddExerciseForm);
-router.get("/add/section", adminController.showAddSectionForm);
+router.get("/add/:courseId/section", adminController.showAddSectionForm);
+router.post("/add/:courseId/section", adminController.addSection);
 router.post("/add/:lessonSequence/exercise", adminController.addExercise);
 router.post("/add/:sectionSequence/lesson", adminController.addLesson);
 

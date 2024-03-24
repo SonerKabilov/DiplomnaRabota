@@ -28,6 +28,25 @@ module.exports = {
             throw err;
         }
     },
+    getLastSectionSequence: async () => {
+        try {
+            const [result] = await pool.query(`
+                SELECT sequence
+                FROM sections
+                ORDER BY sequence DESC
+                LIMIT 1
+            `);
+
+            if(result.length === 0) {
+                return 0;
+            }
+
+            return result[0].sequence;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
     getSectionDescription: async (sectionSequence) => {
         try {
             const [result] = await pool.query(`
@@ -37,6 +56,17 @@ module.exports = {
             `, [sectionSequence]);
 
             return result[0].description;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    insertSection: async (sectionToInsert) => {
+        try {
+            await pool.query(`
+                INSERT INTO sections (sequence, description, section_types_id, courses_id)
+                VALUES (?, ?, ?, ?)
+            `, [sectionToInsert.sequence, sectionToInsert.description, sectionToInsert.sectionType, sectionToInsert.courseId]);
         } catch (err) {
             console.error(err);
             throw err;

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form id="addForm" action="/admin/add/section" method="POST">
+    <form id="addForm" action="/admin/add/<%= courseId %>/section" method="POST">
         <div class="formInput alignCenter">
             <p>
                 <a href="/admin">admin</a> > <u>add/section</u>
@@ -23,9 +23,9 @@
 
         <div class="formInput">
             <label for="sectionTypes">Тип на раздела</label>
-            <select name="optionTypes" id="optionTypes">
-                <option value="free_section">Безплатен раздел</option>
-                <option value="premium_section">Платен раздел</option>
+            <select name="sectionTypes" id="sectionTypes">
+                <option value="1">Безплатен раздел</option>
+                <option value="2">Платен раздел</option>
             </select>
         </div>
         
