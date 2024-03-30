@@ -1,8 +1,8 @@
 const exercisesRepository = require('../database/repositories/exercisesRepository');
 
 module.exports = {
-    getAllLessonExercises: async (lessonSequence) => {
-        const exercises = await exercisesRepository.queryLessonExercises(lessonSequence);
+    getAllLessonExercises: async (sectionId, lessonSequence) => {
+        const exercises = await exercisesRepository.queryLessonExercises(sectionId, lessonSequence);
         
         return exercises;
     },

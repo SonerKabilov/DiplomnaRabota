@@ -1,7 +1,7 @@
 const { pool } = require("../db-config");
 
 module.exports = {
-    queryLessonExercises: async (lessonSequence) => {
+    queryLessonExercises: async (sectionId, lessonSequence) => {
         try {
             const [result] = await pool.query(`
                 SELECT e.*, o.type AS option_type, t.type AS task_type
@@ -12,8 +12,8 @@ module.exports = {
                 ON e.exercise_option_types_id = o.id
                 INNER JOIN exercise_task_types t
                 ON e.exercise_task_types_id = t.id
-                WHERE l.sequence = ?
-            `, [lessonSequence]);
+                WHERE l.sequence = ? AND l.sections_id = ?
+            `, [lessonSequence, sectionId]);
 
             if (result.length > 0) {
                 result.forEach((row) => {

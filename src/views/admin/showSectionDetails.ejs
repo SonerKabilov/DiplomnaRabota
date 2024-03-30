@@ -8,12 +8,12 @@
 </head>
 <body>
     <p>
-        <a href="/admin">admin</a> > <u>showLessons</u>
+        <a href="/admin">admin</a> > <u>showSectionDetails</u>
     </p>
 
-    <form action="/admin/show/<%= sectionDetails.sectionSequence %>/lessons?_method=PATCH" method="POST">
+    <form action="/admin/show/<%= sectionDetails.language %>/section/<%= sectionDetails.sectionSequence %>/lessons?_method=PATCH" method="POST">
         <h2>Редактиране на описанието на раздела</h2>
-        <input type="text" name="description" value="<%= sectionDetails.sectionDescription %>">
+        <input type="text" name="description" value="<%= sectionDetails.description %>">
         <button class="update">Редактиране</button>
     </form>
 
@@ -21,14 +21,14 @@
 
     <% for (let lesson of sectionDetails.lessons) { %>
         <p>
-            <a href="/admin/show/lesson/<%= lesson.sequence %>">
+            <a href="/admin/show/<%= sectionDetails.language %>/sectionId/<%= sectionDetails.id %>/lesson/<%= lesson.sequence %>">
                 Урок <%= lesson.sequence %>
                 <span>Преглед</span>
             </a>
         </p>
     <% } %>
     
-    <form id="addLessonForm" action="/admin/add/<%= sectionDetails.sectionSequence %>/lesson" method="POST">
+    <form id="addLessonForm" action="/admin/add/course/<%= sectionDetails.language %>/section/<%= sectionDetails.sectionSequence %>/lesson" method="POST">
         <button class="add">Добавяне на урок</button>
     </form>
 </body>

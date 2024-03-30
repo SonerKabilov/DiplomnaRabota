@@ -1,14 +1,13 @@
-const {v4: uuid} = require("uuid");
-
 const lessonsRepository = require('../database/repositories/lessonsRepository');
 
 module.exports = {
-    getAllLessons: async (sectionSequence) => {
-        const lessons = await lessonsRepository.queryLessons(sectionSequence);
+    getAllLessons: async (language, sectionSequence) => {
+        const lessons = await lessonsRepository.queryLessons(language, sectionSequence);
+        
         return lessons;
     },
-    addLesson: async (sectionSequence) => {
-        const lessonSequence = await lessonsRepository.queryLastLessonSequence();
+    addLesson: async (courseId, sectionSequence) => {
+        const lessonSequence = await lessonsRepository.queryLastLessonSequence(courseId);
         
         const lessonToInsert = {
             preview: "",
@@ -18,13 +17,19 @@ module.exports = {
 
         await lessonsRepository.insertLesson(lessonToInsert);
     },
-    getLessonId: async (lessonSequence) => {
-        const lessonId = await lessonsRepository.getLessonId(lessonSequence);
+    getLessonId: async (lessonSequence, sectionId) => {
+        const lessonId = await lessonsRepository.getLessonId(lessonSequence, sectionId);
+
         return lessonId;
     },
-    getLessonPreview: async (lessonSequence) => {
-        const lessonPreview = await lessonsRepository.getLessonPreview(lessonSequence);
+    getLessonPreview: async (lessonSequence, sectionId) => {
+        const lessonPreview = await lessonsRepository.getLessonPreview(lessonSequence, sectionId);
 
         return lessonPreview;
+    },
+    updateLessonPreview: async (lessonToUpdate) => {
+        const updatedPreview = await lessonsRepository.updateLessonPreview(lessonToUpdate);
+
+        return updatedPreview;
     }
 }

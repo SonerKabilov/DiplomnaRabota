@@ -1,6 +1,6 @@
 const path = require("path");
 const express = require("express");
-const methodOverride = require('method-override')
+const methodOverride = require('method-override');
 const app = express();
 
 app.use(methodOverride('_method'))
@@ -20,7 +20,7 @@ app.use("/lesson", lessonRouter);
 app.use("/exercises", exercisesRouter);
 
 app.get('*', (req, res) => {
-    res.redirect("/section/1/lessons");
+    res.send("404 NOT FOUND");
 })
 
 app.listen(3000, () => {

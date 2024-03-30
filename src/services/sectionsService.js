@@ -6,18 +6,18 @@ module.exports = {
 
         return sections;
     },
-    getSectionId: async (sectionSequence) => {
-        const sectionId = await sectionsRepository.querySectionId(sectionSequence);
+    getSectionId: async (sectionDetails) => {
+        const sectionId = await sectionsRepository.querySectionId(sectionDetails);
 
         return sectionId;
     },
-    getSectionDescription: async (sectionSequence) => {
-        const sectionDescription = await sectionsRepository.getSectionDescription(sectionSequence);
+    getSectionDescription: async (language, sectionSequence) => {
+        const sectionDescription = await sectionsRepository.getSectionDescription(language, sectionSequence);
 
         return sectionDescription;
     },
     addSection: async (newSection) => {
-        const lastSequence = await sectionsRepository.getLastSectionSequence();
+        const lastSequence = await sectionsRepository.getLastSectionSequence(newSection.courseId);
 
         const sectionToInsert = {
             ...newSection,

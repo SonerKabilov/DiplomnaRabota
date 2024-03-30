@@ -13,22 +13,25 @@
         <h2>Преглед на раздели</h2>
 
         <% for (let course of adminPageDetails.courses) { %>
-        <div class="parent">
-            <button><%= course.language %></button>
-
-            <div class="hidden">
-                <% for (let section of adminPageDetails.sections) { %>
+            <div class="parent">
+                <button><%= course.language %></button>
+    
+                <div class="hidden">
+                    <% for (let section of adminPageDetails.sections) { %>
+                        <% if (section.courses_id === course.id) { %>
+                        <p>
+                            
+                            <a href="admin/show/<%= section.language %>/section/<%= section.sequence %>/lessons">Раздел <%= section.sequence %> - <%= section.description %></a>
+                        </p>
+                        <% } %>
+                    <% } %>
                     <p>
-                        <a href="admin/show/<%= section.sequence %>/lessons">Раздел <%= section.sequence %> - <%= section.description %></a>
+                        <a class="add" href="admin/add/<%= course.id %>/section">Добавяне на раздел</a>
                     </p>
-                <% } %>
-                <p>
-                    <a class="add" href="admin/add/<%= course.id %>/section">Добавяне на раздел</a>
-                </p>
+                </div>
             </div>
         </div>
-    </div>
-    <% } %>
+        <% } %>
 
     <script src="/js/adminPanelFunctions.js"></script>
 </body>

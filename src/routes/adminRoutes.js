@@ -1,20 +1,44 @@
 const express = require("express");
 const router = express.Router();
-const adminController = require('../controllers/adminController');
 
-router.get("/", adminController.showAdminPage);
+const coursesController = require('../controllers/coursesController');
+const sectionController = require('../controllers/sectionsController');
+const lessonController = require('../controllers/lessonsController');
+const exercisesController = require('../controllers/exercisesController');
 
-router.get("/show/:sectionSequence/lessons", adminController.showLessons);
-router.patch("/show/:sectionSequence/lessons", adminController.updateSectionDescription);
+// ** COURSES **
+router
+    .route("/")
+    .get(coursesController.showCourses);
 
-router.get("/show/lesson/:lessonSequence", adminController.showLessonDetails);
 
-router.get("/add/:lessonSequence/exercise", adminController.showAddExerciseForm);
-router.post("/add/:lessonSequence/exercise", adminController.addExercise);
+// ** SECTIONS **
+router
+    .route("/show/:language/section/:sectionSequence/lessons")
+    .get(sectionController.showSectionDetails)
+    .patch(sectionController.updateSectionDescription);
 
-router.get("/add/:courseId/section", adminController.showAddSectionForm);
-router.post("/add/:courseId/section", adminController.addSection);
+router
+    .route("/add/:courseId/section")
+    .get(sectionController.showAddSectionForm)
+    .post(sectionController.addSection);
 
-router.post("/add/:sectionSequence/lesson", adminController.addLesson);
+
+// ** LESSONS **
+router
+    .route("/show/:language/sectionId/:sectionId/lesson/:lessonSequence")
+    .get(lessonController.showLessonDetails)
+    .patch(lessonController.updateLessonPreview);
+
+router
+    .route("/add/course/:language/section/:sectionSequence/lesson")
+    .post(lessonController.addLesson);
+
+
+// ** EXERCISES **
+router
+    .route("/add/:language/sectionId/:sectionId/lesson/:lessonSequence/exercise")
+    .get(exercisesController.showAddExerciseForm)
+    .post(exercisesController.addExercise);
 
 module.exports = router;

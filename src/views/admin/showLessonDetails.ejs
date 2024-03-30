@@ -13,9 +13,9 @@
         <a href="/admin">admin</a> > <u>showLessonDetails</u>
     </p>
 
-    <form action="">
+    <form action="/admin/show/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>?_method=PATCH" method="POST">
         <h2>Редактиране на урок</h2>
-        <input type="text" value="<%= lessonDetails.lessonPreview %>">
+        <input type="text" value="<%= lessonDetails.lessonPreview %>" name="lessonPreview">
         <button class="update">Редактиране</button>
     </form>
 
@@ -62,7 +62,7 @@
     <% } %>
 
     <p>
-        <a class="add" href="/admin/add/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
+        <a class="add" href="/admin/add/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
     </p>
 
     <script src="/js/adminPanelFunctions.js"></script>

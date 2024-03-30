@@ -15,7 +15,8 @@
             <% for(let section of sections) { %>
                 <div class = "section">
                     <p>Раздел <%= section.sequence %></p>
-                    <a href="/section/<%= section.sequence %>/lessons %>">Начало</a>
+                    <p class="description"><%= section.description %></p>
+                    <a href="/section/<%= section.sequence %>/course/<%= section.courses_id %>/lessons %>">Начало</a>
                 </div>
             <% } %>
         </section>

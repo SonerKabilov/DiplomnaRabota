@@ -5,5 +5,10 @@ module.exports = {
         const courses = await coursesRepository.queryCourses();
 
         return courses;
+    },
+    getCourseId: async (language) => {
+        const id = await coursesRepository.getCourseId(language);
+
+        return id;
     }
 }

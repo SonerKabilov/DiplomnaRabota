@@ -4,7 +4,10 @@ module.exports = {
     queryAllSections: async () => {
         try {
             const [result] = await pool.query(`
-                SELECT * FROM sections
+                SELECT s.*, c.language
+                FROM sections s
+                INNER JOIN courses c
+                ON s.courses_id = c.id
                 ORDER BY sequence
             `);
 
@@ -14,13 +17,13 @@ module.exports = {
             throw err;
         }
     },
-    querySectionId: async (sectionSequence) => {
+    querySectionId: async (sectionDetails) => {
         try {
             const [result] = await pool.query(`
                 SELECT id
                 FROM sections
-                WHERE sequence = ?
-            `, [sectionSequence]);
+                WHERE sequence = ? AND courses_id = ?
+            `, [sectionDetails.sectionSequence, sectionDetails.courseId]);
 
             return result[0].id;
         } catch (err) {
@@ -28,14 +31,15 @@ module.exports = {
             throw err;
         }
     },
-    getLastSectionSequence: async () => {
+    getLastSectionSequence: async (courseId) => {
         try {
             const [result] = await pool.query(`
                 SELECT sequence
                 FROM sections
+                WHERE courses_id = ?
                 ORDER BY sequence DESC
                 LIMIT 1
-            `);
+            `, [courseId]);
 
             if(result.length === 0) {
                 return 0;
@@ -47,15 +51,17 @@ module.exports = {
             throw err;
         }
     },
-    getSectionDescription: async (sectionSequence) => {
+    getSectionDescription: async (language, sectionSequence) => {
         try {
             const [result] = await pool.query(`
-                SELECT description
-                FROM sections
-                WHERE sequence = ?
-            `, [sectionSequence]);
+                SELECT s.id, s.description, c.language
+                FROM sections s
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                WHERE s.sequence = ? AND c.language = ?
+            `, [sectionSequence, language]);
 
-            return result[0].description;
+            return result[0];
         } catch (err) {
             console.error(err);
             throw err;
@@ -75,10 +81,12 @@ module.exports = {
     updateSectionDescription: async (sectionToUpdate) => {
         try {
             await pool.query(`
-                UPDATE sections
-                SET description = ?
-                WHERE sequence = ?
-            `, [sectionToUpdate.description, sectionToUpdate.sequence]);
+                UPDATE sections s
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                SET s.description = ?
+                WHERE s.sequence = ? AND c.language = ?
+            `, [sectionToUpdate.description, sectionToUpdate.sequence, sectionToUpdate.language]);
         } catch (err) {
             console.error(err);
             throw err;
