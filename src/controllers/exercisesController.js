@@ -50,8 +50,12 @@ module.exports = {
             lessonId
         }
 
-        await exercisesService.addExercise(newExercise);
+        const addedExercise = await exercisesService.addExercise(newExercise);
 
-        res.status(201).redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        if(addedExercise) {
+            res.status(201).redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        } else {
+            res.send("Incorrect data");
+        }
     }
 }
