@@ -13,7 +13,9 @@ const sectionsRouter = require('./routes/sectionsRoutes');
 const adminRouter = require('./routes/adminRoutes');
 const lessonRouter = require('./routes/lessonsRoutes');
 const exercisesRouter = require('./routes/exercisesRoutes');
+const accountRouter = require('./routes/accountRoutes');
 
+app.use("/", accountRouter);
 app.use("/section", sectionsRouter);
 app.use("/admin", adminRouter);
 app.use("/lesson", lessonRouter);
