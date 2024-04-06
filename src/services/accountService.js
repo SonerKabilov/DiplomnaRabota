@@ -11,9 +11,28 @@ module.exports = {
 
             if(userInformation.userTypesId && userInformation.userTypesId === 1) {
                 await accountRepository.createAdminProfile(userInformation);
+
+                return true;
             } else {
                 await accountRepository.createUserProfile(userInformation);
+
+                return true;
             }
         }
+
+        return false;
+    },
+    loginUser: async (userCredentials) => {
+        const user = await accountRepository.findUser(userCredentials.username);
+
+        if(user) {
+            const checkPassword = await bcrypt.compare(userCredentials.password, user.password);
+// return checkPassword;
+            if(checkPassword) {
+                return user;
+            }
+        }
+
+        return false;
     }
 }

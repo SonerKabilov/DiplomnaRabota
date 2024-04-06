@@ -1,7 +1,4 @@
 const mysql = require("mysql2");
-const dotenv = require("dotenv");
-
-dotenv.config();
 
 module.exports.pool = mysql.createPool({
     host: process.env.MYSQL_HOST,

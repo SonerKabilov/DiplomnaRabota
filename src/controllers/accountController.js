@@ -20,9 +20,16 @@ module.exports = {
             passwordRepeat: userBody.passwordRepeat
         }
 
-        await accountService.createUser(userInformation);
+        const user = await accountService.createUser(userInformation);
 
-        res.redirect("/register");
+        if(user) {
+            req.session.user_id = user.id;
+            req.session.user_type = user.user_types_id;
+
+            res.redirect("/section/1/course/1/lessons");
+        } else {
+            res.send("Username or email is already taken");
+        }
     },
     createAdmin: async (req, res) => {
         const userBody = req.body;
@@ -38,5 +45,32 @@ module.exports = {
         await accountService.createUser(userInformation);
 
         res.redirect("/admin");
+    },
+    loginUser: async (req, res) => {
+        const userBody = req.body;
+
+        const userCredentials = {
+            username: userBody.username,
+            password: userBody.password
+        }
+
+        const user = await accountService.loginUser(userCredentials);
+
+        if(user) {
+            req.session.user_id = user.id;
+            req.session.user_type = user.user_types_id;
+
+            if(req.session.user_type == 1) {
+                res.redirect("/admin");
+            } else {
+                res.redirect("/section/1/course/1/lessons");
+            }
+        } else {
+            res.send("WRONG CREDENTIALS")
+        }
+    },
+    logoutUser: async (req, res) => {
+        req.session.destroy();
+        res.redirect('/login');
     }
 }

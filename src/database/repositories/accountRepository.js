@@ -40,5 +40,19 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    findUser: async (username) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT id, username, password, user_types_id
+                FROM users
+                WHERE username = ?
+            `, [username]);
+
+            return result[0];
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

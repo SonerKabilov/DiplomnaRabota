@@ -5,11 +5,13 @@ module.exports = {
     getLessons: async (req, res) => {
         try {
             const { courseId, sectionSequence } = req.params;
+            const userId = req.session.user_id;
+            const userType = req.session.user_type;
 
             const sections = await sectionsService.getAllSections();
             const lessons = await lessonsService.getAllLessons(courseId, sectionSequence);
 
-            res.status(200).render("user/lessons", { sections, lessons });
+            res.status(200).render("user/lessons", { userId, userType, sections, lessons });
         } catch(error) {
             console.error(error);
             res.status(500).send("Internal Server Error");
