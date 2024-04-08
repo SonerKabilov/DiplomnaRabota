@@ -11,10 +11,14 @@ module.exports = {
             const sections = await sectionsService.getAllSectionsForCourse(language);
             const lessons = await lessonsService.getAllLessons(language, sectionSequence);
 
-            res.status(200).render("user/lessons", { userId, userType, language, sectionSequence, sections, lessons });
+            res
+                .status(200)
+                .render("user/lessons", { userId, userType, language, sectionSequence, sections, lessons });
         } catch(error) {
             console.error(error);
-            res.status(500).send("Internal Server Error");
+            res
+                .status(500)
+                .send("Internal Server Error");
         }
     },
     showSectionDetails: async (req, res) => {
@@ -22,6 +26,12 @@ module.exports = {
         
         const lessons = await lessonsService.getAllLessons(language, sectionSequence);
         const sectionData = await sectionsService.getSectionDescription(language, sectionSequence);
+
+        if(!sectionData) {
+            req.flash("error", "Не съществува такъв раздел");
+
+            return res.redirect("/admin");
+        }
 
         const sectionDetails = {
             id: sectionData.id,
@@ -50,7 +60,11 @@ module.exports = {
 
         await sectionsService.addSection(newSection);
 
-        res.status(201).redirect("/admin")
+        req.flash("success", "Успешно създаден раздел!");
+
+        res
+            .status(201)
+            .redirect("/admin");
     },
     updateSectionDescription: async (req, res) => {
         const { language, sectionSequence } = req.params;
@@ -64,6 +78,10 @@ module.exports = {
 
         await sectionsService.updateSectionDescription(updatedSection);
 
-        res.status(200).redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
+        req.flash("success", "Успешно редактирано описание на раздел!");
+
+        res
+            .status(200)
+            .redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
     }
 }

@@ -70,3 +70,31 @@ a span {
 .hidden {
     display: none;
 }
+
+.alert {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 5px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.success {
+    color: #0a3622;
+    background-color: #d1e7dd;
+    border: 1px solid #a3cfbb;
+}
+
+.error {
+    color: #58151c;
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+}
+
+.closeAlertBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}

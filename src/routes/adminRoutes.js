@@ -12,19 +12,20 @@ const checkUser = require('../middlewares/requireLogin');
 // ** COURSES **
 router
     .route("/")
-    .all(checkUser.checkUserType)
+    .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(coursesController.showCourses);
 
 
 // ** SECTIONS **
 router
     .route("/show/:language/section/:sectionSequence/lessons")
-    .all(checkUser.checkUserType)
+    .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(sectionController.showSectionDetails)
     .patch(sectionController.updateSectionDescription);
 
 router
     .route("/add/:courseId/section")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(sectionController.showAddSectionForm)
     .post(sectionController.addSection);
 
@@ -32,20 +33,20 @@ router
 // ** LESSONS **
 router
     .route("/show/:language/sectionId/:sectionId/lesson/:lessonSequence")
-    .all(checkUser.checkUserType)
+    .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(lessonController.showLessonDetails)
     .patch(lessonController.updateLessonPreview);
 
 router
     .route("/add/course/:language/section/:sectionSequence/lesson")
-    .all(checkUser.checkUserType)
+    .all(checkUser.requireLogin, checkUser.checkUserType)
     .post(lessonController.addLesson);
 
 
 // ** EXERCISES **
 router
     .route("/add/:language/sectionId/:sectionId/lesson/:lessonSequence/exercise")
-    .all(checkUser.checkUserType)
+    .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(exercisesController.showAddExerciseForm)
     .post(exercisesController.addExercise);
 
@@ -53,7 +54,7 @@ router
 // ** ACOUNT **
 router
     .route("/create/account")
-    .all(checkUser.checkUserType)
+    .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(accountController.showAdminRegisterForm)
     .post(accountController.createAdmin)
 

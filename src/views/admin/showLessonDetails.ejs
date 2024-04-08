@@ -13,6 +13,8 @@
         <a href="/admin">admin</a> > <u>showLessonDetails</u>
     </p>
 
+    <%- include('../partials/flashMessages') %>
+
     <form action="/admin/show/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>?_method=PATCH" method="POST">
         <h2>Редактиране на урок</h2>
         <input type="text" value="<%= lessonDetails.lessonPreview %>" name="lessonPreview">

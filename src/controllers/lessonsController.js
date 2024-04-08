@@ -7,6 +7,14 @@ module.exports = {
     showLessonDetails: async (req, res) => {
         const { language, sectionId, lessonSequence } = req.params;
 
+        const checkIfLessonExists = await lessonsService.getLessonId(lessonSequence, sectionId);
+
+        if(!checkIfLessonExists) {
+            req.flash("error", "Не съществува такъв урок");
+            
+            return res.redirect("/admin");
+        }
+
         const exercises = await exercisesService.getAllLessonExercises(sectionId, lessonSequence);
         const lessonPreview = await lessonsService.getLessonPreview(lessonSequence, sectionId);
 
@@ -34,6 +42,8 @@ module.exports = {
 
         await lessonsService.addLesson(courseId, sectionId);
 
+        req.flash("success", "Успешно добавен урок!");
+
         res.redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
     },
     updateLessonPreview: async (req, res) => {
@@ -48,6 +58,8 @@ module.exports = {
 
         await lessonsService.updateLessonPreview(lessonToUpdate);
 
+        req.flash("success", "Успешно редактирано описание на урок!");
+        
         res.redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
     }
 }

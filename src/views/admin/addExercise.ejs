@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    <%- include('../partials/flashMessages') %>
+    
     <form id="addForm" action="/admin/add/<%= language %>/sectionId/<%= sectionId %>/lesson/<%= lessonSequence %>/exercise" method="POST">
         <div class="formInput alignCenter">
             <p>

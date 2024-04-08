@@ -22,8 +22,16 @@ module.exports = {
             res.status(500).send("Internal Server Error");
         }
     },
-    showAddExerciseForm: (req, res) => {
+    showAddExerciseForm: async (req, res) => {
         const { language, sectionId, lessonSequence } = req.params;
+
+        const checkIfLessonExists = await lessonsService.getLessonId(lessonSequence, sectionId);
+
+        if(!checkIfLessonExists) {
+            req.flash("error", "Не съществува такъв урок");
+            
+            return res.redirect("/admin");
+        }
 
         res.render("admin/addExercise", { language, sectionId, lessonSequence });
     },
@@ -35,16 +43,11 @@ module.exports = {
             exercise.task == "" ||
             exercise.correctAnswer == ""
         ) {
-            res
+            req.flash("error", "Полетата за 'Задание' и 'Правилен отговор' са задължителни полета!");
+
+            return res
                 .status(400)
-                .send({
-                    status: "FAILED",
-                    data: {
-                        error:
-                            "One of the following keys is missing or is empty in request body: 'task', 'correctAanswer'",
-                    },
-                });
-            return;
+                .redirect(`/admin/add/${language}/sectionId/${sectionId}/lesson/${lessonSequence}/exercise`);
         }
 
         const lessonId = await lessonsService.getLessonId(lessonSequence, sectionId);
@@ -61,9 +64,17 @@ module.exports = {
         const addedExercise = await exercisesService.addExercise(newExercise);
 
         if(addedExercise) {
-            res.status(201).redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+            req.flash("success", "Успешно добавено упражнение!");
+
+            res
+                .status(201)
+                .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
         } else {
-            res.send("Incorrect data");
+            req.flash("error", "Грешни данни за упражнение!");
+
+            res
+                .status(400)
+                .redirect(`/admin/add/${language}/sectionId/${sectionId}/lesson/${lessonSequence}/exercise`);
         }
     }
 }

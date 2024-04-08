@@ -11,6 +11,8 @@
         <a href="/admin">admin</a> > <u>showSectionDetails</u>
     </p>
 
+    <%- include('../partials/flashMessages') %>
+
     <form action="/admin/show/<%= sectionDetails.language %>/section/<%= sectionDetails.sectionSequence %>/lessons?_method=PATCH" method="POST">
         <h2>Редактиране на описанието на раздела</h2>
         <input type="text" name="description" value="<%= sectionDetails.description %>">
