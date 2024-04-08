@@ -6,7 +6,7 @@ const sectionController = require('../controllers/sectionsController');
 const checkUser = require('../middlewares/requireLogin');
 
 router
-    .route("/:sectionSequence/course/:courseId/lessons")
+    .route("/:sectionSequence/:language/lessons")
     .all(checkUser.requireLogin)
     .get(sectionController.getLessons);
 

@@ -17,6 +17,23 @@ module.exports = {
             throw err;
         }
     },
+    querySectionsForCourse: async (language) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT s.*, c.language
+                FROM sections s
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                WHERE c.language = ?
+                ORDER BY sequence
+            `, [language]);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
     querySectionId: async (sectionDetails) => {
         try {
             const [result] = await pool.query(`
@@ -24,6 +41,22 @@ module.exports = {
                 FROM sections
                 WHERE sequence = ? AND courses_id = ?
             `, [sectionDetails.sectionSequence, sectionDetails.courseId]);
+
+            return result[0].id;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    querySectionIdByLanguage: async (sectionDetails) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT s.id
+                FROM sections s
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                WHERE s.sequence = ? AND c.language = ?
+            `, [sectionDetails.sectionSequence, sectionDetails.language]);
 
             return result[0].id;
         } catch (err) {

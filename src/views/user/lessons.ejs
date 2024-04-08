@@ -11,14 +11,14 @@
     <%- include('../partials/header') %>
     <%= userType %>
     <%- include('../partials/logoutForm') %>
-    
+
     <main>
         <section class = "sections">
             <% for(let section of sections) { %>
                 <div class = "section">
                     <p>Раздел <%= section.sequence %></p>
                     <p class="description"><%= section.description %></p>
-                    <a href="/section/<%= section.sequence %>/course/<%= section.courses_id %>/lessons %>">Начало</a>
+                    <a href="/section/<%= section.sequence %>/<%= language %>/lessons %>">Начало</a>
                 </div>
             <% } %>
         </section>
@@ -31,7 +31,7 @@
                 </i>
                 <div class="popover" id="myPopover<%= lesson.id %>">
                     <%= lesson.preview %>
-                    <a href="/exercises/<%= lesson.sequence %>">Старт</a>
+                    <a href="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lesson.sequence %>">Старт</a>
                 </div>
             </div>
         <% } %>

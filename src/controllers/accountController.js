@@ -63,7 +63,7 @@ module.exports = {
             if(req.session.user_type == 1) {
                 res.redirect("/admin");
             } else {
-                res.redirect("/section/1/course/1/lessons");
+                res.redirect("/section/1/English/lessons");
             }
         } else {
             res.send("WRONG CREDENTIALS")

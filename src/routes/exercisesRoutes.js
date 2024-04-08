@@ -6,7 +6,7 @@ const exercisesController = require('../controllers/exercisesController');
 const checkUser = require('../middlewares/requireLogin');
 
 router
-    .route("/:lessonSequence")
+    .route("/:language/section/:sectionSequence/lesson/:lessonSequence")
     .all(checkUser.requireLogin)
     .get(exercisesController.showLessonExercises);
     

@@ -6,8 +6,18 @@ module.exports = {
 
         return sections;
     },
+    getAllSectionsForCourse: async (language) => {
+        const sections = await sectionsRepository.querySectionsForCourse(language);
+
+        return sections;
+    },
     getSectionId: async (sectionDetails) => {
         const sectionId = await sectionsRepository.querySectionId(sectionDetails);
+
+        return sectionId;
+    },
+    getSectionIdByLanguage: async (sectionDetails) => {
+        const sectionId = await sectionsRepository.querySectionIdByLanguage(sectionDetails);
 
         return sectionId;
     },

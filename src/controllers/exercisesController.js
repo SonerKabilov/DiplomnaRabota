@@ -1,10 +1,18 @@
 const lessonsService = require('../services/lessonsService');
 const exercisesService = require('../services/exercisesService');
+const sectionsService = require('../services/sectionsService');
 
 module.exports = {
     showLessonExercises: async (req, res) => {
         try {
-            const { sectionId, lessonSequence } = req.params;
+            const { language, sectionSequence, lessonSequence } = req.params;
+
+            const sectionDetails = {
+                language,
+                sectionSequence
+            }
+
+            const sectionId = await sectionsService.getSectionIdByLanguage(sectionDetails)
             
             const exercises = await exercisesService.getAllLessonExercises(sectionId, lessonSequence);
             
