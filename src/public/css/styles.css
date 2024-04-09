@@ -1,4 +1,4 @@
-body{
+body {
     margin: 0 auto;
     overflow-y: hidden;
     background-color: #f8f6f3;
@@ -41,24 +41,54 @@ main {
 }
 
 .popover {
+    margin-top: 10px;
     display: none;
     position: absolute;
     background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: #333;
+    border: 1px solid #ffd900;
+    padding: 2rem 4rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateX(-50%);
+    transition: opacity 0.5s ease;
+    border-radius: 15px;
+}
+
+.popover::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #ffd900 transparent;
+    transform: translateX(-50%);
+}
+
+.startLesson {
+    transition: 0.5s;
+    text-decoration: none;
+    background-color: #ffd900;
+    border: 1px solid #ffd900;
+    color: white;
+    padding: 1rem 4rem;
+    font-size: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.startLesson:hover {
+    transition: 0.5s;
+    border: 1px solid #ffd900;
+    background-color: white;
+    color: #ffd900;
 }
 
 .sections,
 .lessons {
     overflow-y: scroll;
-    height: 92vh;
-}
-
-.sections {
-    display: grid;
-    width: 40%;
-    justify-content: flex-start;
+    height: 85vh;
 }
 
 .sections::-webkit-scrollbar,
@@ -67,8 +97,8 @@ main {
 }
 
 .lessons {
-    width: 50%;
-    justify-content: center;
+    display: flex;
+    flex-grow: 1;
     display: block;
     text-align: center;
     padding-top: 1rem;
@@ -76,7 +106,6 @@ main {
 
 .section,
 .lesson {
-    display: block;
     margin-bottom: 2rem;
 }
 
@@ -170,7 +199,7 @@ main {
     margin: 0 auto;
     border-radius: 15px;
 }
-  
+
 #myBar {
     width: 0;
     border-radius: 15px;
@@ -188,7 +217,7 @@ main {
 /* ICONS */
 
 .fa-star {
-    font-size: 4rem; 
+    font-size: 4rem;
     text-shadow: 0px 2px 4px rgba(0, 0, 0);
 }
 
@@ -197,13 +226,13 @@ main {
 }
 
 .completed {
-    color:#ffd900;
+    color: #ffd900;
 }
 
 .fa-ear-listen {
     background-color: white;
     padding: 2rem;
     border: 1px solid #FCDC2A;
-    font-size: 4rem; 
+    font-size: 4rem;
     margin-bottom: 2rem;
 }

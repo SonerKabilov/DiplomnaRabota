@@ -30,8 +30,9 @@
                     
                 </i>
                 <div class="popover" id="myPopover<%= lesson.id %>">
-                    <%= lesson.preview %>
-                    <a href="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lesson.sequence %>">Старт</a>
+                    <p><%= lesson.preview %></p>
+                    <br>
+                    <a class="startLesson" href="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lesson.sequence %>">Старт</a>
                 </div>
             </div>
         <% } %>
