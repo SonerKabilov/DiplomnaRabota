@@ -16,7 +16,7 @@ module.exports = {
             
             const exercises = await exercisesService.getAllLessonExercises(sectionId, lessonSequence);
             
-            res.status(200).render("user/exercises", { exercises, lessonSequence });
+            res.status(200).render("user/exercises", { exercises, lessonSequence, sectionSequence, language });
         } catch(error) {
             console.error(error);
             res.status(500).send("Internal Server Error");

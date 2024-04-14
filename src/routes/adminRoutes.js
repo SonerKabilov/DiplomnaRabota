@@ -11,6 +11,12 @@ const checkUser = require('../middlewares/requireLogin');
 
 // ** COURSES **
 router
+    .route("/add/course")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .get(coursesController.addCourseForm)
+    .post(coursesController.addCourse);
+
+router
     .route("/")
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(coursesController.showCourses);

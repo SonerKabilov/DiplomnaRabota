@@ -8,7 +8,30 @@
     </div>
     <div class="right">
         <ul>
+            <li>
+                <div class="selectCourseDropdown">
+                    <button class="dropbtn">
+                        <%= language %>
+                    </button>
+                    <div class="userCourses">
+                        <% for(const course of coursesTaken) { %>
+                            <form action="/section/1/<%= course.language %>/lessons">
+                                <button class="course">
+                                    <img src="<%= course.flag %>" alt="">
+                                    <%= course.language %>
+                                </button>
+                            </form>
+                        <% } %>
+
+                        <a href="">
+                            <div class="addLanguage">Добави курс</div>
+                        </a>
+                    </div>
+                </div>
+            </li>
             <li>Профил</li>
         </ul>
     </div>
 </header>
+
+<script src="/js/addCourseToLocalStorage.js"></script>

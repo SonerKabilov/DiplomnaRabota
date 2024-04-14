@@ -8,13 +8,17 @@
     <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <%- include('../partials/header') %>
-
     <section class = "exerciseSection">
-        <div id = "myProgress">
-            <div id = "myBar"></div>
+        <div class="top">
+            <div class="exitLesson">
+                <a href="/section/<%= sectionSequence %>/<%= language %>/lessons">&times;</a>
+            </div>
+            
+            <div id = "myProgress">
+                <div id = "myBar"></div>
+            </div>
         </div>
-
+        
         <div class = "exercise">
             
         </div>

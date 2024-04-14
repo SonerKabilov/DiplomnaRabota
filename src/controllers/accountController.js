@@ -1,4 +1,5 @@
 const accountService = require('../services/accountService');
+const coursesService = require('../services/coursesService');
 
 module.exports = {
     showLoginForm: (req, res) => {
@@ -12,7 +13,7 @@ module.exports = {
     },
     createUser: async (req, res) => {
         const userBody = req.body;
-        
+
         const userInformation = {
             username: userBody.username,
             email: userBody.email,
@@ -22,7 +23,7 @@ module.exports = {
 
         const user = await accountService.createUser(userInformation);
 
-        if(user) {
+        if (user) {
             req.session.user_id = user.id;
             req.session.user_type = user.user_types_id;
 
@@ -33,7 +34,7 @@ module.exports = {
     },
     createAdmin: async (req, res) => {
         const userBody = req.body;
-        
+
         const userInformation = {
             username: userBody.username,
             email: userBody.email,
@@ -51,19 +52,22 @@ module.exports = {
 
         const userCredentials = {
             username: userBody.username,
-            password: userBody.password
+            password: userBody.password,
+            selectedLanguage: userBody.selectedLanguage
         }
 
         const user = await accountService.loginUser(userCredentials);
 
-        if(user) {
+        if (user) {
+            const userCourses = await coursesService.getUserCourses(user.id);
             req.session.user_id = user.id;
             req.session.user_type = user.user_types_id;
+            req.session.user_courses = userCourses;
 
-            if(req.session.user_type == 1) {
+            if (req.session.user_type == 1) {
                 res.redirect("/admin");
             } else {
-                res.redirect("/section/1/English/lessons");
+                res.redirect(`/section/1/${userCredentials.selectedLanguage}/lessons`);
             }
         } else {
             res.send("WRONG CREDENTIALS")

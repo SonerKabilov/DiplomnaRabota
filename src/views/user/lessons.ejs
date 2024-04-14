@@ -14,7 +14,7 @@
 
     <main>
         <section class = "sections">
-            <% for(let section of sections) { %>
+            <% for (let section of sections) { %>
                 <div class = "section">
                     <p>Раздел <%= section.sequence %></p>
                     <p class="description"><%= section.description %></p>
@@ -24,15 +24,31 @@
         </section>
         
         <section class = "lessons">
-        <% for(let lesson of lessons) { %>
+            <% 
+                let onLesson = 0;
+
+                for (const courseTaken of coursesTaken) {
+                    if(courseTaken.language === language) {
+                        onLesson = courseTaken.on_lesson;
+                        break;
+                    }
+                }
+            %>
+        <% for (let lesson of lessons) { %>
             <div class = "lesson">
-                <i class="fa-solid fa-star completed" id="popoverBtn<%= lesson.sequence %>">
-                    
-                </i>
+                <%
+                    let isCompleted = "";
+                    let isDisabled = ""
+                    if (lesson.sequence <= onLesson) isCompleted = "completed"
+                    else isDisabled = "disabled"
+                %>
+
+                <i class="fa-solid fa-star <%= isCompleted %>" id="popoverBtn<%= lesson.sequence %>"></i>
+
                 <div class="popover" id="myPopover<%= lesson.id %>">
                     <p><%= lesson.preview %></p>
                     <br>
-                    <a class="startLesson" href="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lesson.sequence %>">Старт</a>
+                    <a class="startLesson <%= isDisabled %>" href="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lesson.sequence %>">Старт</a>
                 </div>
             </div>
         <% } %>
@@ -40,6 +56,5 @@
     </main>
 
     <script src="/js/togglePopover.js"></script>
-    
 </body>
 </html>

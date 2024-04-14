@@ -98,3 +98,19 @@ a span {
     cursor: pointer;
     font-size: 20px;
 }
+
+.flag {
+    width: 10rem;
+    height: 5rem;
+}
+
+.flagButton {
+    background: none;
+    padding: 10px 5px 50px 5px;
+    border-radius: 5px;
+    height: 12rem;
+}
+
+.selected {
+    background-color:#0a3622;
+}
