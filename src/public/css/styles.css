@@ -212,12 +212,6 @@ main {
     font-size: 15px;
 }
 
-.disabled {
-    background-color: lightgray;
-    border-color: lightgray;
-    pointer-events: none;
-    cursor: default;
-}
 
 /* EXERCISES */
 

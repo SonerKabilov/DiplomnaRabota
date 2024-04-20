@@ -1,0 +1,29 @@
+<h2>Избор на курс</h2>
+
+<div class="courses">
+
+<% for (const course of courses) { 
+    let isTaken = false;
+    
+    if(coursesTaken.length > 0) {
+        for (const takenCourse of coursesTaken) {
+            if (takenCourse.language === course.language) {
+                isTaken = true;
+                break;
+            }
+        }
+    } else {
+        isTaken = true;
+    }
+
+    if(!isTaken) { %>
+        <button class="flagButton" type="button" data-language='<%= JSON.stringify(course) %>'>
+            <img class="flag" src="<%= course.flag %>" alt="">
+            <p><%= course.language %> </p>
+        </button>
+    <% } %>
+    
+<% } %>
+
+    <input type="hidden" id="languageData" name="languageData">
+</div>

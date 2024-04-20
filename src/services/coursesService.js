@@ -14,7 +14,7 @@ module.exports = {
     checkIfCourseIsAdded: async (languages) => {
         const addedLanguages = await coursesRepository.queryCourses();
 
-        for(addedLanguage of addedLanguages) {
+        for (addedLanguage of addedLanguages) {
             const index = languages.findIndex(language => language.language.toLowerCase() === addedLanguage.language.toLowerCase());
 
             if (index !== -1) {
@@ -28,5 +28,37 @@ module.exports = {
         const userCourses = await coursesRepository.getUserCourses(userId);
 
         return userCourses;
+    },
+    addCourse: async (languageData) => {
+        const addedLanguages = await coursesRepository.queryCourses();
+
+        let isAdded = false;
+
+        for (const language of addedLanguages) {
+            if (language === languageData.language) {
+                isAdded = true;
+                break;
+            }
+        }
+
+        if (!isAdded) {
+            await coursesRepository.addCourse(languageData);
+        }
+    },
+    addCourseForUser: async (addCourseData) => {
+        const addedCourses = await coursesRepository.getUserCourses(addCourseData.userId);
+
+        let isAdded = false;
+
+        for (const course of addedCourses) {
+            if (addCourseData.courseId === course.id) {
+                isAdded = true;
+                break;
+            }
+        }
+
+        if (!isAdded) {
+            await coursesRepository.addCourseForUser(addCourseData);
+        }
     }
 }

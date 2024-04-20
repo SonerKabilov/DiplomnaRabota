@@ -1,0 +1,78 @@
+/* ADD COURSE */
+
+#addCourseForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.courses {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flagButton {
+    border: 1px solid gray;
+    padding: 3rem 1rem;
+    text-align: center;
+    margin: 2rem;
+    max-width: 100%;
+    min-width: 150px;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
+    box-shadow: 0px 2px black;
+}
+
+.flagButton:active {
+    box-shadow: none;
+}
+
+.flag {
+    width: 5rem;
+    border-radius: 10px;
+}
+
+.selected {
+    background-color: #eeeeee;
+}
+
+
+/* BUTTONS */
+
+.add,
+.update,
+.remove {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Calibri';
+}
+
+.add {
+    background-color: #87A922;
+    border: 1px solid #87A922;
+}
+
+.update {
+    background-color: aqua;
+    border: aqua;
+}
+
+.remove {
+    background-color: white;
+    border:none;
+    color: red;
+    display: inline;
+    padding: 0;
+    cursor: pointer;
+}
+
+.disabled {
+    background-color: lightgray;
+    border-color: lightgray;
+    pointer-events: none;
+    cursor: default;
+}

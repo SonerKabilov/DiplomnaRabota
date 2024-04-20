@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
     <title>Добавяне на курс</title>
 </head>
 <body>
-    <h2>Избор на език</h2>
-  
-    <form id="languageForm" action="/admin/add/course" method="POST">
-        <% for(const language of languagesToAdd) { %>
-            <button type="button" class="flagButton" data-language='<%= JSON.stringify(language) %>'>
-                <img class="flag" src="<%= language.flag %>" alt="">
-                <p><%= language.language %></p>
-            </button>
-        <% } %>
+    <form id="addCourseForm" action="/admin/add/course" method="POST">
+        <h2>Избор на език</h2>
 
-        <input type="hidden" id="languageData" name="languageData">
+        <div class="courses">
+            <% for(const language of languagesToAdd) { %>
+                <button type="button" class="flagButton" data-language='<%= JSON.stringify(language) %>'>
+                    <img class="flag" src="<%= language.flag %>" alt="">
+                    <p><%= language.language %></p>
+                </button>
+            <% } %>
 
-        <button>Добави</button>
+            <input type="hidden" id="languageData" name="languageData">
+        </div>
+
+        <button class="add disabled">Добави</button>
     </form>
 
     <script src="/js/selectLanguage.js"></script>

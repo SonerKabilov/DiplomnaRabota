@@ -33,36 +33,6 @@ a span {
     text-decoration: underline;
 }
 
-.add,
-.update,
-.remove {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    font-family: 'Calibri';
-}
-
-.add {
-    background-color: #87A922;
-    border: 1px solid #87A922;
-}
-
-.update {
-    background-color: aqua;
-    border: aqua;
-}
-
-.remove {
-    background-color: white;
-    border:none;
-    color: red;
-    display: inline;
-    padding: 0;
-    cursor: pointer;
-}
-
 .alignCenter {
     text-align: center;
 }
@@ -97,20 +67,4 @@ a span {
     border: none;
     cursor: pointer;
     font-size: 20px;
-}
-
-.flag {
-    width: 10rem;
-    height: 5rem;
-}
-
-.flagButton {
-    background: none;
-    padding: 10px 5px 50px 5px;
-    border-radius: 5px;
-    height: 12rem;
-}
-
-.selected {
-    background-color:#0a3622;
 }

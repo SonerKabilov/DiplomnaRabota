@@ -29,7 +29,7 @@ app.use(flash());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
+const coursesRouter = require('./routes/coursesRoutes');
 const sectionsRouter = require('./routes/sectionsRoutes');
 const adminRouter = require('./routes/adminRoutes');
 const lessonRouter = require('./routes/lessonsRoutes');
@@ -43,6 +43,7 @@ app.use((req, res, next) => {
 })
 
 app.use("/", accountRouter);
+app.use("/courses", coursesRouter);
 app.use("/section", sectionsRouter);
 app.use("/admin", adminRouter);
 app.use("/lesson", lessonRouter);

@@ -43,5 +43,27 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    addCourse: async (languageData) => {
+        try {
+            await pool.query(`
+                INSERT INTO courses (language, cyrillicName, flag)
+                VALUES (?,?,?)
+            `, [languageData.language, languageData.cyrillicName, languageData.flag]);
+        } catch(err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    addCourseForUser: async (addCourseData) => {
+        try {
+            await pool.query(`
+                INSERT INTO courses_taken (courses_id, users_id)
+                VALUES (?,?)
+            `, [addCourseData.courseId, addCourseData.userId]);
+        } catch(err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

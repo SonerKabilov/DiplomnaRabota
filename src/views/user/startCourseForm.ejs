@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Избор на курс</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+</head>
+<body>
+    <%- include('../partials/header') %>
+
+    <form id="addCourseForm" action="/courses/add" method="POST">
+        <%- include('../partials/availableCourses') %>
+
+        <button class="add disabled">Добавяне</button>
+    </form>
+
+    <script src="/js/selectLanguage.js"></script>
+</body>
+</html>
