@@ -3,25 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
     <title>Вход</title>
 </head>
 <body>
-    <h1>Вход</h1>
-    <form action="/login" method="POST">
-        <div class="formInput">
-            <label for="username">Потребителско име</label>
-            <input type="text" name="username" id="username">
-        </div>
+    <main class="sign">
+        <%- include('../partials/flashMessages') %>
 
-        <div class="formInput">
-            <label for="password">Парола</label>
-            <input type="password" name="password" id="password">
-        </div>
+        <h1>Вход</h1>
+        
+        <form action="/login" method="POST">
+            <div class="formInput">
+                <input type="text" name="username" id="username" placeholder="Потребителско име">
+            </div>
 
-        <input type="hidden" id="selectedLanguage" name="selectedLanguage">
+            <div class="formInput">
+                <input type="password" name="password" id="password" placeholder="Парола">
+            </div>
 
-        <button>Вход</button>
-    </form>
+            <input type="hidden" id="selectedLanguage" name="selectedLanguage">
+
+            <p>Нямате профил? <a class="registerLink" href="/register">Регистрация</a></p>
+
+            <button class="signButton">Вход</button>
+        </form>
+    </main>
 
     <script src="/js/getCourseFromLocalStorage.js"></script>
 </body>

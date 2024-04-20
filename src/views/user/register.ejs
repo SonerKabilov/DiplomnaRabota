@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
     <title>Регистрация</title>
 </head>
 <body>
-    <h1>Регистрация</h1>
-    <form action="/register" method="POST">
-        <%- include('../partials/registrationForm') %>
-    </form>
+    <main class="sign">
+        <%- include('../partials/flashMessages') %>
+
+        <h1>Регистрация</h1>
+        
+        <form action="/register" method="POST">
+            <%- include('../partials/registrationForm') %>
+        </form>
+    </main>
 </body>
 </html>

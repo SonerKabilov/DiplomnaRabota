@@ -1,3 +1,46 @@
+/* LOGIN & REGISTRATION FORMS */
+.sign {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: din-round, sans-serif;
+}
+
+.sign input {
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.registerLink {
+    color: #1899d6;
+}
+
+.signButton {
+    width: 100%;
+    background-color: #1cb0f6;
+    border: none;
+    box-shadow: 0px 3px #1899d6;
+    padding: 0.8rem 3rem;
+    border-radius: 5px;
+    font-size: 17px;
+}
+
+.signButton:hover {
+    background: linear-gradient(to right,
+            #1cb0f6 0%,
+            #4ac7fc 25%,
+            #7ad9ff 50%,
+            #4ac7fc 75%,
+            #1cb0f6 100%);
+}
+
+.signButton:active {
+    box-shadow: none;
+}
+
+
 /* ADD COURSE */
 
 #addCourseForm {
@@ -75,4 +118,35 @@
     border-color: lightgray;
     pointer-events: none;
     cursor: default;
+}
+
+
+/* FLASH MESSAGES */
+
+.alert {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 5px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.success {
+    color: #0a3622;
+    background-color: #d1e7dd;
+    border: 1px solid #a3cfbb;
+}
+
+.error {
+    color: #58151c;
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+}
+
+.closeAlertBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
 }

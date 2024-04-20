@@ -9,6 +9,95 @@ body::-webkit-scrollbar {
 }
 
 
+/* HOME PAGE */
+
+.homepage {
+    font-family: din-round, sans-serif;
+}
+
+.homepage {
+    margin: 0;
+    text-align: center;
+}
+
+.homepage-left,
+.homepage-right {
+    width: 50%;
+    height: 100vh;
+}
+
+.homepage-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.homepage-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.homepage-right a,
+.homepage-right h3 {
+    z-index: 1;
+    text-decoration: none;
+}
+
+.homepage-right::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #ffd900;
+    border-top-left-radius: 70%;
+}
+
+.homepage-right a {
+    min-width: 150px;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.homepage-right a:active {
+    box-shadow: none;
+}
+
+.register {
+    background-color: #58cc02;
+    color: white;
+    box-shadow: 0px 3px #224e00;
+}
+
+.register:hover {
+    background: linear-gradient(to right,
+            #3b9400 0%,
+            #4ab800 25%,
+            #58cc02 50%,
+            #4ab800 75%,
+            #3b9400 100%);
+}
+
+.login {
+    background-color: #f8f6f3;
+    color: black;
+    box-shadow: 0px 3px #b9b8b6;
+}
+
+.login:hover {
+    background: linear-gradient(to right,
+            #dcdad7 0%,
+            #ebe9e6 25%,
+            #f8f6f3 50%,
+            #ebe9e6 75%,
+            #dcdad7 100%);
+}
+
+
 /* HEADER */
 
 header {

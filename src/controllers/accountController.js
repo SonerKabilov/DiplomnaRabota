@@ -2,6 +2,9 @@ const accountService = require('../services/accountService');
 const coursesService = require('../services/coursesService');
 
 module.exports = {
+    showHomePage: (req, res) => {
+        res.render("user/home")
+    },
     showLoginForm: (req, res) => {
         res.render("user/login");
     },
@@ -29,7 +32,8 @@ module.exports = {
 
             res.redirect("/section/1/course/1/lessons");
         } else {
-            res.send("Username or email is already taken");
+            req.flash("error", "Потребителското име или имейл са вече заети");
+            res.redirect("/register");
         }
     },
     createAdmin: async (req, res) => {
@@ -70,11 +74,12 @@ module.exports = {
                 res.redirect(`/section/1/${userCredentials.selectedLanguage}/lessons`);
             }
         } else {
-            res.send("WRONG CREDENTIALS")
+            req.flash("error", "Грешно потребителско име или парола");
+            res.redirect("/login");
         }
     },
     logoutUser: async (req, res) => {
         req.session.destroy();
-        res.redirect('/login');
+        res.redirect('/');
     }
 }

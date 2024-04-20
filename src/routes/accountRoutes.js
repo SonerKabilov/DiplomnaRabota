@@ -7,6 +7,10 @@ const checkUser = require('../middlewares/requireLogin');
 
 // ** LOGIN **
 router
+    .route("/")
+    .all(checkUser.checkIfUserIsLogged)
+    .get(accountController.showHomePage);
+router
     .route("/login")
     .all(checkUser.checkIfUserIsLogged)
     .get(accountController.showLoginForm)
