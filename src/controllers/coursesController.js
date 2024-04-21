@@ -55,6 +55,9 @@ module.exports = {
         
         await coursesService.addCourseForUser(addCourseData);
 
+        const userCourses = await coursesService.getUserCourses(userId);
+        req.session.user_courses = userCourses;
+
         res.redirect(`/section/1/${parsedLanguageData.language}/lessons`);
     }
 }

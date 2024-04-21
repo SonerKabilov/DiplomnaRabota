@@ -4,7 +4,7 @@
 
 <% for (const course of courses) { 
     let isTaken = false;
-    
+
     if(coursesTaken.length > 0) {
         for (const takenCourse of coursesTaken) {
             if (takenCourse.language === course.language) {
@@ -12,8 +12,6 @@
                 break;
             }
         }
-    } else {
-        isTaken = true;
     }
 
     if(!isTaken) { %>

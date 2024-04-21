@@ -1,4 +1,9 @@
 /* LOGIN & REGISTRATION FORMS */
+
+#registerForm {
+    text-align: center;
+}
+
 .sign {
     display: flex;
     flex-direction: column;
@@ -17,14 +22,23 @@
     color: #1899d6;
 }
 
-.signButton {
+.loginBtn {
     width: 100%;
-    background-color: #1cb0f6;
-    border: none;
-    box-shadow: 0px 3px #1899d6;
+}
+
+.nextBtn,
+.prevBtn,
+.signButton {
     padding: 0.8rem 3rem;
     border-radius: 5px;
+    cursor: pointer;
     font-size: 17px;
+}
+
+.signButton {
+    box-shadow: 0px 3px #1899d6;
+    background-color: #1cb0f6;
+    border: none;
 }
 
 .signButton:hover {
@@ -38,6 +52,35 @@
 
 .signButton:active {
     box-shadow: none;
+}
+
+.step {
+    display: none;
+}
+
+.nextBtn,
+.prevBtn {
+    background-color: white;
+    box-shadow: 0px 3px #b9b8b6;
+    border: 1px solid #b9b8b6;
+}
+
+.nextBtn:hover,
+.prevBtn:hover {
+    background: linear-gradient(to right,
+            #dcdad7 0%,
+            #ebe9e6 25%,
+            #f8f6f3 50%,
+            #ebe9e6 75%,
+            #dcdad7 100%);
+}
+
+.prevBtn {
+    margin-left: 10px; 
+}
+
+#registerForm input {
+    width: 90%;
 }
 
 

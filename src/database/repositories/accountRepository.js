@@ -21,10 +21,25 @@ module.exports = {
     },
     createUserProfile: async (userInformation) => {
         try {
-            await pool.query(`
+            const addUserQuery = await pool.query(`
                 INSERT INTO users (username, email, password)
                 VALUES(?, ?, ?)
             `, [userInformation.username, userInformation.email, userInformation.password]);
+
+            const lastInsertedId = addUserQuery[0].insertId;
+
+            await pool.query(`
+                INSERT INTO courses_taken (courses_id, users_id)
+                VALUES (?, ?)
+            `, [userInformation.courseId, lastInsertedId]);
+
+            const insertedUser = await pool.query(`
+                SELECT * 
+                FROM users 
+                WHERE id = ?
+            `, [lastInsertedId]);
+
+            return insertedUser[0];
         } catch (err) {
             console.error(err);
             throw err;

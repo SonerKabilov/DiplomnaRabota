@@ -11,13 +11,24 @@ module.exports = {
             userInformation.password = await bcrypt.hash(userInformation.password, 12);
 
             if (userInformation.userTypesId && userInformation.userTypesId === 1) {
-                await accountRepository.createAdminProfile(userInformation);
+                const user = await accountRepository.createAdminProfile(userInformation);
 
-                return true;
+                return user;
             } else {
-                await accountRepository.createUserProfile(userInformation);
+                const courses = await coursesRepository.queryCourses();
+                let isAdded = false;
 
-                return true;
+                for (const course of courses) {
+                    if (course.id === userInformation.courseId) {
+                        isAdded = true;
+                    }
+                }
+
+                if (isAdded) {
+                    const user = await accountRepository.createUserProfile(userInformation);
+                    
+                    return user;
+                }
             }
         }
 

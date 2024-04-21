@@ -13,9 +13,22 @@
 
         <h1>Регистрация</h1>
         
-        <form action="/register" method="POST">
-            <%- include('../partials/registrationForm') %>
+        <form id="registerForm" action="/register" method="POST">
+            <div class="step">
+                <%- include('../partials/availableCourses') %>
+
+                <button type="button" class="nextBtn disabled">Напред</button>
+            </div>
+            <div class="step">
+                <%- include('../partials/registrationForm') %>
+
+                <button type="button" class="prevBtn">Назад</button>
+                <button class="signButton">Регистрация</button>
+            </div>
         </form>
     </main>
+
+    <script src="/js/multistepForm.js"></script>
+    <script src="/js/selectLanguage.js"></script>
 </body>
 </html>

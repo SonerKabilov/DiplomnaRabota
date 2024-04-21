@@ -1,7 +1,16 @@
 const flagButtons = document.querySelectorAll('.flagButton');
-const addButton = document.querySelector('.add');
 
-document.querySelector('#addCourseForm').addEventListener('click', function(event) {
+let form, addButton;
+
+if(document.querySelector('#registerForm') !== null) {
+    form = document.querySelector("#registerForm");
+    addButton = document.querySelector('.nextBtn');
+} else if (document.querySelector('#addCourseForm') !== null) {
+    form = document.querySelector("#addCourseForm");
+    addButton = document.querySelector('.add');
+}
+
+form.addEventListener('click', function(event) {
     const target = event.target.closest('.flagButton');
 
     if (target) {
