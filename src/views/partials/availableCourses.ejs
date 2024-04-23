@@ -5,8 +5,8 @@
 <% for (const course of courses) { 
     let isTaken = false;
 
-    if(coursesTaken.length > 0) {
-        for (const takenCourse of coursesTaken) {
+    if(userData.coursesTaken.length > 0) {
+        for (const takenCourse of userData.coursesTaken) {
             if (takenCourse.language === course.language) {
                 isTaken = true;
                 break;

@@ -26,7 +26,7 @@ module.exports = {
 
                 if (isAdded) {
                     const user = await accountRepository.createUserProfile(userInformation);
-                    
+
                     return user;
                 }
             }
@@ -58,5 +58,19 @@ module.exports = {
         }
 
         return false;
+    },
+    updateUserDataForCompletedLesson: async (userData) => {
+        const onLesson = await accountRepository.getUserProgress(userData.userId);
+
+        await accountRepository.updateUserCurrency(50, userData.userId);
+
+        if (onLesson == userData.lessonSequence) {
+            await accountRepository.updateUserProgress(onLesson + 1, userData.userId, userData.language);
+        }
+    },
+    getUserCurrency: async (userId) => {
+        const currency = await accountRepository.getUserCurrency(userId);
+
+        return currency;
     }
 }

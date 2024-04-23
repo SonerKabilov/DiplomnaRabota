@@ -9,12 +9,16 @@
     <div class="right">
         <ul>
             <li>
+                <i class="fa-solid fa-coins"></i>
+                <%= userData.userCurrency %>
+            </li>
+            <li>
                 <div class="selectCourseDropdown">
                     <button class="dropbtn">
                         SELECT
                     </button>
                     <div class="userCourses">
-                        <% for(const course of coursesTaken) { %>
+                        <% for(const course of userData.coursesTaken) { %>
                             <form action="/section/1/<%= course.language %>/lessons">
                                 <button class="course">
                                     <img src="<%= course.flag %>" alt="">

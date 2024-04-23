@@ -1,6 +1,8 @@
 const lessonsService = require('../services/lessonsService');
 const exercisesService = require('../services/exercisesService');
 const sectionsService = require('../services/sectionsService');
+const accountService = require('../services/accountService');
+const coursesService = require('../services/coursesService');
 
 module.exports = {
     showLessonExercises: async (req, res) => {
@@ -13,11 +15,11 @@ module.exports = {
             }
 
             const sectionId = await sectionsService.getSectionIdByLanguage(sectionDetails)
-            
+
             const exercises = await exercisesService.getAllLessonExercises(sectionId, lessonSequence);
-            
+
             res.status(200).render("user/exercises", { exercises, lessonSequence, sectionSequence, language });
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             res.status(500).send("Internal Server Error");
         }
@@ -27,9 +29,9 @@ module.exports = {
 
         const checkIfLessonExists = await lessonsService.getLessonId(lessonSequence, sectionId);
 
-        if(!checkIfLessonExists) {
+        if (!checkIfLessonExists) {
             req.flash("error", "Не съществува такъв урок");
-            
+
             return res.redirect("/admin");
         }
 
@@ -63,7 +65,7 @@ module.exports = {
 
         const addedExercise = await exercisesService.addExercise(newExercise);
 
-        if(addedExercise) {
+        if (addedExercise) {
             req.flash("success", "Успешно добавено упражнение!");
 
             res
@@ -76,5 +78,29 @@ module.exports = {
                 .status(400)
                 .redirect(`/admin/add/${language}/sectionId/${sectionId}/lesson/${lessonSequence}/exercise`);
         }
+    },
+    updateCompletedLesson: async (req, res) => {
+        const userId = req.session.user_id;
+        const { lessonSequence, language } = req.params;
+
+        const userData = {
+            userId,
+            lessonSequence,
+            language
+        }
+
+        await accountService.updateUserDataForCompletedLesson(userData);
+    },
+    returnToLessonsPage: async (req, res) => {
+        const userId = req.session.user_id;
+        const { language, sectionSequence } = req.params;
+
+        const userCourses = await coursesService.getUserCourses(userId);
+        req.session.user_courses = userCourses;
+
+        const currency = await accountService.getUserCurrency(userId);
+        req.session.user_currency = currency;
+
+        res.redirect(`/section/${sectionSequence}/${language}/lessons`);
     }
 }

@@ -10,7 +10,6 @@
 </head>
 <body>
     <%- include('../partials/header') %>
-    <%= userType %>
     <%- include('../partials/logoutForm') %>
 
     <main>
@@ -28,7 +27,7 @@
             <% 
                 let onLesson = 0;
 
-                for (const courseTaken of coursesTaken) {
+                for (const courseTaken of userData.coursesTaken) {
                     if(courseTaken.language === language) {
                         onLesson = courseTaken.on_lesson;
                         break;

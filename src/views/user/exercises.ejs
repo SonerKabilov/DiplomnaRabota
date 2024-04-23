@@ -27,6 +27,15 @@
             <p class = "message"></p>
             <button id = "showNext">Напред</button>
         </div>
+
+        <div class="lessonCompleted displayNone">
+            <form id="completed" action="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lessonSequence %>?_method=PATCH" method="POST"></form>
+
+            <form action="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lessonSequence %>/return" method="GET">
+                <p>All exercises completed!</p>
+                <button>Обратно</button>
+            </form>
+        </div>
     </section>
     
     <script src="/js/checkCorrectAnswer.js" exercises = "<%= JSON.stringify(exercises) %>" lessonSequence = "<%= lessonSequence %>"></script>

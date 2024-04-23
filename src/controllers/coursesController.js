@@ -16,9 +16,16 @@ module.exports = {
     },
     showAvailableCourses: async (req, res) => {
         const courses = await coursesService.getCourses();
+
+        const userCurrency = req.session.user_currency;
         const coursesTaken = req.session.user_courses;
 
-        res.status(200).render("user/startCourseForm", { coursesTaken, courses });
+        const userData = {
+            userCurrency,
+            coursesTaken
+        }
+
+        res.status(200).render("user/startCourseForm", { userData, courses });
     },
     addCourseForm: async (req, res) => {
         const languagesToAdd = await coursesService.checkIfCourseIsAdded(languages);
@@ -52,7 +59,7 @@ module.exports = {
             courseId: parsedLanguageData.id,
             userId
         }
-        
+
         await coursesService.addCourseForUser(addCourseData);
 
         const userCourses = await coursesService.getUserCourses(userId);

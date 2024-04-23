@@ -72,8 +72,10 @@ module.exports = {
 
         if (user) {
             const userCourses = await coursesService.getUserCourses(user.id);
+
             req.session.user_id = user.id;
             req.session.user_type = user.user_types_id;
+            req.session.user_currency = user.currency;
             req.session.user_courses = userCourses;
 
             if (req.session.user_type == 1) {

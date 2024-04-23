@@ -36,9 +36,14 @@ const showExercise = () => {
 
         showOptions(exercise);
     } else {
+        const completedDiv = document.querySelector(".lessonCompleted");
+        completedDiv.classList.remove("displayNone");
+
+        const formCompleted = document.querySelector("#completed");
+        formCompleted.submit();
+
         audio.src = "/sounds/goodresult-82807.mp3";
         audio.play();
-        currentDiv.innerHTML = '<p>All exercises completed!</p><a href="/section/1/English/lessons">Обратно</a>';
     }
 };
 
@@ -168,7 +173,6 @@ const checkMultipleChoiceAnswer = async (correctAnswer) => {
             }
 
             if(!button.classList.contains("optionButton clicked")) {
-                console.log(button);
                 const buttonText = button.textContent;
 
                 textToSpeach(buttonText);

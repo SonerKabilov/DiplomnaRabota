@@ -5,16 +5,21 @@ module.exports = {
     getLessons: async (req, res) => {
         try {
             const { language, sectionSequence } = req.params;
-            const userId = req.session.user_id;
-            const userType = req.session.user_type;
+
+            const userCurrency = req.session.user_currency;
             const coursesTaken = req.session.user_courses;
+
+            const userData = {
+                userCurrency,
+                coursesTaken
+            }
 
             const sections = await sectionsService.getAllSectionsForCourse(language);
             const lessons = await lessonsService.getAllLessons(language, sectionSequence);
 
             res
                 .status(200)
-                .render("user/lessons", { userId, userType, coursesTaken, language, sectionSequence, sections, lessons });
+                .render("user/lessons", { userData, language, sectionSequence, sections, lessons });
         } catch(error) {
             console.error(error);
             res
