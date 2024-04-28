@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
     <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -23,17 +24,35 @@
             
         </div>
 
-        <div class = "nextExercise displayNone">
-            <p class = "message"></p>
-            <button id = "showNext">Напред</button>
+        <div class="checkAnswer">
+            <div></div>
+            <div>
+                <button id="checkAnswerButton" class="checked">Проверка</button>
+            </div>
         </div>
+        
 
+        <div class = "nextExercise displayNone">
+            <div class="nextExerciseLeft">
+                <div>
+                    <i class="fa-solid nextExerciseIcon"></i>
+                </div>
+                <div>
+                    <h3 class="nextExerciseHeading"></h3>
+                    <p class="nextExerciseParagraph"></p>
+                </div>
+                    
+            </div>
+
+            <div>
+                <button id = "showNext">Напред</button>
+            </div>
+        </div>
+       
         <div class="lessonCompleted displayNone">
-            <form id="completed" action="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lessonSequence %>?_method=PATCH" method="POST"></form>
-
-            <form action="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lessonSequence %>/return" method="GET">
+            <form id="completed" action="/exercises/<%= language %>/section/<%= sectionSequence %>/lesson/<%= lessonSequence %>?_method=PATCH" method="POST">
                 <p>All exercises completed!</p>
-                <button>Обратно</button>
+                <button id="endLesson">Обратно</button>
             </form>
         </div>
     </section>

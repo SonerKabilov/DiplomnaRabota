@@ -1,10 +1,13 @@
 body {
     margin: 0 auto;
-    overflow-y: hidden;
     background-color: #f8f6f3;
 }
 
-body::-webkit-scrollbar {
+.lessonsBody {
+    overflow-y: hidden;
+}
+
+.lessonsBody::-webkit-scrollbar {
     display: none;
 }
 
@@ -64,13 +67,14 @@ body::-webkit-scrollbar {
 }
 
 .homepage-right a:active {
-    box-shadow: none;
+    margin-top: 3px;
+    border: none;
 }
 
 .register {
     background-color: #58cc02;
     color: white;
-    box-shadow: 0px 3px #224e00;
+    border-bottom: 3px solid #224e00;
 }
 
 .register:hover {
@@ -85,7 +89,7 @@ body::-webkit-scrollbar {
 .login {
     background-color: #f8f6f3;
     color: black;
-    box-shadow: 0px 3px #b9b8b6;
+    border-bottom: 3px solid #b9b8b6;
 }
 
 .login:hover {
@@ -342,7 +346,7 @@ main {
 }
 
 .displayNone {
-    display: none;
+    display: none !important;
 }
 
 .top {
@@ -379,6 +383,61 @@ main {
     margin-bottom: 2rem;
 }
 
+.nextExercise,
+.checkAnswer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.correctAnswer {
+    background-color: #d7ffb8;
+    color: #58cc02;
+}
+
+.correctAnswer button,
+.checked {
+    background-color: #58cc02;
+    border-bottom: 3px solid #58a700;
+}
+
+.wrongAnswer {
+    background-color: #f8d7da;
+    color: #ff4b4b;
+}
+
+.wrongAnswer button {
+    background-color: #ff4b4b;
+    border-bottom: 3px solid #ea2b2b;
+}
+
+.wrongAnswer button,
+.correctAnswer button,
+#checkAnswerButton {
+    color: white;
+    padding: 1rem 2rem;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.wrongAnswer button:active,
+.correctAnswer button:active,
+.checked:active {
+    border: none;
+}
+
+.nextExerciseLeft {
+    display: flex;
+    align-items: center;
+}
+
 
 /* ICONS */
 
@@ -406,4 +465,14 @@ main {
 
 .fa-coins {
     color: #8c7700;
+}
+
+.fa-xmark,
+.fa-check {
+    font-size: 30px;
+    border: 1px solid;
+    border-radius: 100%;
+    padding: 1rem 1.2rem;
+    background-color: #f8f6f3;
+    margin-right: 15px;
 }

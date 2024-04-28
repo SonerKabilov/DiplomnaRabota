@@ -81,7 +81,7 @@ module.exports = {
     },
     updateCompletedLesson: async (req, res) => {
         const userId = req.session.user_id;
-        const { lessonSequence, language } = req.params;
+        const { lessonSequence, language, sectionSequence } = req.params;
 
         const userData = {
             userId,
@@ -90,10 +90,6 @@ module.exports = {
         }
 
         await accountService.updateUserDataForCompletedLesson(userData);
-    },
-    returnToLessonsPage: async (req, res) => {
-        const userId = req.session.user_id;
-        const { language, sectionSequence } = req.params;
 
         const userCourses = await coursesService.getUserCourses(userId);
         req.session.user_courses = userCourses;

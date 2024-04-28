@@ -12,7 +12,11 @@ module.exports = {
         const courses = await coursesService.getCourses();
         const coursesTaken = [];
 
-        res.render("user/register", { coursesTaken, courses });
+        const userData = {
+            coursesTaken
+        }
+
+        res.render("user/register", { courses, userData });
     },
     showAdminRegisterForm: (req, res) => {
         res.render("admin/adminRegister");

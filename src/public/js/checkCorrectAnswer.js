@@ -3,12 +3,13 @@ const nextExerciseDiv = document.querySelector(".nextExercise");
 const showNextButton = document.querySelector("#showNext");
 const progressBar = document.querySelector("#myBar");
 const currentDiv = document.querySelector(".exercise");
+const checkAnswerButton = document.querySelector("#checkAnswerButton");
+const checkAnswerDiv = document.querySelector(".checkAnswer");
+const nextExerciseHeading = document.querySelector(".nextExerciseHeading");
+const nextExerciseParagraph = document.querySelector(".nextExerciseParagraph");
+const nextExerciceIcon = document.querySelector(".nextExerciseIcon");
+const topDiv = document.querySelector(".top");
 const audio = new Audio();
-
-const checkAnswerButton = document.createElement("button");
-const checkAnswerText = document.createTextNode("Проверка");
-checkAnswerButton.classList.add("checkAnswer");
-checkAnswerButton.appendChild(checkAnswerText);
 
 let speech = new SpeechSynthesisUtterance();
 let currentExerciseIndex = 0;
@@ -36,11 +37,11 @@ const showExercise = () => {
 
         showOptions(exercise);
     } else {
+        checkAnswerDiv.classList.add("displayNone");
+        topDiv.classList.add("displayNone");
+
         const completedDiv = document.querySelector(".lessonCompleted");
         completedDiv.classList.remove("displayNone");
-
-        const formCompleted = document.querySelector("#completed");
-        formCompleted.submit();
 
         audio.src = "/sounds/goodresult-82807.mp3";
         audio.play();
@@ -102,10 +103,12 @@ const showOptions = (exercise) => {
 }
 
 const checkMakeSentenceAnswer = (correctAnswer) => {
-    currentDiv.appendChild(checkAnswerButton);
     const makeSentenceDiv = document.querySelector('.makeSentenceDiv');
     const optionsDiv = document.querySelector(".optionsDiv");
+
     let userAnswer = [];
+
+    checkAnswerButton.classList.add("disabled");
 
     optionsDiv.addEventListener('click', function (event) {
         const button = event.target.closest('button');
@@ -113,6 +116,10 @@ const checkMakeSentenceAnswer = (correctAnswer) => {
         if (button) {
             userAnswer.push(button.textContent);
             makeSentenceDiv.appendChild(button);
+
+            if(userAnswer.length > 0) {
+                checkAnswerButton.classList.remove("disabled");
+            }
         }
     });
 
@@ -123,17 +130,36 @@ const checkMakeSentenceAnswer = (correctAnswer) => {
             let index = userAnswer.indexOf(button.textContent);
             userAnswer.splice(index, 1);
             optionsDiv.appendChild(button);
+
+            if(userAnswer.length === 0) {
+                checkAnswerButton.classList.add("disabled");
+            }
         }
     });
 
     const handleCheckAnswerButtonClick = () => {
         userAnswer = userAnswer.join(" ");
+
         if (isAnswerCorrect(userAnswer, correctAnswer)) {
             audio.src = "/sounds/short-success-sound-glockenspiel-treasure-video-game-6346.mp3";
+
             progressBarCounter += 100 / exercises.length;
             progressBar.style.width = progressBarCounter + "%";
+
+            nextExerciseDiv.classList.add("correctAnswer");
+            nextExerciceIcon.classList.add("fa-check");
+            checkAnswerDiv.classList.add("displayNone");
+
+            nextExerciseHeading.textContent = "Правилно!"
         } else {
             audio.src = "/sounds/wrong-answer-126515.mp3";
+
+            nextExerciseDiv.classList.add("wrongAnswer");
+            nextExerciceIcon.classList.add("fa-xmark");
+            checkAnswerDiv.classList.add("displayNone");
+
+            nextExerciseHeading.textContent = "Правилният отговор е:"
+            nextExerciseParagraph.textContent =  correctAnswer;
         }
 
         audio.play();
@@ -159,20 +185,22 @@ const checkMakeSentenceAnswer = (correctAnswer) => {
 }
 
 const checkMultipleChoiceAnswer = async (correctAnswer) => {
-    currentDiv.appendChild(checkAnswerButton);
-
     const buttons = document.querySelectorAll(".optionButton");
-    let userAnswer;
 
+    let userAnswer;
     let prevClickedButton = null;
+
+    checkAnswerButton.classList.add("disabled");
 
     for (let button of buttons) {
         button.addEventListener("click", function () {
+            checkAnswerButton.classList.remove("disabled");
+
             if (prevClickedButton !== null) {
                 prevClickedButton.classList.remove('clicked');
             }
 
-            if(!button.classList.contains("optionButton clicked")) {
+            if (!button.classList.contains("optionButton clicked")) {
                 const buttonText = button.textContent;
 
                 textToSpeach(buttonText);
@@ -186,10 +214,24 @@ const checkMultipleChoiceAnswer = async (correctAnswer) => {
     const handleCheckAnswerButtonClick = () => {
         if (isAnswerCorrect(userAnswer, correctAnswer)) {
             audio.src = "/sounds/short-success-sound-glockenspiel-treasure-video-game-6346.mp3";
+
             progressBarCounter += 100 / exercises.length;
             progressBar.style.width = progressBarCounter + "%";
+
+            nextExerciseDiv.classList.add("correctAnswer");
+            nextExerciceIcon.classList.add("fa-check");
+            checkAnswerDiv.classList.add("displayNone");
+
+            nextExerciseHeading.textContent = "Правилно!"
         } else {
             audio.src = "/sounds/wrong-answer-126515.mp3";
+
+            nextExerciseDiv.classList.add("wrongAnswer");
+            nextExerciceIcon.classList.add("fa-xmark");
+            checkAnswerDiv.classList.add("displayNone");
+
+            nextExerciseHeading.textContent = "Правилният отговор е:"
+            nextExerciseParagraph.textContent =  correctAnswer;
         }
 
         audio.play();
@@ -214,6 +256,11 @@ const checkMultipleChoiceAnswer = async (correctAnswer) => {
 
 const handleButtonClick = (userAnswer, correctAnswer) => {
     nextExerciseDiv.classList.add("displayNone");
+    nextExerciseDiv.classList.remove("wrongAnswer");
+    nextExerciseDiv.classList.remove("correctAnswer");
+    checkAnswerDiv.classList.remove("displayNone");
+
+    nextExerciseParagraph.textContent = "";
 
     if (isAnswerCorrect(userAnswer, correctAnswer)) {
         currentExerciseIndex++;

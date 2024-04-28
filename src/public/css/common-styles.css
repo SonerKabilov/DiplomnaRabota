@@ -36,9 +36,9 @@
 }
 
 .signButton {
-    box-shadow: 0px 3px #1899d6;
     background-color: #1cb0f6;
     border: none;
+    border-bottom: 3px solid #1899d6;
 }
 
 .signButton:hover {
@@ -51,7 +51,8 @@
 }
 
 .signButton:active {
-    box-shadow: none;
+    margin-top: 3px;
+    border: none;
 }
 
 .step {
