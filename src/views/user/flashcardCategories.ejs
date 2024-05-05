@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Флашкарти</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+    <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
+</head>
+<body class="flashcardsBody">
+    <%- include('../partials/header') %>
+
+    <main class="flashcardsMain">
+        <div class="flashcardCategories">
+            <button id="openFlashcardCategoryModalBtn" class="add">Добавяне на категория</button>
+
+            <% for (let i = 0; i < flashcardCategories.length; i++) { %>
+                <div class="flashcardCategory">
+                    <form action=""  class="categoryButton">
+                        <button><%= flashcardCategories[i].title %></button>
+                    </form>
+
+                    <div class="categoryIcons">
+                        <button class="updateModalBtn" data-category-id="<%= flashcardCategories[i].id %>" data-category-title="<%= flashcardCategories[i].title %>" type="button"><i class="fa-solid fa-pen"></i></button>
+                        <button class="deleteModalBtn" data-category-id="<%= flashcardCategories[i].id %>" type="button"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="flashcards">
+
+        </div>
+    </main>
+
+    <script src="/js/openModal.js"></script>
+</body>
+</html>

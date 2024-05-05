@@ -10,6 +10,7 @@ router
     .route("/")
     .all(checkUser.checkIfUserIsLogged)
     .get(accountController.showHomePage);
+    
 router
     .route("/login")
     .all(checkUser.checkIfUserIsLogged)

@@ -19,13 +19,14 @@ module.exports = {
 
         const userCurrency = req.session.user_currency;
         const coursesTaken = req.session.user_courses;
+        const language = req.session.language;
 
         const userData = {
             userCurrency,
             coursesTaken
         }
 
-        res.status(200).render("user/startCourseForm", { userData, courses });
+        res.status(200).render("user/startCourseForm", { userData, courses, language });
     },
     addCourseForm: async (req, res) => {
         const languagesToAdd = await coursesService.checkIfCourseIsAdded(languages);

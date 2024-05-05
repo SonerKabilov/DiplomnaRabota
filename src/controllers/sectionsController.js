@@ -6,6 +6,8 @@ module.exports = {
         try {
             const { language, sectionSequence } = req.params;
 
+            req.session.language = language;
+
             const userCurrency = req.session.user_currency;
             const coursesTaken = req.session.user_courses;
 

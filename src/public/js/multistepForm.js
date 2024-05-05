@@ -1,13 +1,28 @@
 document.addEventListener("DOMContentLoaded", function() {
     const steps = document.querySelectorAll(".step");
     let currentStep = 0;
+    
+    const main = document.querySelector(".sign");
+    const bottomBackground = document.createElement("div");
+    main.appendChild(bottomBackground);
 
     function showStep(stepIndex) {
+        
+
         for (let i = 0; i < steps.length; i++) {
             if (i === stepIndex) {
                 steps[i].style.display = "block";
             } else {
                 steps[i].style.display = "none";
+            }
+
+            if (currentStep === steps.length - 1) {
+                bottomBackground.classList.add("bottomBackground");
+                bottomBackground.classList.remove("displayNone");
+            }
+
+            if (currentStep !== steps.length - 1) {
+                bottomBackground.classList.add("displayNone");
             }
         }
     }

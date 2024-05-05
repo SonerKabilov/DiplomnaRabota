@@ -3,12 +3,27 @@ body {
     background-color: #f8f6f3;
 }
 
-.lessonsBody {
-    overflow-y: hidden;
+.lessonsBody,
+.flashcardsBody {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
-.lessonsBody::-webkit-scrollbar {
+.lessonsBody::-webkit-scrollbar,
+.sections::-webkit-scrollbar,
+.lessons::-webkit-scrollbar,
+.flashcardsBody::-webkit-scrollbar,
+.flashcardCategories::-webkit-scrollbar,
+.flashcards::-webkit-scrollbar {
     display: none;
+}
+
+.sectionsMain,
+.flashcardsMain {
+    margin: 0;
+    flex: 1;
+    overflow: hidden;
 }
 
 
@@ -115,6 +130,7 @@ header {
 header ul {
     list-style-type: none;
     display: flex;
+    align-items: center;
 }
 
 header li {
@@ -123,6 +139,7 @@ header li {
 
 header a {
     text-decoration: none;
+    color: black;
 }
 
 header a:visited {
@@ -186,12 +203,15 @@ header a:visited {
     padding: 10px;
 }
 
+.headerFlag {
+    width: 30px;
+}
+
 
 /* SECTIONS & LESSONS */
 
 main {
     display: flex;
-    margin-top: 2rem;
 }
 
 .popover {
@@ -240,14 +260,10 @@ main {
 }
 
 .sections,
-.lessons {
+.lessons,
+.flashcardCategories,
+.flashcards {
     overflow-y: scroll;
-    height: 85vh;
-}
-
-.sections::-webkit-scrollbar,
-.lessons::-webkit-scrollbar {
-    display: none;
 }
 
 .lessons {
@@ -255,12 +271,12 @@ main {
     flex-grow: 1;
     display: block;
     text-align: center;
-    padding-top: 1rem;
 }
 
 .section,
 .lesson {
     margin-bottom: 2rem;
+    margin-top: 1rem;
 }
 
 .section {
@@ -436,6 +452,138 @@ main {
 .nextExerciseLeft {
     display: flex;
     align-items: center;
+}
+
+
+/* FLASHCARDS */
+
+.flashcardCategories {
+    width: 30%;
+    background-color: rgb(255, 238, 145, 0.2);
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 1rem 0;
+}
+
+.flashcardCategory {
+    margin: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.categoryButton button {
+    padding: 1rem 2rem;
+}
+
+.categoryIcons button {
+    padding: 1rem 0.5rem;
+}
+
+.categoryIcons {
+    display: flex;
+}
+
+.categoryButton,
+.categoryButton button {
+    display: flex;
+    flex: 1;
+}
+
+.flashcardCategory button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.flashcards {
+    width: 70%;
+}
+
+.addFlashCardCategory {
+    text-align: center;
+}
+
+.addFlashCardCategory h2 {
+    border-bottom: 1px solid gray;
+    padding-bottom: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    /* padding: 20px; */
+    border: 1px solid #888;
+    width: 40%;
+    border-radius: 15px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 1rem 2rem;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modalHeader,
+.modalText,
+.modalInputDiv {
+    border-bottom: 1px solid lightgray;
+    padding: 0 0 1rem 1rem;
+}
+
+.modalInputDiv {
+    margin-bottom: 1rem;
+}
+
+.modalInput {
+    border-radius: 5px;
+    padding: 0.5rem;
+    width: 92%;
+}
+
+.modalBtnsDiv {
+    text-align: right;
+    padding: 0 1rem 1rem 0;
+}
+
+.fade-in {
+    animation: fadeInAnimation 0.5s ease-in-out;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 
