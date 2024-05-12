@@ -5,10 +5,12 @@ const flashcardController = require('../controllers/flashcardController');
 
 const checkUser = require('../middlewares/requireLogin');
 
+// FLASHCARD CATEGORIES
 router
     .route("/")
     .all(checkUser.requireLogin)
-    .get(flashcardController.showFlashcardsPage);
+    .get(flashcardController.showFlashcardsPage)
+    .post(flashcardController.showFlashcardsPage);
 
 router
     .route("/add/category")
@@ -16,13 +18,22 @@ router
     .post(flashcardController.addCategory);
 
 router
-    .route("/update/category/:categoryId")
+    .route("/category/:categoryId")
     .all(checkUser.requireLogin)
-    .patch(flashcardController.updateCategoryTitle);
+    .patch(flashcardController.updateCategoryTitle)
+    .delete(flashcardController.deleteCategory);
+
+
+// FLASHCARDS
+router
+    .route("/add/flashcard/:categoryId")
+    .all(checkUser.requireLogin)
+    .post(flashcardController.addFlashcard);
 
 router
-    .route("/delete/category/:categoryId")
+    .route("/:flashcardId")
     .all(checkUser.requireLogin)
-    .delete(flashcardController.deleteCategory);
+    .patch(flashcardController.updateFlashcard)
+    .delete(flashcardController.deleteFlashcard);
 
 module.exports = router;

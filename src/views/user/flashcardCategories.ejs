@@ -17,19 +17,64 @@
 
             <% for (let i = 0; i < flashcardCategories.length; i++) { %>
                 <div class="flashcardCategory">
-                    <form action=""  class="categoryButton">
+                    <form action="/flashcards" method="POST" class="categoryButton">
+                        <input type="hidden" name="categoryId" value="<%= flashcardCategories[i].id %>">
                         <button><%= flashcardCategories[i].title %></button>
                     </form>
 
                     <div class="categoryIcons">
-                        <button class="updateModalBtn" data-category-id="<%= flashcardCategories[i].id %>" data-category-title="<%= flashcardCategories[i].title %>" type="button"><i class="fa-solid fa-pen"></i></button>
-                        <button class="deleteModalBtn" data-category-id="<%= flashcardCategories[i].id %>" type="button"><i class="fa-solid fa-trash"></i></button>
+                        <button 
+                            class="updateModalBtn" 
+                            data-category-id="<%= flashcardCategories[i].id %>" 
+                            data-category-title="<%= flashcardCategories[i].title %>">
+                        
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+
+                        <button 
+                            class="deleteModalBtn" 
+                            data-category-id="<%= flashcardCategories[i].id %>">
+                            
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             <% } %>
         </div>
 
         <div class="flashcards">
+            <div class="flashcardsTop">
+                <p><%= categoryInformation.title %></p>
+                <button>Преглед</button>
+            </div>
+            
+            <div class="flashcardsDisplay">
+                <button id="openAddFlashcardModalBtn" data-category-id="<%= categoryInformation.id %>" class="add">Добавяне на флашкарта</button>
+
+                <% for (flashcard of flashcards) { %>
+                    <div class="flashcard">
+                        <p class="flashcardParagraphSolidLine"><span>В</span><%= flashcard.question %></p>
+                        <p class="flashcardParagraphDashedLine"><span>О</span><%= flashcard.answer %></p>
+
+                        <button 
+                            class="updateFlashcardModalBtn" 
+                            data-question="<%= flashcard.question %>"
+                            data-answer="<%= flashcard.answer %>"
+                            data-flashcard-id="<%= flashcard.id %>">
+
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+
+                        <button 
+                            class="deleteFlashcardModalBtn"
+                            data-flashcard-id="<%= flashcard.id %>">
+                            
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    
+                <% } %>
+            </div>
 
         </div>
     </main>
