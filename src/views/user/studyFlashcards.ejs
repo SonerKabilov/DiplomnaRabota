@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Преглед на флашкарти</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+    <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <%- include('../partials/header') %>
+
+    <main id="flashcardMain">
+
+        <div class="flip-container">
+          <div class="flipper">
+            <div class="front"></div>
+              
+            <div class="back"></div>
+          </div>
+        </div>
+
+        <div id="flashcard"></div>
+    
+        <div id="scores"></div>
+    
+        <button id="prevBtn">Назад</button>
+        <button id="nextBtn">Напред</button>
+    </main>
+
+    <script src="/js/showFlashcard.js" flashcards = "<%= JSON.stringify(flashcards) %>"></script>
+</body>
+</html>

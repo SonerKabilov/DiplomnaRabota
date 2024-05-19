@@ -66,13 +66,15 @@ module.exports = {
             throw err;
         }
     },
-    queryFlashcards: async (categoryId) => {
+    queryFlashcards: async (categoryId, userId) => {
         try {
             const [result] = await pool.query(`
-                SELECT *
-                FROM flashcards
-                WHERE flashcard_categories_id = ?
-        `, [categoryId]);
+                SELECT f.*
+                FROM flashcards f
+                INNER JOIN flashcard_categories fc
+                ON f.flashcard_categories_id = fc.id
+                WHERE f.flashcard_categories_id = ? AND fc.users_id = ?
+        `, [categoryId, userId]);
 
             return result;
         } catch (err) {
@@ -114,6 +116,20 @@ module.exports = {
                 ON f.flashcard_categories_id = fc.id
                 WHERE f.id = ? AND fc.users_id = ?
             `, [flashcardDetails.flashcardId, flashcardDetails.userId])
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    updateFlashcardScore: async (flashcardDetails) => {
+        try {
+            await pool.query(`
+                UPDATE flashcards f
+                INNER JOIN flashcard_categories fc
+                ON f.flashcard_categories_id = fc.id
+                SET f.score = ?
+                WHERE f.id = ? AND fc.users_id = ?
+            `, [flashcardDetails.score, flashcardDetails.flashcardId, flashcardDetails.userId])
         } catch (err) {
             console.error(err);
             throw err;

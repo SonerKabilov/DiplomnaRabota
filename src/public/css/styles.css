@@ -583,6 +583,13 @@ main {
     }
 }
 
+.flashcardItem {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
 .flashcardsTop {
     display: flex;
     justify-content: space-between;
@@ -630,6 +637,85 @@ main {
     font-size: 25px;
 }
 
+/* STUDY FLASHCARDS */
+#flashcardMain {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 5rem;
+}
+
+.flip-container:hover .flipper,
+.flip-container.flip .flipper {
+    transform: rotateY(180deg);
+}
+
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.front,
+.back {
+    backface-visibility: hidden;
+    background-color: white;
+    padding: 3rem 2rem;
+    margin-bottom: 1rem;
+    min-width: 70%;
+    min-height: 50%;
+    border-radius: 10px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.back {
+    transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+    user-select: none;
+}
+
+#scores {
+    display: flex;
+}
+
+#scores button,
+.flashcardItem .score {
+    padding: 1rem 1.5rem;
+    border-radius: 100%;
+    margin: 0.5rem 1rem;
+    border: none;
+    font-size: 1.5rem;
+}
+
+#scores button {
+    cursor: pointer;
+}
+
+.scoreButton0 {
+    background-color: lightgray;
+}
+
+.scoreButton1 {
+    background-color: red;
+}
+
+.scoreButton2 {
+    background-color: orange;
+}
+
+.scoreButton3 {
+    background-color: yellow;
+}
+
+.scoreButton4 {
+    background-color: lightblue;
+}
+
+.scoreButton5 {
+    background-color: greenyellow;
+}
 
 /* ICONS */
 

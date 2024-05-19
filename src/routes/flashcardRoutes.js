@@ -36,4 +36,15 @@ router
     .patch(flashcardController.updateFlashcard)
     .delete(flashcardController.deleteFlashcard);
 
+router
+    .route("/study/:categoryId")
+    .all(checkUser.requireLogin)
+    .get(flashcardController.studyFlashcards);
+
+router
+    .route("/add/:categoryId/flashcard/:flashcardId/score")
+    .all(checkUser.requireLogin)
+    .post(flashcardController.addScore);
+
+
 module.exports = router;

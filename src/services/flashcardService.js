@@ -16,8 +16,8 @@ module.exports = {
     deleteCategory: async (categoryId, userId) => {
         await flashcardRepository.deleteCategory(categoryId, userId);
     },
-    showFlashcards: async (categoryId) => {
-        return await flashcardRepository.queryFlashcards(categoryId);
+    showFlashcards: async (categoryId, userId) => {
+        return await flashcardRepository.queryFlashcards(categoryId, userId);
     },
     addFlashcard: async (flashcardDetails) => {
         await flashcardRepository.addFlashcard(flashcardDetails);
@@ -27,5 +27,10 @@ module.exports = {
     },
     deleteFlashcard: async (flashcardDetails) => {
         await flashcardRepository.deleteFlashcard(flashcardDetails);
+    },
+    addScore: async (flashcardDetails) => {
+        if(flashcardDetails.score >= 1 && flashcardDetails.score <= 5) {
+            await flashcardRepository.updateFlashcardScore(flashcardDetails);
+        }
     }
 }
