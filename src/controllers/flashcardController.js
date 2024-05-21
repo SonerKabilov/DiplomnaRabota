@@ -128,9 +128,6 @@ module.exports = {
         const { score } = req.body;
         const { categoryId, flashcardId } = req.params;
         const userId = req.session.user_id;
-        console.log(score)
-        console.log(categoryId)
-        console.log(userId)
 
         const flashcardDetails = {
             score,

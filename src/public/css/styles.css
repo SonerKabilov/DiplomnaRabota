@@ -207,6 +207,13 @@ header a:visited {
 
 /* SECTIONS & LESSONS */
 
+.sectionTypes {
+    width: 95%;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    border-radius: 15px;
+}
+
 main {
     display: flex;
 }
@@ -263,6 +270,10 @@ main {
     overflow-y: scroll;
 }
 
+.sections {
+    padding-top: 1rem;
+}
+
 .lessons {
     display: flex;
     flex-grow: 1;
@@ -293,23 +304,23 @@ main {
     margin: 0;
 }
 
-.section a {
+.section button {
     text-decoration: none;
     color: white;
-    font-size: 1rem;
     font-weight: bold;
     border: 2px solid #c9ab00;
     background-color: #ffd900;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     box-shadow: 0 2px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
-.section a:hover {
+.section button:hover {
     background-color: #e6c302;
 }
 
-.section a:active {
+.section button:active {
     box-shadow: none;
 }
 

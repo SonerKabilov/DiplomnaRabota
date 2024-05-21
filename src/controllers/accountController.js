@@ -85,7 +85,7 @@ module.exports = {
             if (req.session.user_type == 1) {
                 res.redirect("/admin");
             } else {
-                res.redirect(`/section/1/${userCredentials.selectedLanguage}/lessons`);
+                res.redirect(`/section/${userCredentials.selectedLanguage}/lessons`);
             }
         } else {
             req.flash("error", "Грешно потребителско име или парола");

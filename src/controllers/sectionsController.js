@@ -17,12 +17,12 @@ module.exports = {
             }
 
             const sections = await sectionsService.getAllSectionsForCourse(language);
-            const lessons = await lessonsService.getAllLessons(language, sectionSequence);
+            const lessons = await lessonsService.getAllLessons(language);
 
             res
                 .status(200)
                 .render("user/lessons", { userData, language, sectionSequence, sections, lessons });
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             res
                 .status(500)
@@ -31,11 +31,11 @@ module.exports = {
     },
     showSectionDetails: async (req, res) => {
         const { language, sectionSequence } = req.params;
-        
-        const lessons = await lessonsService.getAllLessons(language, sectionSequence);
+
+        const lessons = await lessonsService.getAllLessonsForAdmin(language, sectionSequence);
         const sectionData = await sectionsService.getSectionDescription(language, sectionSequence);
 
-        if(!sectionData) {
+        if (!sectionData) {
             req.flash("error", "Не съществува такъв раздел");
 
             return res.redirect("/admin");

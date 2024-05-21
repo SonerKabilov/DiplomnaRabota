@@ -1,10 +1,13 @@
 const lessonsRepository = require('../database/repositories/lessonsRepository');
 
 module.exports = {
-    getAllLessons: async (language, sectionSequence) => {
-        const lessons = await lessonsRepository.queryLessons(language, sectionSequence);
+    getAllLessons: async (language) => {
+        const lessons = await lessonsRepository.queryLessonsForUser(language);
         
         return lessons;
+    },
+    getAllLessonsForAdmin: async (language, sectionSequence) => {
+        return lessons = await lessonsRepository.queryLessons(language, sectionSequence);
     },
     addLesson: async (courseId, sectionSequence) => {
         const lessonSequence = await lessonsRepository.queryLastLessonSequence(courseId);

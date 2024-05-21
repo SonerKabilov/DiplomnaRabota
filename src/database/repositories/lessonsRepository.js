@@ -20,6 +20,25 @@ module.exports = {
             throw err;
         }
     },
+    queryLessonsForUser: async (language) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT l.id, l.preview, l.sequence, l.sections_id
+                FROM lessons l
+                INNER JOIN sections s
+                ON l.sections_id = s.id
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                WHERE c.language = ?
+                ORDER BY l.sequence
+            `, [language]);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
     queryLastLessonSequence: async (courseId) => {
         try {
             const [result] = await pool.query(`

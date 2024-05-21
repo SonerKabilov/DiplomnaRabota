@@ -13,11 +13,16 @@
 
     <main class="sectionsMain">
         <section class = "sections">
+            <select name="sectionTypes" class="sectionTypes">
+                <option value="1">Безплатни раздели</option>
+                <option value="2">Платени раздели</option>
+            </select>
+
             <% for (let section of sections) { %>
-                <div class = "section">
+                <div class="section" section-id="<%= section.id %>" section-type="<%= section.section_types_id %>">
                     <p>Раздел <%= section.sequence %></p>
                     <p class="description"><%= section.description %></p>
-                    <a href="/section/<%= section.sequence %>/<%= language %>/lessons %>">Начало</a>
+                    <button class="showLessonsBtn">Show Lessons</button>
                 </div>
             <% } %>
         </section>
@@ -34,7 +39,7 @@
                 }
             %>
         <% for (let lesson of lessons) { %>
-            <div class = "lesson">
+            <div class="lesson" lesson-section="<%= lesson.sections_id %>">
                 <%
                     let isCompleted = "";
                     let isDisabled = ""
@@ -55,5 +60,6 @@
     </main>
 
     <script src="/js/togglePopover.js"></script>
+    <script src="/js/showSections.js" sections = "<%= JSON.stringify(sections) %>"></script>
 </body>
 </html>
