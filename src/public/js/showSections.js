@@ -2,40 +2,12 @@ const sectionTypesSelect = document.querySelector('.sectionTypes');
 const sections = document.querySelectorAll('.section');
 const lessons = document.querySelectorAll('.lesson');
 
-for (const section of sections) {
-    const sectionType = section.getAttribute('section-type');
-    if (sectionType === "2") {
-        section.style.display = 'none';
-    }
-}
-
-function showSections() {
-    sectionTypesSelect.addEventListener('change', function () {
-        const selectedType = this.value;
-
-        for (const section of sections) {
-            const sectionType = section.getAttribute('section-type');
-            if (selectedType === '1' && sectionType === "1") {
-                section.style.display = 'block';
-            } else if (selectedType === '2' && sectionType === "2") {
-                section.style.display = 'block';
-            } else {
-                section.style.display = 'none';
-            }
-        }
-    });
-}
-
-
-function showFirstSectionLessons(selectedType) {
+function showFirstSectionLessons() {
     let firstSectionId;
 
     for (const section of sections) {
-        const sectionType = section.getAttribute('section-type');
-        if (sectionType === selectedType) {
-            firstSectionId = section.getAttribute('section-id');
-            break;
-        }
+        firstSectionId = section.getAttribute('section-id');
+        break;
     }
 
     for (const lesson of lessons) {
@@ -49,16 +21,8 @@ function showFirstSectionLessons(selectedType) {
     }
 }
 
-showSections();
-
 // Show lessons of the first section when page loads
-showFirstSectionLessons(sectionTypesSelect.value);
-
-sectionTypesSelect.addEventListener('change', function () {
-    const selectedType = this.value;
-    
-    showFirstSectionLessons(selectedType); // Show lessons of the first section when select changes
-});
+showFirstSectionLessons();
 
 function showLessons() {
     for (const section of sections) {
@@ -81,3 +45,12 @@ function showLessons() {
 }
 
 showLessons();
+
+sectionTypesSelect.addEventListener("change", function () {
+    const selectedOption = this.options[this.selectedIndex];
+    const url = selectedOption.getAttribute("url");
+
+    if (url) {
+        window.location.href = url;
+    }
+})

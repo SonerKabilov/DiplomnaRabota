@@ -35,6 +35,11 @@ router
     .get(sectionController.showAddSectionForm)
     .post(sectionController.addSection);
 
+router
+    .route("/show/:language/:type/lessons")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .get(sectionController.showPremiumSectionDetails);
+
 
 // ** LESSONS **
 router
@@ -44,9 +49,20 @@ router
     .patch(lessonController.updateLessonPreview);
 
 router
+    .route("/show/:language/:type/sectionId/:sectionId/lesson/:lessonSequence")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .get(lessonController.showPremiumLessonDetails)
+    .patch();
+
+router
     .route("/add/course/:language/section/:sectionSequence/lesson")
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .post(lessonController.addLesson);
+
+router
+    .route("/add/course/:language/:type/lesson")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .post(lessonController.addPremiumLesson);
 
 
 // ** EXERCISES **
@@ -56,6 +72,12 @@ router
     .get(exercisesController.showAddExerciseForm)
     .post(exercisesController.addExercise);
 
+router
+    .route("/add/:language/:type/sectionId/:sectionId/lesson/:lessonSequence/exercise")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .get(exercisesController.showAddStorymodeExerciseForm)
+    .post(exercisesController.addStorymodeExercise);
+
 
 // ** ACOUNT **
 router
@@ -64,5 +86,5 @@ router
     .get(accountController.showAdminRegisterForm)
     .post(accountController.createAdmin)
 
-    
+
 module.exports = router;

@@ -1,7 +1,7 @@
 <header>
     <div class="left">
         <ul>
-            <li><a href="/section/<%= language %>/lessons">Уроци</a></li>
+            <li><a href="/<%= language %>/free/lessons">Уроци</a></li>
             <li><a href="/flashcards">Флашкарти</a></li>
             <li><a href="/shop">Магазин</a></li>
         </ul>
@@ -25,7 +25,7 @@
                         <% for (const course of userData.coursesTaken) { 
                             let isSelected = (course.language === language) ? "selected" : "";
                         %>
-                            <form action="/section/<%= course.language %>/lessons">
+                            <form action="/<%= course.language %>/free/lessons">
                                 <button class="course <%= isSelected %>">
                                     <img src="<%= course.flag %>" alt="">
                                     <%= course.language %>

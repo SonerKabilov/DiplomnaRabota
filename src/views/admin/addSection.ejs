@@ -17,23 +17,27 @@
             </p>
         </div>
 
-        <div class="formInput">
-            <label for="description">Описание</label>
-            <input type="text" name="description" id="description">
-        </div>
-
-        <div class="formInput">
+        <div id="sectionTypesDiv" class="formInput">
             <label for="sectionTypes">Тип на раздела</label>
             <select name="sectionTypes" id="sectionTypes">
-                <option value="1">Безплатен раздел</option>
-                <option value="2">Платен раздел</option>
+                <option value="free">Безплатен раздел</option>
+                <option value="premium">Платен раздел</option>
             </select>
         </div>
-        
+
+        <div id="freeSectionDescriptionDiv" class="formInput">
+        </div>
+
+        <div id="premiumSectionsDiv" class="formInput">
+            
+        </div>
+
         <div class="formInput alignCenter">
             <button class="add">Добавяне</button>
         </div>
     </form>
+
+    <script src="/js/selectSectionType.js"></script>
 </body>
 
 </html>

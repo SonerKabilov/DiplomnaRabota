@@ -1,6 +1,5 @@
 const addOptionButton = document.querySelector("#addOptionButton");
 const addOptionDiv = document.querySelector(".addOption");
-const form = document.querySelector("#addForm");
 const optionsDiv = document.querySelector(".options");
 
 addOptionButton.addEventListener("click", function () {

@@ -9,9 +9,9 @@ module.exports = {
 
         const checkIfLessonExists = await lessonsService.getLessonId(lessonSequence, sectionId);
 
-        if(!checkIfLessonExists) {
+        if (!checkIfLessonExists) {
             req.flash("error", "Не съществува такъв урок");
-            
+
             return res.redirect("/admin");
         }
 
@@ -28,23 +28,81 @@ module.exports = {
 
         res.render("admin/showLessonDetails", { lessonDetails });
     },
+    showPremiumLessonDetails: async (req, res) => {
+        const { language, type, sectionId, lessonSequence } = req.params;
+
+        try {
+            const exercises = await exercisesService.getAllPremiumLessonExercises(sectionId, type, lessonSequence);
+
+            const lessonDetails = {
+                language,
+                type,
+                sectionId,
+                lessonSequence,
+                exercises,
+                lessonPreview: ""
+            }
+    
+            res.render("admin/showPremiumLessonDetails", { lessonDetails });
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Урокът не съществува!");
+
+            return res.redirect(`/admin/show/${language}/${sectionSequence}/lessons`);
+        }
+    },
     addLesson: async (req, res) => {
         const { language, sectionSequence } = req.params;
 
-        const courseId = await coursesService.getCourseId(language);
+        try {
+            const courseId = await coursesService.getCourseId(language);
 
-        const sectionDetails = {
-            courseId,
-            sectionSequence
+            const sectionDetails = {
+                courseId,
+                sectionSequence
+            }
+
+            const sectionId = await sectionsService.getSectionId(sectionDetails);
+
+            await lessonsService.addLesson(courseId, sectionId);
+
+            req.flash("success", "Успешно добавен урок!");
+
+            res.redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Грешка при добавяне на урок!");
+
+            return res.redirect(`/admin/show/${language}/${sectionSequence}/lessons`);
         }
+    },
+    addPremiumLesson: async (req, res) => {
+        const { language, type } = req.params;
 
-        const sectionId = await sectionsService.getSectionId(sectionDetails);
+        try {
+            const courseId = await coursesService.getCourseId(language);
 
-        await lessonsService.addLesson(courseId, sectionId);
+            const sectionDetails = {
+                courseId,
+                type
+            }
 
-        req.flash("success", "Успешно добавен урок!");
+            const sectionId = await sectionsService.getPremiumSectionId(sectionDetails);
 
-        res.redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
+            await lessonsService.addPremiumLesson(courseId, sectionId, type);
+
+            req.flash("success", "Успешно добавен урок!");
+
+            res.redirect(`/admin/show/${language}/${type}/lessons`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Грешка при добавяне на урок!");
+
+            return res.redirect(`/admin/show/${language}/${type}/lessons`);
+        }
     },
     updateLessonPreview: async (req, res) => {
         const { language, sectionId, lessonSequence } = req.params;
@@ -56,10 +114,18 @@ module.exports = {
             lessonPreview
         }
 
-        await lessonsService.updateLessonPreview(lessonToUpdate);
+        try {
+            await lessonsService.updateLessonPreview(lessonToUpdate);
 
-        req.flash("success", "Успешно редактирано описание на урок!");
-        
-        res.redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+            req.flash("success", "Успешно редактирано описание на урок!");
+
+            res.redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Грешка при редактиране на описание на урок!");
+
+            return res.redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
     }
 }

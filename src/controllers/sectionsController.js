@@ -2,9 +2,9 @@ const sectionsService = require('../services/sectionsService');
 const lessonsService = require('../services/lessonsService');
 
 module.exports = {
-    getLessons: async (req, res) => {
+    getFreeSections: async (req, res) => {
         try {
-            const { language, sectionSequence } = req.params;
+            const { language } = req.params;
 
             req.session.language = language;
 
@@ -21,35 +21,90 @@ module.exports = {
 
             res
                 .status(200)
-                .render("user/lessons", { userData, language, sectionSequence, sections, lessons });
+                .render("user/freeSections", { userData, language, sections, lessons });
         } catch (error) {
             console.error(error);
+
             res
-                .status(500)
-                .send("Internal Server Error");
+                .status(404)
+                .send("Not found");
+        }
+    },
+    getPremiumSections: async (req, res) => {
+        try {
+            const { language } = req.params;
+
+            req.session.language = language;
+
+            const userCurrency = req.session.user_currency;
+            const coursesTaken = req.session.user_courses;
+
+            const userData = {
+                userCurrency,
+                coursesTaken
+            }
+
+            const sections = await sectionsService.getAllPremiumSectionsForCourse(language);
+
+            res
+                .status(200)
+                .render("user/premiumSections", { userData, language, sections });
+        } catch (error) {
+            console.error(error);
+
+            res
+                .status(404)
+                .send("Not found");
         }
     },
     showSectionDetails: async (req, res) => {
         const { language, sectionSequence } = req.params;
 
-        const lessons = await lessonsService.getAllLessonsForAdmin(language, sectionSequence);
-        const sectionData = await sectionsService.getSectionDescription(language, sectionSequence);
+        try {
+            const lessons = await lessonsService.getAllLessonsForAdmin(language, sectionSequence);
+            const sectionData = await sectionsService.getSectionData(language, sectionSequence);
 
-        if (!sectionData) {
+            const sectionDetails = {
+                id: sectionData.id,
+                language,
+                sectionSequence,
+                lessons,
+                description: sectionData.description
+            }
+
+            res.render("admin/showSectionDetails", { sectionDetails });
+        } catch (err) {
+            console.log(err);
+
             req.flash("error", "Не съществува такъв раздел");
 
             return res.redirect("/admin");
         }
 
-        const sectionDetails = {
-            id: sectionData.id,
-            language,
-            sectionSequence,
-            lessons,
-            description: sectionData.description
-        }
+    },
+    showPremiumSectionDetails: async (req, res) => {
+        const { language, type } = req.params;
 
-        res.render("admin/showSectionDetails", { sectionDetails })
+        try {
+            const lessons = await lessonsService.getAllPremiumLessonsForAdmin(language, type);
+            const sectionData = await sectionsService.getPremiumSectionData(language, type);
+
+            const sectionDetails = {
+                id: sectionData[0].id,
+                language,
+                lessons,
+                description: sectionData.description,
+                type
+            }
+
+            res.render("admin/showPremiumSectionDetails", { sectionDetails });
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Не съществува такъв раздел");
+
+            return res.redirect("/admin");
+        }
     },
     showAddSectionForm: (req, res) => {
         const { courseId } = req.params;
@@ -63,16 +118,27 @@ module.exports = {
         const newSection = {
             courseId,
             description: section.description,
+            premiumSection: section.premiumSection,
             sectionType: section.sectionTypes
         }
 
-        await sectionsService.addSection(newSection);
+        try {
+            await sectionsService.addSection(newSection);
 
-        req.flash("success", "Успешно създаден раздел!");
+            req.flash("success", "Успешно създаден раздел!");
 
-        res
-            .status(201)
-            .redirect("/admin");
+            res
+                .status(201)
+                .redirect("/admin");
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно създаване на раздел!");
+
+            res
+                .status(404)
+                .redirect("/admin");
+        }
     },
     updateSectionDescription: async (req, res) => {
         const { language, sectionSequence } = req.params;
@@ -84,12 +150,22 @@ module.exports = {
             description
         }
 
-        await sectionsService.updateSectionDescription(updatedSection);
+        try {
+            await sectionsService.updateSectionDescription(updatedSection);
 
-        req.flash("success", "Успешно редактирано описание на раздел!");
+            req.flash("success", "Успешно редактирано описание на раздел!");
 
-        res
-            .status(200)
-            .redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
+            res
+                .status(200)
+                .redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно редактиране на описание на раздел!");
+
+            res
+                .status(404)
+                .redirect("/admin");
+        }
     }
 }

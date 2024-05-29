@@ -6,10 +6,12 @@ module.exports = {
     showCourses: async (req, res) => {
         const courses = await coursesService.getCourses();
         const sections = await sectionsService.getAllSections();
+        const premiumSections = await sectionsService.getAllPremiumSections();
 
         const adminPageDetails = {
             courses,
-            sections
+            sections,
+            premiumSections
         }
 
         res.status(200).render("admin/admin", { adminPageDetails });

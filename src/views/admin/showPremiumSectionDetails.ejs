@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Платени уроци</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+</head>
+<body>
+    <p>
+        <a href="/admin">admin</a> > <u>showSectionDetails</u>
+    </p>
+
+    <%- include('../partials/flashMessages') %>
+
+    <form action="#?_method=PATCH" method="POST">
+        <h2>Редактиране на описанието на раздела</h2>
+        <input type="text" name="description" value="<%= sectionDetails.description %>">
+        <button class="update">Редактиране</button>
+    </form>
+
+    <h2>Уроци</h2>
+
+    <% for (let lesson of sectionDetails.lessons) { %>
+        <p>
+            <a href="/admin/show/<%= sectionDetails.language %>/<%= sectionDetails.type %>/sectionId/<%= sectionDetails.id %>/lesson/<%= lesson.sequence %>">
+                Урок <%= lesson.sequence %>
+                <span>Преглед</span>
+            </a>
+        </p>
+    <% } %>
+    
+    <form id="addLessonForm" action="/admin/add/course/<%= sectionDetails.language %>/<%= sectionDetails.type %>/lesson" method="POST">
+        <button class="add">Добавяне на урок</button>
+    </form>
+</body>
+</html>

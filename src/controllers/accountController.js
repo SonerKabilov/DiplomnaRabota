@@ -42,7 +42,7 @@ module.exports = {
             req.session.user_type = user[0].user_types_id;
             req.session.user_courses = userCourses;
 
-            res.redirect(`/section/1/${parsedLanguageData.language}/lessons`);
+            res.redirect(`/${parsedLanguageData.language}/free/lessons`);
         } else {
             req.flash("error", "Потребителското име или имейл са вече заети");
             res.redirect("/register");
@@ -85,7 +85,7 @@ module.exports = {
             if (req.session.user_type == 1) {
                 res.redirect("/admin");
             } else {
-                res.redirect(`/section/${userCredentials.selectedLanguage}/lessons`);
+                res.redirect(`/${userCredentials.selectedLanguage}/free/lessons`);
             }
         } else {
             req.flash("error", "Грешно потребителско име или парола");

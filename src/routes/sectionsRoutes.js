@@ -6,9 +6,14 @@ const sectionController = require('../controllers/sectionsController');
 const checkUser = require('../middlewares/requireLogin');
 
 router
-    .route("/:language/lessons")
+    .route("/:language/free/lessons")
     .all(checkUser.requireLogin)
-    .get(sectionController.getLessons);
+    .get(sectionController.getFreeSections);
 
-    
+router
+    .route("/:language/premium/lessons")
+    .all(checkUser.requireLogin)
+    .get(sectionController.getPremiumSections);
+
+
 module.exports = router;

@@ -2,45 +2,58 @@ const sectionsRepository = require('../database/repositories/sectionsRepository'
 
 module.exports = {
     getAllSections: async () => {
-        const sections = await sectionsRepository.queryAllSections();
-
-        return sections;
+        return await sectionsRepository.queryAllSections();
+    },
+    getAllPremiumSections: async () => {
+        return await sectionsRepository.queryAllPremiumSections();
     },
     getAllSectionsForCourse: async (language) => {
-        const sections = await sectionsRepository.querySectionsForCourse(language);
-
-        return sections;
+        return await sectionsRepository.querySectionsForCourse(language);
+    },
+    getAllPremiumSectionsForCourse: async (language) => {
+        return await sectionsRepository.queryPremiumSectionsForCourse(language);
     },
     getSectionId: async (sectionDetails) => {
-        const sectionId = await sectionsRepository.querySectionId(sectionDetails);
-
-        return sectionId;
+        return await sectionsRepository.querySectionId(sectionDetails);
+    },
+    getPremiumSectionId: async (sectionDetails) => {
+        return await sectionsRepository.queryPremiumSectionId(sectionDetails);
     },
     getSectionIdByLanguage: async (sectionDetails) => {
-        const sectionId = await sectionsRepository.querySectionIdByLanguage(sectionDetails);
-
-        return sectionId;
+        return await sectionsRepository.querySectionIdByLanguage(sectionDetails);
     },
-    getSectionDescription: async (language, sectionSequence) => {
-        const sectionDescription = await sectionsRepository.getSectionDescription(language, sectionSequence);
-
-        return sectionDescription;
+    getSectionData: async (language, sectionSequence) => {
+        return await sectionsRepository.getSectionData(language, sectionSequence);
+    },
+    getPremiumSectionData: async (language, type) => {
+        return await sectionsRepository.getPremiumSectionData(language, type);
     },
     addSection: async (newSection) => {
-        const lastSequence = await sectionsRepository.getLastSectionSequence(newSection.courseId);
+        let section;
 
-        const sectionToInsert = {
-            ...newSection,
-            sequence: lastSequence + 1,
+        if (newSection.sectionType === "free") {
+            const lastSequence = await sectionsRepository.getLastSectionSequence(newSection.courseId);
+
+            const sectionToInsert = {
+                ...newSection,
+                sequence: lastSequence + 1
+            }
+    
+            section = await sectionsRepository.insertSection(sectionToInsert);
+        } else if (newSection.sectionType === "premium") {
+            const premiumSectionTypeId = await sectionsRepository.getPremiumSectionTypeId(newSection.premiumSection);
+
+            const sectionToInsert = {
+                ...newSection,
+                premiumSectionTypeId
+            }
+
+            section = await sectionsRepository.insertPremiumSection(sectionToInsert);
         }
-
-        const section = await sectionsRepository.insertSection(sectionToInsert);
 
         return section;
     },
     updateSectionDescription: async (updatedSection) => {
-        const section = await sectionsRepository.updateSectionDescription(updatedSection);
-
-        return section;
+        return await sectionsRepository.updateSectionDescription(updatedSection);
     }
 }

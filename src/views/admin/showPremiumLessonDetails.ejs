@@ -16,16 +16,10 @@
 
     <%- include('../partials/flashMessages') %>
 
-    <form action="/admin/show/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>?_method=PATCH" method="POST">
-        <h2>Редактиране на урок</h2>
-        <input type="text" value="<%= lessonDetails.lessonPreview %>" name="lessonPreview">
-        <button class="update">Редактиране</button>
-    </form>
-
     <%- include('../partials/adminPageShowExercises') %>
 
     <p>
-        <a class="add" href="/admin/add/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
+        <a class="add" href="/admin/add/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
     </p>
 
     <script src="/js/adminPanelFunctions.js"></script>

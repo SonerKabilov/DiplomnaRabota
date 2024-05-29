@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 
 app.use("/", accountRouter);
 app.use("/courses", coursesRouter);
-app.use("/section", sectionsRouter);
+app.use("/", sectionsRouter);
 app.use("/admin", adminRouter);
 app.use("/lesson", lessonRouter);
 app.use("/exercises", exercisesRouter);

@@ -2,37 +2,42 @@ const lessonsRepository = require('../database/repositories/lessonsRepository');
 
 module.exports = {
     getAllLessons: async (language) => {
-        const lessons = await lessonsRepository.queryLessonsForUser(language);
-        
-        return lessons;
+        return await lessonsRepository.queryLessonsForUser(language);
     },
     getAllLessonsForAdmin: async (language, sectionSequence) => {
         return lessons = await lessonsRepository.queryLessons(language, sectionSequence);
     },
-    addLesson: async (courseId, sectionSequence) => {
+    getAllPremiumLessonsForAdmin: async (language, type) => {
+        return lessons = await lessonsRepository.queryPremiumLessons(language, type);
+    },
+    addLesson: async (courseId, sectionId) => {
         const lessonSequence = await lessonsRepository.queryLastLessonSequence(courseId);
         
         const lessonToInsert = {
             preview: "",
             sequence: lessonSequence + 1,
-            section_id: sectionSequence
+            section_id: sectionId
         }
 
         await lessonsRepository.insertLesson(lessonToInsert);
     },
-    getLessonId: async (lessonSequence, sectionId) => {
-        const lessonId = await lessonsRepository.getLessonId(lessonSequence, sectionId);
+    addPremiumLesson: async (courseId, sectionId, type) => {
+        const lessonSequence = await lessonsRepository.queryLastPremiumLessonSequence(courseId, type);
+        
+        const lessonToInsert = {
+            sequence: lessonSequence + 1,
+            section_id: sectionId
+        }
 
-        return lessonId;
+        await lessonsRepository.insertPremiumLesson(lessonToInsert);
+    },
+    getLessonId: async (lessonSequence, sectionId) => {
+        return await lessonsRepository.getLessonId(lessonSequence, sectionId);
     },
     getLessonPreview: async (lessonSequence, sectionId) => {
-        const lessonPreview = await lessonsRepository.getLessonPreview(lessonSequence, sectionId);
-
-        return lessonPreview;
+        return await lessonsRepository.getLessonPreview(lessonSequence, sectionId);
     },
     updateLessonPreview: async (lessonToUpdate) => {
-        const updatedPreview = await lessonsRepository.updateLessonPreview(lessonToUpdate);
-
-        return updatedPreview;
+        return await lessonsRepository.updateLessonPreview(lessonToUpdate); updatedPreview;
     }
 }

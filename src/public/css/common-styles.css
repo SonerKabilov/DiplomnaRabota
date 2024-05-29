@@ -2,6 +2,10 @@
     display: none;
 }
 
+.border-none {
+    border: none !important; 
+}
+
 /* LOGIN & REGISTRATION FORMS */
 
 #registerForm {
@@ -164,6 +168,7 @@
 }
 
 .remove {
+    margin-top: 10px;
     background-color: #dc3545;
 }
 

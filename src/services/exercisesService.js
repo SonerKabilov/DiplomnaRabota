@@ -2,9 +2,18 @@ const exercisesRepository = require('../database/repositories/exercisesRepositor
 
 module.exports = {
     getAllLessonExercises: async (sectionId, lessonSequence) => {
-        const exercises = await exercisesRepository.queryLessonExercises(sectionId, lessonSequence);
+        return await exercisesRepository.queryLessonExercises(sectionId, lessonSequence);
+    },
+    getAllPremiumLessonExercises: async (sectionId, type, lessonSequence) => {
+        if(type === "storymode") {
+            const storymodeExerciseId = await exercisesRepository.queryStorymodeExerciseId(sectionId, lessonSequence);
 
-        return exercises;
+            if(storymodeExerciseId) {
+                return await exercisesRepository.queryStorymodeExercises(storymodeExerciseId);
+            }
+        }
+
+        return [];
     },
     addExercise: async (newExercise) => {
         // Removes blank option inputs

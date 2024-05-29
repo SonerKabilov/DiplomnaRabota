@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+    <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
+</head>
+<body class="lessonsBody">
+    <%- include('../partials/header') %>
+
+    <main class="sectionsMain">
+        <section class = "sections">
+            <select name="sectionTypes" class="sectionTypes">
+                <option value="1" url="/<%= language %>/free/lessons">Безплатни раздели</option>
+                <option value="2" url="/<%= language %>/premium/lessons" selected>Платени раздели</option>
+            </select>
+
+            <% for (let section of sections) { %>
+                <div class="section" section-id="<%= section.id %>">
+                    <p><%= section.type %></p>
+                    <button class="showLessonsBtn">Show Lessons</button>
+                </div>
+            <% } %>
+        </section>
+    </main>
+
+    <script src="/js/togglePopover.js"></script>
+    <script src="/js/showSections.js" sections = "<%= JSON.stringify(sections) %>"></script>
+</body>
+</html>

@@ -81,7 +81,7 @@ module.exports = {
     },
     updateCompletedLesson: async (req, res) => {
         const userId = req.session.user_id;
-        const { lessonSequence, language, sectionSequence } = req.params;
+        const { lessonSequence, language } = req.params;
 
         const userData = {
             userId,
@@ -97,6 +97,18 @@ module.exports = {
         const currency = await accountService.getUserCurrency(userId);
         req.session.user_currency = currency;
 
-        res.redirect(`/section/${sectionSequence}/${language}/lessons`);
+        res.redirect(`/${language}/free/lessons`);
+    },
+    showAddStorymodeExerciseForm: async (req, res) => {
+        const { type, lessonSequence, language, sectionId } = req.params;
+
+        res.render("admin/addStorymodeExercise", { type, lessonSequence, language, sectionId });
+    },
+    addStorymodeExercise: async (req, res) => {
+        const { type, lessonSequence, language, sectionId } = req.params;
+        const exercise = req.body;
+        
+        console.log(exercise);
+        res.send(exercise);
     }
 }
