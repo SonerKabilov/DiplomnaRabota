@@ -59,6 +59,27 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },    
+    queryPremiumLessonsForUser: async (language) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT l.sequence, st.type
+                FROM premium_lessons l
+                INNER JOIN premium_sections s
+                ON l.premium_sections_id = s.id
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                INNER JOIN premium_section_types st
+                ON s.premium_section_types_id = st.id
+                WHERE c.language = ?
+                ORDER BY l.sequence
+            `, [language]);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     },
     queryLastLessonSequence: async (courseId) => {
         try {
@@ -112,6 +133,24 @@ module.exports = {
                 SELECT id
                 FROM free_lessons
                 WHERE sequence = ? AND sections_id = ?
+            `, [sequence, sectionId]);
+
+            if(result.length === 0) {
+                return 0;
+            }
+
+            return result[0].id;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    getPremiumLessonId: async (sequence, sectionId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT id
+                FROM premium_lessons
+                WHERE sequence = ? AND premium_sections_id = ?
             `, [sequence, sectionId]);
 
             if(result.length === 0) {

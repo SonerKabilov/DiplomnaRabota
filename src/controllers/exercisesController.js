@@ -107,8 +107,27 @@ module.exports = {
     addStorymodeExercise: async (req, res) => {
         const { type, lessonSequence, language, sectionId } = req.params;
         const exercise = req.body;
-        
-        console.log(exercise);
-        res.send(exercise);
+
+        try {
+            const lessonId = await lessonsService.getPremiumLessonId(lessonSequence, sectionId);
+
+            const exerciseDetails = {
+                lessonId,
+                task: exercise.task,
+                img: exercise.img
+            }
+    
+            await exercisesService.addStorymodeExercise(exerciseDetails);
+    
+            res
+                .status(201)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        } catch (err) {
+            req.flash("error", "Грешни данни за упражнение!");
+
+            res
+                .status(400)
+                .redirect(`/admin/add/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}/exercise`);
+        }
     }
 }

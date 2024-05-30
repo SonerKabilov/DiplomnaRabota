@@ -16,8 +16,9 @@
 
     <%- include('../partials/flashMessages') %>
 
-    <%- include('../partials/adminPageShowExercises') %>
-
+    <% for (let exercise of lessonDetails.exercises) { %>
+        <p><%= exercise.task %></p>
+    <% } %>
     <p>
         <a class="add" href="/admin/add/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
     </p>

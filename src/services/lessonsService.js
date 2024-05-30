@@ -4,6 +4,9 @@ module.exports = {
     getAllLessons: async (language) => {
         return await lessonsRepository.queryLessonsForUser(language);
     },
+    getAllPremiumLessons: async (language) => {
+        return await lessonsRepository.queryPremiumLessonsForUser(language);
+    },
     getAllLessonsForAdmin: async (language, sectionSequence) => {
         return lessons = await lessonsRepository.queryLessons(language, sectionSequence);
     },
@@ -33,6 +36,9 @@ module.exports = {
     },
     getLessonId: async (lessonSequence, sectionId) => {
         return await lessonsRepository.getLessonId(lessonSequence, sectionId);
+    },
+    getPremiumLessonId: async (lessonSequence, sectionId) => {
+        return await lessonsRepository.getPremiumLessonId(lessonSequence, sectionId);
     },
     getLessonPreview: async (lessonSequence, sectionId) => {
         return await lessonsRepository.getLessonPreview(lessonSequence, sectionId);

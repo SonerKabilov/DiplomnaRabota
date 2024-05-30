@@ -14,10 +14,9 @@ addOptionButton.addEventListener("click", function () {
     imageDiv.appendChild(imageInputsDiv);
 
     const inputSequence = document.createElement("input");
-    inputSequence.classList.add("imageSequence");
+    inputSequence.classList.add("imageSequence", "disabled");
     inputSequence.type = "text";
     inputSequence.name = "img[sequence]";
-    inputSequence.disabled = true;
     inputSequence.value = imgLength;
     imageInputsDiv.appendChild(inputSequence);
 

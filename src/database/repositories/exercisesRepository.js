@@ -53,7 +53,8 @@ module.exports = {
     queryStorymodeExercises: async (storymodeExerciseId) => {
         try {
             const [result] = await pool.query(`
-                SELECT s.*, *.i
+                SELECT s.*, i.*
+                FROM storymode_exercises s
                 INNER JOIN storymode_images i
                 ON i.storymode_exercise_id = s.id
                 WHERE s.id = ?
@@ -78,6 +79,30 @@ module.exports = {
             exerciseToInsert.taskTypesId,
             exerciseToInsert.optionTypesId
             ]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    insertStorymodeExercise: async (exerciseToInsert) => {
+        try {
+            const addExerciseQuery = await pool.query(`
+                INSERT INTO storymode_exercises (task, premium_lessons_id)
+                VALUES (?, ?)
+            `, [exerciseToInsert.task, exerciseToInsert.lessonId]);
+
+            return addExerciseQuery[0].insertId;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    insertStorymodeImages: async (url, sequence, lastInsertedId) => {
+        try {
+            await pool.query(`
+                INSERT INTO storymode_images (url, sequence, storymode_exercise_id)
+                VALUES (?, ?, ?)
+            `, [url, sequence, lastInsertedId]);
         } catch (err) {
             console.error(err);
             throw err;

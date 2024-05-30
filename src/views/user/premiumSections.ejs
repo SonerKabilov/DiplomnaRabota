@@ -25,6 +25,19 @@
                 </div>
             <% } %>
         </section>
+
+        <section class="lessons">
+        <% for (let lesson of lessons) { %>
+            <div class="lesson" lesson-section="<%= lesson.sections_id %>">
+
+                <i class="fa-solid fa-star" id="popoverBtn<%= lesson.sequence %>"></i>
+
+                <div class="popover" id="myPopover<%= lesson.id %>">
+                    <a class="startLesson" href="/exercises/<%= language %>/<%= lesson.type %>/lesson/<%= lesson.sequence %>">Старт</a>
+                </div>
+            </div>
+        <% } %>
+        </section>
     </main>
 
     <script src="/js/togglePopover.js"></script>

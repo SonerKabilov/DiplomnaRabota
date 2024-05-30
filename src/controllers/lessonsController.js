@@ -42,6 +42,8 @@ module.exports = {
                 exercises,
                 lessonPreview: ""
             }
+
+            console.log(exercises);
     
             res.render("admin/showPremiumLessonDetails", { lessonDetails });
         } catch (err) {
@@ -49,7 +51,7 @@ module.exports = {
 
             req.flash("error", "Урокът не съществува!");
 
-            return res.redirect(`/admin/show/${language}/${sectionSequence}/lessons`);
+            return res.redirect(`/admin`);
         }
     },
     addLesson: async (req, res) => {

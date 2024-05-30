@@ -45,10 +45,11 @@ module.exports = {
             }
 
             const sections = await sectionsService.getAllPremiumSectionsForCourse(language);
+            const lessons = await lessonsService.getAllPremiumLessons(language);
 
             res
                 .status(200)
-                .render("user/premiumSections", { userData, language, sections });
+                .render("user/premiumSections", { userData, language, sections, lessons });
         } catch (error) {
             console.error(error);
 
