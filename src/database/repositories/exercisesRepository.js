@@ -30,30 +30,40 @@ module.exports = {
             throw err;
         }
     },
-    queryStorymodeExerciseId: async (sectionId, lessonSequence) => {
+    queryFreeExercise: async (exerciseId) => {
         try {
             const [result] = await pool.query(`
-                SELECT s.id
+                SELECT correct_answer
+                FROM free_exercises
+                WHERE id = ?
+            `, [exerciseId]);
+
+            return result[0].correct_answer;
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    },
+    queryStorymodeExercise: async (sectionId, lessonSequence) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT s.id, s.task
                 FROM storymode_exercises s
                 INNER JOIN premium_lessons pl
                 ON s.premium_lessons_id = pl.id
                 WHERE pl.sequence = ? AND pl.premium_sections_id = ?
             `, [lessonSequence, sectionId]);
 
-            if(result.length === 0) {
-                return false;
-            }
-
-            return result[0].id;
+            return result;
         } catch (err) {
             console.error(err);
             throw err;
         }
     },
-    queryStorymodeExercises: async (storymodeExerciseId) => {
+    queryStorymodeImages: async (storymodeExerciseId) => {
         try {
             const [result] = await pool.query(`
-                SELECT s.*, i.*
+                SELECT i.*
                 FROM storymode_exercises s
                 INNER JOIN storymode_images i
                 ON i.storymode_exercise_id = s.id
@@ -66,19 +76,33 @@ module.exports = {
             throw err;
         }
     },
+    queryStorymodeImageSequence: async (url, exerciseId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT sequence
+                FROM storymode_images
+                WHERE url = ? AND storymode_exercise_id = ?
+            `, [url, exerciseId]);
+
+            return result[0].sequence
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
     insertExercise: async (exerciseToInsert) => {
         try {
             await pool.query(`
                 INSERT INTO free_exercises (task, options, correct_answer, lessons_id, exercise_task_types_id, exercise_option_types_id)
                 VALUES (?, ?, ?, ?, ?, ?)
-            `, 
-            [exerciseToInsert.task,
-            exerciseToInsert.options,
-            exerciseToInsert.correctAnswer,
-            exerciseToInsert.lessonId,
-            exerciseToInsert.taskTypesId,
-            exerciseToInsert.optionTypesId
-            ]);
+            `,
+                [exerciseToInsert.task,
+                exerciseToInsert.options,
+                exerciseToInsert.correctAnswer,
+                exerciseToInsert.lessonId,
+                exerciseToInsert.taskTypesId,
+                exerciseToInsert.optionTypesId
+                ]);
         } catch (err) {
             console.error(err);
             throw err;

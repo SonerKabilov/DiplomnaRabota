@@ -36,6 +36,7 @@ const lessonRouter = require('./routes/lessonsRoutes');
 const exercisesRouter = require('./routes/exercisesRoutes');
 const accountRouter = require('./routes/accountRoutes');
 const flashCardRouter = require('./routes/flashcardRoutes');
+const shopRouter = require('./routes/shopRoutes');
 
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
@@ -50,6 +51,7 @@ app.use("/admin", adminRouter);
 app.use("/lesson", lessonRouter);
 app.use("/exercises", exercisesRouter);
 app.use("/flashcards", flashCardRouter);
+app.use("/shop", shopRouter);
 
 app.get('*', (req, res) => {
     res.send("404 NOT FOUND");

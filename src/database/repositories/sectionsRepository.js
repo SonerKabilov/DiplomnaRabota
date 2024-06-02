@@ -54,7 +54,7 @@ module.exports = {
     queryPremiumSectionsForCourse: async (language) => {
         try {
             const [result] = await pool.query(`
-                SELECT ps.description, pt.type, c.language
+                SELECT ps.id, ps.description, pt.type, c.language
                 FROM premium_sections ps
                 INNER JOIN courses c
                 ON ps.courses_id = c.id
@@ -212,6 +212,24 @@ module.exports = {
                 ON ps.premium_section_types_id = pt.id
                 WHERE pt.type = ? AND ps.courses_id = ?
             `, [sectionDetails.type, sectionDetails.courseId]);
+
+            return result[0].id;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    queryPremiumSectionIdByLanguage: async (sectionDetails) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT ps.id
+                FROM premium_sections ps
+                INNER JOIN premium_section_types pt
+                ON ps.premium_section_types_id = pt.id
+                INNER JOIN courses c
+                ON ps.courses_id = c.id
+                WHERE pt.type = ? AND c.language = ?
+            `, [sectionDetails.type, sectionDetails.language]);
 
             return result[0].id;
         } catch (err) {

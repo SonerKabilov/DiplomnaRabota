@@ -1,4 +1,9 @@
-const exercisesJson = document.currentScript.getAttribute("exercises");
+const sectionId = document.currentScript.getAttribute("sectionId");
+const lessonSequence = document.currentScript.getAttribute("lessonSequence");
+const sectionSequence = document.currentScript.getAttribute("sectionSequence");
+const language = document.currentScript.getAttribute("lang");
+
+const exerciseSectionDiv = document.querySelector(".exerciseSection");
 const nextExerciseDiv = document.querySelector(".nextExercise");
 const showNextButton = document.querySelector("#showNext");
 const progressBar = document.querySelector("#myBar");
@@ -14,8 +19,7 @@ const audio = new Audio();
 let speech = new SpeechSynthesisUtterance();
 let currentExerciseIndex = 0;
 let progressBarCounter = 1;
-
-const exercises = JSON.parse(exercisesJson);
+let exercises = [];
 
 // Function to shuffle an array using Fisher-Yates algorithm
 const shuffleArray = (array) => {
@@ -25,7 +29,31 @@ const shuffleArray = (array) => {
     }
 }
 
-shuffleArray(exercises);
+const getExercises = async () => {
+    try {
+        const response = await fetch(`/exercises/section/${sectionId}/lesson/${lessonSequence}/get-exercises`, {
+            method: "GET",
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching exercises:', error);
+    }
+}
+
+const initializeExercises = async () => {
+    exercises = await getExercises();
+    shuffleArray(exercises);
+
+    if (exercises && exercises.length > 0) {
+        showExercise();
+    } else {
+        console.error('No exercises found');
+    }
+};
+
+document.addEventListener('DOMContentLoaded', initializeExercises);
 
 const showExercise = () => {
     currentDiv.innerHTML = '';
@@ -34,14 +62,12 @@ const showExercise = () => {
 
     if (exercise) {
         showTask(exercise);
-
         showOptions(exercise);
     } else {
         checkAnswerDiv.classList.add("displayNone");
         topDiv.classList.add("displayNone");
 
-        const completedDiv = document.querySelector(".lessonCompleted");
-        completedDiv.classList.remove("displayNone");
+        lessonCompleted();
 
         audio.src = "/sounds/goodresult-82807.mp3";
         audio.play();
@@ -74,6 +100,7 @@ const showTask = (exercise) => {
 
 const showOptions = (exercise) => {
     const correctAnswer = exercise.correct_answer;
+    const exerciseId = exercise.id;
     const options = exercise.options;
     shuffleArray(options);
 
@@ -96,13 +123,13 @@ const showOptions = (exercise) => {
     }
 
     if (exercise.option_type === "multiple_choice") {
-        checkMultipleChoiceAnswer(correctAnswer);
+        checkMultipleChoiceAnswer(exerciseId, correctAnswer);
     } else if (exercise.option_type === "make_sentence") {
-        checkMakeSentenceAnswer(correctAnswer);
+        checkMakeSentenceAnswer(exerciseId, correctAnswer);
     }
 }
 
-const checkMakeSentenceAnswer = (correctAnswer) => {
+const checkMakeSentenceAnswer = (exerciseId, correctAnswer) => {
     const makeSentenceDiv = document.querySelector('.makeSentenceDiv');
     const optionsDiv = document.querySelector(".optionsDiv");
 
@@ -117,7 +144,7 @@ const checkMakeSentenceAnswer = (correctAnswer) => {
             userAnswer.push(button.textContent);
             makeSentenceDiv.appendChild(button);
 
-            if(userAnswer.length > 0) {
+            if (userAnswer.length > 0) {
                 checkAnswerButton.classList.remove("disabled");
             }
         }
@@ -131,16 +158,16 @@ const checkMakeSentenceAnswer = (correctAnswer) => {
             userAnswer.splice(index, 1);
             optionsDiv.appendChild(button);
 
-            if(userAnswer.length === 0) {
+            if (userAnswer.length === 0) {
                 checkAnswerButton.classList.add("disabled");
             }
         }
     });
 
-    const handleCheckAnswerButtonClick = () => {
+    const handleCheckAnswerButtonClick = async () => {
         userAnswer = userAnswer.join(" ");
 
-        if (isAnswerCorrect(userAnswer, correctAnswer)) {
+        if (await isAnswerCorrect(exerciseId, userAnswer)) {
             audio.src = "/sounds/short-success-sound-glockenspiel-treasure-video-game-6346.mp3";
 
             progressBarCounter += 100 / exercises.length;
@@ -159,7 +186,7 @@ const checkMakeSentenceAnswer = (correctAnswer) => {
             checkAnswerDiv.classList.add("displayNone");
 
             nextExerciseHeading.textContent = "Правилният отговор е:"
-            nextExerciseParagraph.textContent =  correctAnswer;
+            nextExerciseParagraph.textContent = correctAnswer;
         }
 
         audio.play();
@@ -177,14 +204,14 @@ const checkMakeSentenceAnswer = (correctAnswer) => {
     checkAnswerButton.addEventListener("click", handleCheckAnswerButtonClick);
 
     const handleShowNextButtonClick = () => {
-        handleButtonClick(userAnswer, correctAnswer);
+        handleButtonClick(exerciseId, userAnswer);
         showNextButton.removeEventListener("click", handleShowNextButtonClick);
     };
 
     showNextButton.addEventListener("click", handleShowNextButtonClick);
 }
 
-const checkMultipleChoiceAnswer = async (correctAnswer) => {
+const checkMultipleChoiceAnswer = async (exerciseId, correctAnswer) => {
     const buttons = document.querySelectorAll(".optionButton");
 
     let userAnswer;
@@ -211,8 +238,8 @@ const checkMultipleChoiceAnswer = async (correctAnswer) => {
         })
     }
 
-    const handleCheckAnswerButtonClick = () => {
-        if (isAnswerCorrect(userAnswer, correctAnswer)) {
+    const handleCheckAnswerButtonClick = async () => {
+        if (await isAnswerCorrect(exerciseId, userAnswer)) {
             audio.src = "/sounds/short-success-sound-glockenspiel-treasure-video-game-6346.mp3";
 
             progressBarCounter += 100 / exercises.length;
@@ -231,7 +258,7 @@ const checkMultipleChoiceAnswer = async (correctAnswer) => {
             checkAnswerDiv.classList.add("displayNone");
 
             nextExerciseHeading.textContent = "Правилният отговор е:"
-            nextExerciseParagraph.textContent =  correctAnswer;
+            nextExerciseParagraph.textContent = correctAnswer;
         }
 
         audio.play();
@@ -247,14 +274,14 @@ const checkMultipleChoiceAnswer = async (correctAnswer) => {
     checkAnswerButton.addEventListener("click", handleCheckAnswerButtonClick);
 
     const handleShowNextButtonClick = () => {
-        handleButtonClick(userAnswer, correctAnswer);
+        handleButtonClick(exerciseId, userAnswer);
         showNextButton.removeEventListener("click", handleShowNextButtonClick);
     };
 
     showNextButton.addEventListener("click", handleShowNextButtonClick);
 }
 
-const handleButtonClick = (userAnswer, correctAnswer) => {
+const handleButtonClick = async (exerciseId, userAnswer) => {
     nextExerciseDiv.classList.add("displayNone");
     nextExerciseDiv.classList.remove("wrongAnswer");
     nextExerciseDiv.classList.remove("correctAnswer");
@@ -262,7 +289,7 @@ const handleButtonClick = (userAnswer, correctAnswer) => {
 
     nextExerciseParagraph.textContent = "";
 
-    if (isAnswerCorrect(userAnswer, correctAnswer)) {
+    if (await isAnswerCorrect(exerciseId, userAnswer)) {
         currentExerciseIndex++;
     } else {
         console.log("greshka");
@@ -271,12 +298,17 @@ const handleButtonClick = (userAnswer, correctAnswer) => {
     showExercise();
 };
 
-const isAnswerCorrect = (userAnswer, correctAnswer) => {
-    if (userAnswer === correctAnswer) {
-        return true;
-    }
+const isAnswerCorrect = async (exerciseId, userAnswer) => {
+    try {
+        const response = await fetch(`/exercises/${exerciseId}/${userAnswer}/check-answer`, {
+            method: "GET",
+            headers: { 'Content-Type': 'application/json' }
+        });
 
-    return false;
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching exercises:', error);
+    }
 }
 
 const textToSpeach = (text) => {
@@ -288,5 +320,22 @@ const textToSpeach = (text) => {
     window.speechSynthesis.speak(speech);
 }
 
-showExercise();
+const lessonCompleted = () => {
+    const lessonCompletedDiv = document.createElement("div");
+    lessonCompletedDiv.classList.add("lessonCompleted");
+    exerciseSectionDiv.appendChild(lessonCompletedDiv);
 
+    const formCompleted = document.createElement("form");
+    formCompleted.id = "completed";
+    formCompleted.action = `/exercises/${language}/section/${sectionSequence}/lesson/${lessonSequence}?_method=PATCH`;
+    formCompleted.method = "POST";
+    lessonCompletedDiv.appendChild(formCompleted);
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = "All exercises completed!";
+    formCompleted.appendChild(paragraph);
+
+    const btnCompleted = document.createElement("button");
+    btnCompleted.textContent = "Обратно";
+    formCompleted.appendChild(btnCompleted);
+}

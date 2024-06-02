@@ -281,6 +281,13 @@ main {
     text-align: center;
 }
 
+.lessonSequence {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: #ffd900;
+    font-family: cursive;
+}
+
 .section,
 .lesson {
     margin-bottom: 2rem;
@@ -462,6 +469,54 @@ main {
     align-items: center;
 }
 
+
+/* STORYMODE */
+.images {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.image-container {
+    position: relative;
+    width: 25%; /* Adjust the width as needed */
+    height: auto; /* Adjust the height as needed */
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-container.overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Change the color and opacity as needed */
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    background-color: white;
+    padding: 0.5rem 1rem;
+    z-index: 1;
+}
+
+.image-container.overlay .overlay-text {
+    opacity: 0.8;
+}
 
 /* FLASHCARDS */
 

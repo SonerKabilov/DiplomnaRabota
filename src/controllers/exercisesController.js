@@ -14,14 +14,61 @@ module.exports = {
                 sectionSequence
             }
 
-            const sectionId = await sectionsService.getSectionIdByLanguage(sectionDetails)
+            const sectionId = await sectionsService.getSectionIdByLanguage(sectionDetails);
 
-            const exercises = await exercisesService.getAllLessonExercises(sectionId, lessonSequence);
-
-            res.status(200).render("user/exercises", { exercises, lessonSequence, sectionSequence, language });
+            res.status(200).render("user/exercises", { sectionId, lessonSequence, sectionSequence, language });
         } catch (error) {
             console.error(error);
             res.status(500).send("Internal Server Error");
+        }
+    },
+    getFreeExercises: async (req, res) => {
+        try {
+            const { sectionId, lessonSequence } = req.params;
+
+            const exercises = await exercisesService.getAllLessonExercises(sectionId, lessonSequence);
+
+            res.json(exercises);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Internal Server Error");
+        }
+    },
+    showPremiumExercises: async (req, res) => {
+        const { language, type, lessonSequence } = req.params;
+
+        let sectionDetails = {
+            language,
+            type,
+            lessonSequence
+        }
+
+        const id = await sectionsService.getPremiumSectionIdByLanguage(sectionDetails);
+
+        sectionDetails = {
+            ...sectionDetails,
+            id
+        }
+
+        if (type === "storymode") {
+            res.render("user/storymodeExercises", { sectionDetails });
+        }
+    },
+    getStorymodeImages: async (req, res) => {
+        const { id, type, lessonSequence } = req.params;
+
+        try {
+            const storymodeExercises = await exercisesService.getAllPremiumLessonExercises(id, type, lessonSequence);
+
+            const storymodeExerciseData = storymodeExercises.storymodeExercise.map((exercise) => ({
+                id: exercise.id,
+                task: exercise.task,
+                images: storymodeExercises.storymodeImages || []
+            }));
+
+            res.json(storymodeExerciseData);
+        } catch (err) {
+            res.json([]);
         }
     },
     showAddExerciseForm: async (req, res) => {
@@ -116,9 +163,9 @@ module.exports = {
                 task: exercise.task,
                 img: exercise.img
             }
-    
+
             await exercisesService.addStorymodeExercise(exerciseDetails);
-    
+
             res
                 .status(201)
                 .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
@@ -129,5 +176,17 @@ module.exports = {
                 .status(400)
                 .redirect(`/admin/add/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}/exercise`);
         }
+    },
+    checkUserAnswer: async (req, res) => {
+        const { exerciseId, userAnswer } = req.params;
+
+        const userAnswerData = {
+            exerciseId,
+            userAnswer
+        }
+
+        const result = await exercisesService.checkUserAnswer(userAnswerData);
+
+        res.json(result);
     }
 }

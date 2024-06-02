@@ -19,6 +19,9 @@ module.exports = {
     getPremiumSectionId: async (sectionDetails) => {
         return await sectionsRepository.queryPremiumSectionId(sectionDetails);
     },
+    getPremiumSectionIdByLanguage: async (sectionDetails) => {
+        return await sectionsRepository.queryPremiumSectionIdByLanguage(sectionDetails);
+    },
     getSectionIdByLanguage: async (sectionDetails) => {
         return await sectionsRepository.querySectionIdByLanguage(sectionDetails);
     },

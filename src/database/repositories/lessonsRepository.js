@@ -63,7 +63,7 @@ module.exports = {
     queryPremiumLessonsForUser: async (language) => {
         try {
             const [result] = await pool.query(`
-                SELECT l.sequence, st.type
+                SELECT l.premium_sections_id, l.sequence, st.type
                 FROM premium_lessons l
                 INNER JOIN premium_sections s
                 ON l.premium_sections_id = s.id

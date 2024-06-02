@@ -6,10 +6,15 @@ module.exports = {
     },
     getAllPremiumLessonExercises: async (sectionId, type, lessonSequence) => {
         if (type === "storymode") {
-            const storymodeExerciseId = await exercisesRepository.queryStorymodeExerciseId(sectionId, lessonSequence);
+            const storymodeExercise = await exercisesRepository.queryStorymodeExercise(sectionId, lessonSequence);
 
-            if (storymodeExerciseId) {
-                return await exercisesRepository.queryStorymodeExercises(storymodeExerciseId);
+            if (storymodeExercise.length > 0) {
+                const storymodeImages = await exercisesRepository.queryStorymodeImages(storymodeExercise[0].id);
+
+                return {
+                    storymodeExercise,
+                    storymodeImages
+                };
             }
         }
 
@@ -81,10 +86,10 @@ module.exports = {
                     return false;
                 }
             }
-    
+
             try {
                 const lastInsertedId = await exercisesRepository.insertStorymodeExercise(exerciseDetails);
-    
+
                 for (const [sequence, url] of images) {
                     await exercisesRepository.insertStorymodeImages(url, sequence, lastInsertedId);
                 }
@@ -95,5 +100,14 @@ module.exports = {
             console.log("Different Length");
             return false;
         }
+    },
+    checkUserAnswer: async (userAnswerData) => {
+        const exercise = await exercisesRepository.queryFreeExercise(userAnswerData.exerciseId);
+
+        if (exercise === userAnswerData.userAnswer) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -28,12 +28,12 @@
 
         <section class="lessons">
         <% for (let lesson of lessons) { %>
-            <div class="lesson" lesson-section="<%= lesson.sections_id %>">
-
+            <div class="lesson" lesson-section="<%= lesson.premium_sections_id %>">
                 <i class="fa-solid fa-star" id="popoverBtn<%= lesson.sequence %>"></i>
 
                 <div class="popover" id="myPopover<%= lesson.id %>">
-                    <a class="startLesson" href="/exercises/<%= language %>/<%= lesson.type %>/lesson/<%= lesson.sequence %>">Старт</a>
+                    <h3 class="lessonSequence">Урок <%= lesson.sequence %></h3>
+                    <a class="startLesson" href="/exercises/<%= language %>/<%= lesson.type %>/lesson/<%= lesson.sequence %>">Начало</a>
                 </div>
             </div>
         <% } %>
