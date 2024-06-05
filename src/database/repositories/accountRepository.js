@@ -122,5 +122,17 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    updateCurrency: async (currency, userId) => {
+        try {
+            await pool.query(`
+                UPDATE users
+                SET currency = currency + ?
+                WHERE id = ?
+            `, [currency, userId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

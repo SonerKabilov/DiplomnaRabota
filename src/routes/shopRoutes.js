@@ -10,5 +10,15 @@ router
     .all(checkUser.requireLogin)
     .get(shopController.showShopPage);
 
+router
+    .route("/create-checkout-session")
+    .all(checkUser.requireLogin)
+    .post(shopController.makePayment);
+
+router
+    .route("/item/:id/payment")
+    .all(checkUser.requireLogin)
+    .get(shopController.showStripeForm);
+
 
 module.exports = router;

@@ -1,3 +1,28 @@
+/* COMMONG */
+.capitalize {
+    text-transform: capitalize;
+}
+
+.startLesson,
+.shopItemButton {
+    transition: 0.5s;
+    text-decoration: none;
+    background-color: #ffd900;
+    border: 1px solid #ffd900;
+    color: white;
+    font-size: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.startLesson:hover,
+.shopItemButton:hover {
+    transition: 0.5s;
+    border: 1px solid #ffd900;
+    background-color: white;
+    color: #ffd900;
+}
+
 body {
     margin: 0 auto;
     background-color: #f8f6f3;
@@ -245,22 +270,7 @@ main {
 }
 
 .startLesson {
-    transition: 0.5s;
-    text-decoration: none;
-    background-color: #ffd900;
-    border: 1px solid #ffd900;
-    color: white;
     padding: 1rem 4rem;
-    font-size: 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.startLesson:hover {
-    transition: 0.5s;
-    border: 1px solid #ffd900;
-    background-color: white;
-    color: #ffd900;
 }
 
 .sections,
@@ -807,7 +817,8 @@ main {
     margin-bottom: 2rem;
 }
 
-.fa-coins {
+.fa-coins,
+.fa-ticket {
     color: #8c7700;
 }
 
@@ -819,4 +830,62 @@ main {
     padding: 1rem 1.2rem;
     background-color: #f8f6f3;
     margin-right: 15px;
+}
+
+
+/* SHOP */
+.shop {
+    text-align: center;
+}
+
+.membershipItems,
+.coinsItems {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.shopItem {
+    background-color: white;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    border: 1px solid #ffd900;
+}
+
+.shopItemIcon i {
+    font-size: 4rem;
+}
+
+.shopItemButton {
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+}
+
+
+/* STRIPE PAGE */
+.flex {
+    display: flex;
+}
+.payment {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+
+.payment input {
+    width: 100%;
+}
+
+#card-holder-name,
+.InputElement {
+    padding:  0.5rem;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.ElementsApp input {
+    border: 1px solid gray !important;
+    background-color: white  !important;
 }

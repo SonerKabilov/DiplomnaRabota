@@ -20,6 +20,7 @@
     "express-session": "^1.18.0",
     "method": "^2.0.0",
     "method-override": "^3.0.0",
-    "mysql2": "^3.9.2"
+    "mysql2": "^3.9.2",
+    "stripe": "^15.9.0"
   }
 }

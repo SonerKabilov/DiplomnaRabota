@@ -69,8 +69,9 @@ module.exports = {
         }
     },
     getUserCurrency: async (userId) => {
-        const currency = await accountRepository.getUserCurrency(userId);
-
-        return currency;
+        return await accountRepository.getUserCurrency(userId);
+    },
+    updateCurrency: async (currency, userId) => {
+        return await accountRepository.updateCurrency(currency, userId);
     }
 }

@@ -11,6 +11,35 @@
 <body>
     <%- include('../partials/header') %>
 
-    <h1>Магазин</h1>
+    <div class="shop">
+        <h1>Магазин</h1>
+
+        <p>Абонаменти</p>
+        <div class="membershipItems">
+            <% for(const membership of shopItems.memberships) { %>
+                <div class="shopItem">
+                    <span class="shopItemIcon"><i class="fa-solid fa-ticket"></i></span>
+                    <p><%= membership.quantity %> дена</p>
+                    <button class="shopItemButton"
+                        data-id="<%= membership.id %>" 
+                        data-payment-type="<%= membership.payment_type %>">
+
+                        <%= membership.cost %> <i class="fa-solid fa-coins"></i>
+                    </button>
+                </div>
+            <% } %>
+        </div>
+
+        <p>Монети</p>
+        <div class="coinsItems">
+            <% for(const coins of shopItems.coins) { %>
+                <div class="shopItem">
+                    <span class="shopItemIcon"><i class="fa-solid fa-coins"></i></span>
+                    <p><%= coins.quantity %> монети</p>
+                    <a class="shopItemButton" href="/shop/item/<%= coins.id %>/payment"><%= coins.cost %> лв.</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
 </body>
 </html>
