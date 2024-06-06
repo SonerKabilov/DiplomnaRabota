@@ -10,50 +10,45 @@
 </head>
 
 <body>
-    <div class="adminPanel">
-        <%- include('../partials/logoutForm') %>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
 
-        <%- include('../partials/flashMessages') %>
+        <div class="content">
+            <%- include('../partials/flashMessages') %>
+
+            <h2>Раздели</h2>
+
+            <% for (let course of adminPageDetails.courses) { %>
+                <div class="parent">
+                    <button><%= course.language %></button>
         
-        <h2>Добавяне на нов потребител</h2>
-        <a href="/admin/create/account">Добавяне на администраторски профил</a>
-
-        <h2>Добавяне на курс</h2>
-        <a href="/admin/add/course">Добавяне на курс</a>
-
-        <h2>Преглед на раздели</h2>
-
-        <% for (let course of adminPageDetails.courses) { %>
-            <div class="parent">
-                <button><%= course.language %></button>
-    
-                <div class="hidden">
-                    <h4>Безплатни раздели</h4>
-                    <% for (let section of adminPageDetails.sections) { %>
-                        <% if (section.courses_id === course.id) { %>
-                            <p>
-                                <a href="admin/show/<%= section.language %>/section/<%= section.sequence %>/lessons">Раздел <%= section.sequence %> - <%= section.description %></a>
-                            </p>
+                    <div class="hidden">
+                        <h4>Безплатни раздели</h4>
+                        <% for (let section of adminPageDetails.sections) { %>
+                            <% if (section.courses_id === course.id) { %>
+                                <p>
+                                    <a href="admin/show/<%= section.language %>/section/<%= section.sequence %>/lessons">Раздел <%= section.sequence %> - <%= section.description %></a>
+                                </p>
+                            <% } %>
                         <% } %>
-                    <% } %>
 
-                    <h4>Платени раздели</h4>
-                    <% for (let premiumSection of adminPageDetails.premiumSections) { %>
-                        <% if (premiumSection.courses_id === course.id) { %>
-                            <p>
-                                <a href="/admin/show/<%= premiumSection.language %>/<%= premiumSection.type %>/lessons"><%= premiumSection.type %></a>
-                            </p>
+                        <h4>Платени раздели</h4>
+                        <% for (let premiumSection of adminPageDetails.premiumSections) { %>
+                            <% if (premiumSection.courses_id === course.id) { %>
+                                <p>
+                                    <a href="/admin/show/<%= premiumSection.language %>/<%= premiumSection.type %>/lessons"><%= premiumSection.type %></a>
+                                </p>
+                            <% } %>
                         <% } %>
-                    <% } %>
 
-                    <p>
-                        <a class="add" href="admin/add/<%= course.id %>/section">Добавяне на раздел</a>
-                    </p>
+                        <p>
+                            <a class="add" href="admin/add/<%= course.id %>/section">Добавяне на раздел</a>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            <% } %>
         </div>
-        <% } %>
-
+    </div>
     <script src="/js/adminPanelFunctions.js"></script>
 </body>
 

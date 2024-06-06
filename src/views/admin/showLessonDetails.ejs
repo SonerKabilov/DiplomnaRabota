@@ -10,62 +10,64 @@
 </head>
 
 <body>
-    <p>
-        <a href="/admin">admin</a> > <u>showLessonDetails</u>
-    </p>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
 
-    <%- include('../partials/flashMessages') %>
+        <div class="content">
+            <%- include('../partials/flashMessages') %>
 
-    <form action="/admin/show/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>?_method=PATCH" method="POST">
-        <h2>Редактиране на урок</h2>
-        <input type="text" value="<%= lessonDetails.lessonPreview %>" name="lessonPreview">
-        <button class="update">Редактиране</button>
-    </form>
+            <form action="/admin/show/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>?_method=PATCH" method="POST">
+                <h3>Редактиране на урок</h3>
+                <input type="text" value="<%= lessonDetails.lessonPreview %>" name="lessonPreview">
+                <button class="update">Редактиране</button>
+            </form>
 
-    <h2>Упражнения</h2>
-    <% for (let exercise of lessonDetails.exercises) { %>
-        <div class="parent">
+            <h3>Упражнения</h3>
+            <% for (let exercise of lessonDetails.exercises) { %>
+                <div class="parent">
+                    <p>
+                        <button>Упражнение</button>
+                    </p>
+
+                    <div class="showHideDiv hidden">
+                        <form action="">
+                            <div class="formInput">
+                                <label for="task">Задание</label>
+                                <input type="text" name="task" id="task" value="<%= exercise.task %>">
+                            </div>
+
+                            <div class="options">
+                                <% let optionNumber=1; %>
+                                    <% for (let option of exercise.options) { %>
+                                        <div class="formInput option">
+                                            <label for="option<%= optionNumber %>">Вариант <%= optionNumber %></label>
+                                            <input type="text" name="option" id="option<%= optionNumber %>" value="<%= option %>">
+                                        </div>
+                                        <% optionNumber++; } %>
+
+                                            <div class="formInput addOption">
+                                                <button type="button" id="addOptionButton" class="add">+</button>
+                                            </div>
+                            </div>
+
+                            <div class="formInput">
+                                <label for="correctAnswer">Правилен отговор</label>
+                                <input type="text" name="correctAnswer" id="correctAnswer" value="<%= exercise.correct_answer %>">
+                            </div>
+
+                            <div class="formInput alignCenter">
+                                <button class="update">Редактиране</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <% } %>
+
             <p>
-                <button>Упражнение</button>
+                <a class="add" href="/admin/add/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
             </p>
-
-            <div class="showHideDiv hidden">
-                <form action="">
-                    <div class="formInput">
-                        <label for="task">Задание</label>
-                        <input type="text" name="task" id="task" value="<%= exercise.task %>">
-                    </div>
-
-                    <div class="options">
-                        <% let optionNumber=1; %>
-                            <% for (let option of exercise.options) { %>
-                                <div class="formInput option">
-                                    <label for="option<%= optionNumber %>">Вариант <%= optionNumber %></label>
-                                    <input type="text" name="option" id="option<%= optionNumber %>" value="<%= option %>">
-                                </div>
-                                <% optionNumber++; } %>
-
-                                    <div class="formInput addOption">
-                                        <button type="button" id="addOptionButton" class="add">+</button>
-                                    </div>
-                    </div>
-
-                    <div class="formInput">
-                        <label for="correctAnswer">Правилен отговор</label>
-                        <input type="text" name="correctAnswer" id="correctAnswer" value="<%= exercise.correct_answer %>">
-                    </div>
-
-                    <div class="formInput alignCenter">
-                        <button class="update">Редактиране</button>
-                    </div>
-                </form>
-            </div>
         </div>
-    <% } %>
-
-    <p>
-        <a class="add" href="/admin/add/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
-    </p>
+    </div>
 
     <script src="/js/adminPanelFunctions.js"></script>
     <script src="/js/addOption.js"></script>

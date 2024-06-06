@@ -10,32 +10,37 @@
 </head>
 
 <body>
-    <form id="addForm" action="/admin/add/<%= courseId %>/section" method="POST">
-        <div class="formInput alignCenter">
-            <p>
-                <a href="/admin">admin</a> > <u>add/section</u>
-            </p>
-        </div>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
 
-        <div id="sectionTypesDiv" class="formInput">
-            <label for="sectionTypes">Тип на раздела</label>
-            <select name="sectionTypes" id="sectionTypes">
-                <option value="free">Безплатен раздел</option>
-                <option value="premium">Платен раздел</option>
-            </select>
-        </div>
+        <div class="content">
+            <%- include('../partials/flashMessages') %>
 
-        <div id="freeSectionDescriptionDiv" class="formInput">
-        </div>
+            <div class="formDiv">
+                <form id="addForm" action="/admin/add/<%= courseId %>/section" method="POST">
 
-        <div id="premiumSectionsDiv" class="formInput">
-            
-        </div>
+                    <div id="sectionTypesDiv" class="formInput">
+                        <label for="sectionTypes">Тип на раздела</label>
+                        <select name="sectionTypes" id="sectionTypes">
+                            <option value="free">Безплатен раздел</option>
+                            <option value="premium">Платен раздел</option>
+                        </select>
+                    </div>
 
-        <div class="formInput alignCenter">
-            <button class="add">Добавяне</button>
+                    <div id="freeSectionDescriptionDiv" class="formInput">
+                    </div>
+
+                    <div id="premiumSectionsDiv" class="formInput">
+                        
+                    </div>
+
+                    <div class="formInput alignCenter">
+                        <button class="add">Добавяне</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
+    </div>
 
     <script src="/js/selectSectionType.js"></script>
 </body>

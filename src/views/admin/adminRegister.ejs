@@ -3,14 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
     <title>Създаване на профил</title>
 </head>
 <body>
-    <h1>Регистрация</h1>
-    <form action="/admin/create/account" method="POST">
-        <%- include('../partials/registrationForm') %>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
 
-        <button class="signButton">Регистрация</button>
-    </form>
+        <div class="content">
+            <h2>Регистрация</h2>
+
+            <div class="formDiv">
+                <form action="/admin/create/account" method="POST">
+                    <%- include('../partials/registrationForm') %>
+                    <br>
+                    <button class="signButton">Регистрация</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

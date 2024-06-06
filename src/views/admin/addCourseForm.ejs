@@ -8,22 +8,28 @@
     <title>Добавяне на курс</title>
 </head>
 <body>
-    <form id="addCourseForm" action="/admin/add/course" method="POST">
-        <h2>Избор на език</h2>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
 
-        <div class="courses">
-            <% for(const language of languagesToAdd) { %>
-                <button type="button" class="flagButton" data-language='<%= JSON.stringify(language) %>'>
-                    <img class="flag" src="<%= language.flag %>" alt="">
-                    <p><%= language.language %></p>
-                </button>
-            <% } %>
+        <div class="content">
+            <form id="addCourseForm" action="/admin/add/course" method="POST">
+                <h2>Избор на език</h2>
 
-            <input type="hidden" id="languageData" name="languageData">
+                <div class="courses">
+                    <% for(const language of languagesToAdd) { %>
+                        <button type="button" class="flagButton" data-language='<%= JSON.stringify(language) %>'>
+                            <img class="flag" src="<%= language.flag %>" alt="">
+                            <p><%= language.language %></p>
+                        </button>
+                    <% } %>
+
+                    <input type="hidden" id="languageData" name="languageData">
+                </div>
+
+                <button class="add disabled">Добави</button>
+            </form>
         </div>
-
-        <button class="add disabled">Добави</button>
-    </form>
+    </div>
 
     <script src="/js/selectLanguage.js"></script>
 </body>

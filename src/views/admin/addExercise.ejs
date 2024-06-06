@@ -10,67 +10,69 @@
 </head>
 
 <body>
-    <%- include('../partials/flashMessages') %>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
     
-    <form id="addForm" action="/admin/add/<%= language %>/sectionId/<%= sectionId %>/lesson/<%= lessonSequence %>/exercise" method="POST">
-        <div class="formInput alignCenter">
-            <p>
-                <a href="/admin">admin</a> > <u>add/exercise</u>
-            </p>
-        </div>
+        <div class="content">
+            <%- include('../partials/flashMessages') %>
 
-        <div class="formInput">
-            <label for="task">Задание</label>
-            <input type="text" name="task" id="task">
-        </div>
-
-        <div class="formInput">
-            <label for="taskTypes">Тип на задание</label>
-            <select name="taskTypes" id="taskTypes">
-                <option value="1">Слушане</option>
-                <option value="2">Четене</option>
-            </select>
-        </div>
-
-        <div class="formInput">
-            <label for="optionTypes">Тип на отговор</label>
-            <select name="optionTypes" id="optionTypes">
-                <option value="1">Множествен отговор</option>
-                <option value="2">Съставяне на изречение</option>
-                <option value="3">Отворен отговор</option>
-            </select>
-        </div>
-
-        <div class="formInput options">
-            <div class="formInput option">
-                <label for="option1">Вариант 1</label>
-                <input type="text" name="options" id="option1">
+            <div class="formDiv">
+                <form id="addForm" action="/admin/add/<%= language %>/sectionId/<%= sectionId %>/lesson/<%= lessonSequence %>/exercise" method="POST">
+                    <div class="formInput">
+                        <label for="task">Задание</label>
+                        <input type="text" name="task" id="task">
+                    </div>
+            
+                    <div class="formInput">
+                        <label for="taskTypes">Тип на задание</label>
+                        <select name="taskTypes" id="taskTypes">
+                            <option value="1">Слушане</option>
+                            <option value="2">Четене</option>
+                        </select>
+                    </div>
+            
+                    <div class="formInput">
+                        <label for="optionTypes">Тип на отговор</label>
+                        <select name="optionTypes" id="optionTypes">
+                            <option value="1">Множествен отговор</option>
+                            <option value="2">Съставяне на изречение</option>
+                            <option value="3">Отворен отговор</option>
+                        </select>
+                    </div>
+            
+                    <div class="formInput options">
+                        <div class="formInput option">
+                            <label for="option1">Вариант 1</label>
+                            <input type="text" name="options" id="option1">
+                        </div>
+            
+                        <div class="formInput option">
+                            <label for="option2">Вариант 2</label>
+                            <input type="text" name="options" id="option2">
+                        </div>
+            
+                        <div class="formInput option">
+                            <label for="option3">Вариант 3</label>
+                            <input type="text" name="options" id="option3">
+                        </div>
+            
+                        <div class="formInput addOption">
+                            <button type="button" id="addOptionButton" class="add">+</button>
+                        </div>
+                    </div>
+            
+                    <div class="formInput">
+                        <label for="correctAnswer">Правилен отговор</label>
+                        <input type="text" name="correctAnswer" id="correctAnswer">
+                    </div>
+                    
+                    <div class="formInput alignCenter">
+                        <button class="add">Добавяне</button>
+                    </div>
+                </form>
             </div>
-
-            <div class="formInput option">
-                <label for="option2">Вариант 2</label>
-                <input type="text" name="options" id="option2">
-            </div>
-
-            <div class="formInput option">
-                <label for="option3">Вариант 3</label>
-                <input type="text" name="options" id="option3">
-            </div>
-
-            <div class="formInput addOption">
-                <button type="button" id="addOptionButton" class="add">+</button>
-            </div>
         </div>
-
-        <div class="formInput">
-            <label for="correctAnswer">Правилен отговор</label>
-            <input type="text" name="correctAnswer" id="correctAnswer">
-        </div>
-        
-        <div class="formInput alignCenter">
-            <button class="add">Добавяне</button>
-        </div>
-    </form>
+    </div>
 
     <script src="/js/addOption.js"></script>
     <script src="/js/addExerciseFunctions.js"></script>

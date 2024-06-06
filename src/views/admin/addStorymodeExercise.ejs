@@ -8,54 +8,58 @@
     <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
 </head>
 <body>
-    <form id="addForm" action="/admin/add/<%= language %>/<%= type %>/sectionId/<%= sectionId %>/lesson/<%= lessonSequence %>/exercise" method="POST">
-        <div class="formInput alignCenter">
-            <p>
-                <a href="/admin">admin</a> > <u>add/storymode/exercise</u>
-            </p>
-        </div>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
 
-        <div class="formInput">
-            <label for="task">Задание</label><br>
-            <input class="width-fill" type="text" name="task" id="task">
-        </div>
+        <div class="content">
+            <%- include('../partials/flashMessages') %>
 
-        <div class="formInput images">
-            <div class="formInput img">
-                <p>Добавяне на снимки</p>
-                <div class="imageInputsDiv">
-                    <input class="imageSequence disabled" type="text" name="img[sequence]" value="1">
-                    <input class="border-none" type="file" name="img[url]" accept="image/*">
-                </div>
-            </div>
-    
-            <div class="formInput img">
-                <div class="imageInputsDiv">
-                    <input class="imageSequence disabled" type="text" name="img[sequence]" value="2">
-                    <input class="border-none" type="file" name="img[url]" accept="image/*">
-                </div>
-            </div>
-    
-            <div class="formInput img">
-                <div class="imageInputsDiv">
-                    <input class="imageSequence disabled" type="text" name="img[sequence]" value="3">
-                    <input class="border-none" type="file" name="img[url]" accept="image/*">
-                </div>
-            </div>
+            <div class="formDiv">
+                <form id="addForm" action="/admin/add/<%= language %>/<%= type %>/sectionId/<%= sectionId %>/lesson/<%= lessonSequence %>/exercise" method="POST">
+                    <div class="formInput">
+                        <label for="task">Задание</label><br>
+                        <input class="width-fill" type="text" name="task" id="task">
+                    </div>
 
-            <div class="formInput addOption">
-                <button type="button" id="addOptionButton" class="add">+</button>
+                    <div class="formInput images">
+                        <div class="formInput img">
+                            <p>Добавяне на снимки</p>
+                            <div class="imageInputsDiv">
+                                <input class="imageSequence disabled" type="text" name="img[sequence]" value="1">
+                                <input class="border-none" type="file" name="img[url]" accept="image/*">
+                            </div>
+                        </div>
+                
+                        <div class="formInput img">
+                            <div class="imageInputsDiv">
+                                <input class="imageSequence disabled" type="text" name="img[sequence]" value="2">
+                                <input class="border-none" type="file" name="img[url]" accept="image/*">
+                            </div>
+                        </div>
+                
+                        <div class="formInput img">
+                            <div class="imageInputsDiv">
+                                <input class="imageSequence disabled" type="text" name="img[sequence]" value="3">
+                                <input class="border-none" type="file" name="img[url]" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="formInput addOption">
+                            <button type="button" id="addOptionButton" class="add">+</button>
+                        </div>
+                    </div>
+
+                    <div class="formInput">
+                        <h5>* До полето за добавяне на снимка се задава поредността на снимките</h5>
+                    </div>
+                    
+                    <div class="formInput alignCenter">
+                        <button class="add">Добавяне</button>
+                    </div>
+                </form>
             </div>
         </div>
-
-        <div class="formInput">
-            <h5>* До полето за добавяне на снимка се задава поредността на снимките</h5>
-        </div>
-        
-        <div class="formInput alignCenter">
-            <button class="add">Добавяне</button>
-        </div>
-    </form>
+    </div>
 
     <script src="/js/addImageInput.js"></script>
 </body>
