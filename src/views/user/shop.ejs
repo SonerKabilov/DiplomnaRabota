@@ -12,6 +12,8 @@
     <%- include('../partials/header') %>
 
     <div class="shop">
+        <%- include('../partials/flashMessages') %>
+        
         <h1>Магазин</h1>
 
         <p>Абонаменти</p>
@@ -20,12 +22,13 @@
                 <div class="shopItem">
                     <span class="shopItemIcon"><i class="fa-solid fa-ticket"></i></span>
                     <p><%= membership.quantity %> дена</p>
-                    <button class="shopItemButton"
-                        data-id="<%= membership.id %>" 
-                        data-payment-type="<%= membership.payment_type %>">
-
-                        <%= membership.cost %> <i class="fa-solid fa-coins"></i>
-                    </button>
+                    <% if(membership.payment_type == "app_currency") { %>
+                        <button class="shopItemButton btn" data-id="<%= membership.id %>">
+                            <%= membership.cost %> <i class="fa-solid fa-coins"></i>
+                        </button>
+                    <% } else if (membership.payment_type == "money") { %>
+                        <a class="shopItemButton" href="/shop/item/<%= membership.id %>/payment"><%= membership.cost %> лв.</a>
+                    <% } %>
                 </div>
             <% } %>
         </div>
@@ -41,5 +44,7 @@
             <% } %>
         </div>
     </div>
+
+    <script src="/js/purchaseItemWithCoins.js"></script>
 </body>
 </html>

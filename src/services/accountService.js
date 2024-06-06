@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { addDays, format } = require('date-fns');
 
 const accountRepository = require('../database/repositories/accountRepository');
 const coursesRepository = require('../database/repositories/coursesRepository');
@@ -73,5 +74,39 @@ module.exports = {
     },
     updateCurrency: async (currency, userId) => {
         return await accountRepository.updateCurrency(currency, userId);
+    },
+    updateMembership: async (userId, quantity, cost) => {
+        const currentMembership = await accountRepository.getUserMembership(userId);
+        const currentMembershipDate = new Date(currentMembership);
+        const formattedCurrentMembershipDate = format(currentMembershipDate, 'yyyy-MM-dd HH:mm:ss');
+
+        const now = new Date();
+        const formattedCurrentDate = format(now, 'yyyy-MM-dd HH:mm:ss');
+
+        const newMembershipDate = addDays(now, quantity);
+        const formattedNewMembershipDate = format(newMembershipDate, 'yyyy-MM-dd HH:mm:ss');
+
+        if (formattedCurrentMembershipDate < formattedCurrentDate) {
+            console.log("No active membership");
+            const userCurrency = await accountRepository.getUserCurrency(userId);
+
+            if(userCurrency >= cost) {
+                try {
+                    await accountRepository.updateMembership(formattedNewMembershipDate, userId);
+                    await accountRepository.reduceCurrency(cost, userId);
+                } catch (error) {
+                    console.log(error);
+                    return false;
+                }
+
+                return true;
+            } else {
+                console.log("Not enough coins");
+                return false;
+            }
+        } else {
+            console.log("Active membership");
+            return false;
+        }
     }
 }

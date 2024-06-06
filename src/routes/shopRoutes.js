@@ -20,5 +20,10 @@ router
     .all(checkUser.requireLogin)
     .get(shopController.showStripeForm);
 
+router
+    .route("/coins-purchase")
+    .all(checkUser.requireLogin)
+    .post(shopController.coinsPurchase);
+
 
 module.exports = router;

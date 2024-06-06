@@ -134,5 +134,45 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    reduceCurrency: async (cost, userId) => {
+        try {
+            await pool.query(`
+                UPDATE users
+                SET currency = currency - ?
+                WHERE id = ?
+            `, [cost, userId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    getUserMembership: async (userId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT membership_exp_date
+                FROM users
+                WHERE id = ?
+            `, [userId]);
+
+            return result[0].membership_exp_date;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    updateMembership: async (membershipDate, userId) => {
+        try {
+            await pool.query(`
+                UPDATE users
+                SET membership_exp_date = ?
+                WHERE id = ?
+            `, [membershipDate, userId]);
+
+            return true;
+        } catch (err) {
+            console.error(err);
+            return false;
+        }
     }
 }
