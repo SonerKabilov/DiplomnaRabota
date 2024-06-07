@@ -6,22 +6,35 @@ module.exports = {
         try {
             const { language } = req.params;
 
-            req.session.language = language;
-
             const userCurrency = req.session.user_currency;
             const coursesTaken = req.session.user_courses;
+
+            let isTaken = false;
+
+            for (course of coursesTaken) {
+                if (course.language == language) {
+                    isTaken = true;
+                    break;
+                }
+            }
 
             const userData = {
                 userCurrency,
                 coursesTaken
             }
 
-            const sections = await sectionsService.getAllSectionsForCourse(language);
-            const lessons = await lessonsService.getAllLessons(language);
+            if (isTaken) {
+                req.session.language = language;
 
-            res
-                .status(200)
-                .render("user/freeSections", { userData, language, sections, lessons });
+                const sections = await sectionsService.getAllSectionsForCourse(language);
+                const lessons = await lessonsService.getAllLessons(language);
+    
+                res
+                    .status(200)
+                    .render("user/freeSections", { userData, language, sections, lessons });
+            } else {
+                res.redirect("/courses/add");
+            }
         } catch (error) {
             console.error(error);
 
@@ -34,22 +47,35 @@ module.exports = {
         try {
             const { language } = req.params;
 
-            req.session.language = language;
-
             const userCurrency = req.session.user_currency;
             const coursesTaken = req.session.user_courses;
+
+            let isTaken = false;
+
+            for (course of coursesTaken) {
+                if (course.language == language) {
+                    isTaken = true;
+                    break;
+                }
+            }
 
             const userData = {
                 userCurrency,
                 coursesTaken
             }
 
-            const sections = await sectionsService.getAllPremiumSectionsForCourse(language);
-            const lessons = await lessonsService.getAllPremiumLessons(language);
+            if (isTaken) {
+                req.session.language = language;
 
-            res
-                .status(200)
-                .render("user/premiumSections", { userData, language, sections, lessons });
+                const sections = await sectionsService.getAllPremiumSectionsForCourse(language);
+                const lessons = await lessonsService.getAllPremiumLessons(language);
+
+                res
+                    .status(200)
+                    .render("user/premiumSections", { userData, language, sections, lessons });
+            } else {
+                res.redirect("/courses/add");
+            }
         } catch (error) {
             console.error(error);
 

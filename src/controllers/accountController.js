@@ -8,6 +8,9 @@ module.exports = {
     showLoginForm: (req, res) => {
         res.render("user/login");
     },
+    showAdminLogin: (req, res) => {
+        res.render("admin/adminLogin");
+    },
     showUserRegisterForm: async (req, res) => {
         const courses = await coursesService.getCourses();
         const coursesTaken = [];
@@ -72,24 +75,60 @@ module.exports = {
             selectedLanguage: userBody.selectedLanguage
         }
 
-        const user = await accountService.loginUser(userCredentials);
+        try {
+            const user = await accountService.loginUser(userCredentials);
 
-        if (user) {
-            const userCourses = await coursesService.getUserCourses(user.id);
+            if (user && user.user_types_id == 2) {
+                const userCourses = await coursesService.getUserCourses(user.id);
 
-            req.session.user_id = user.id;
-            req.session.user_type = user.user_types_id;
-            req.session.user_currency = user.currency;
-            req.session.user_courses = userCourses;
+                req.session.user_id = user.id;
+                req.session.user_type = user.user_types_id;
+                req.session.user_currency = user.currency;
+                req.session.user_courses = userCourses;
 
-            if (req.session.user_type == 1) {
-                res.redirect("/admin");
-            } else {
+
                 res.redirect(`/${userCredentials.selectedLanguage}/free/lessons`);
+            } else {
+                req.flash("error", "Грешно потребителско име или парола");
+                res.redirect("/login");
             }
-        } else {
+        } catch (error) {
+            console.log(error);
+
             req.flash("error", "Грешно потребителско име или парола");
             res.redirect("/login");
+        }
+    },
+    loginAdmin: async (req, res) => {
+        const userBody = req.body;
+
+        const userCredentials = {
+            username: userBody.username,
+            password: userBody.password,
+            selectedLanguage: userBody.selectedLanguage
+        }
+
+        try {
+            const user = await accountService.loginUser(userCredentials);
+
+            if (user && user.user_types_id == 1) {
+                const userCourses = await coursesService.getUserCourses(user.id);
+
+                req.session.user_id = user.id;
+                req.session.user_type = user.user_types_id;
+                req.session.user_currency = user.currency;
+                req.session.user_courses = userCourses;
+
+                res.redirect("/admin");
+            } else {
+                req.flash("error", "Грешно потребителско име или парола");
+                res.redirect("/admin/login");
+            }
+        } catch (error) {
+            console.log(error);
+            
+            req.flash("error", "Грешно потребителско име или парола");
+            res.redirect("/admin/login");
         }
     },
     logoutUser: async (req, res) => {

@@ -10,6 +10,14 @@ const shopController = require('../controllers/shopController');
 
 const checkUser = require('../middlewares/requireLogin');
 
+// LOGIN
+router
+    .route("/login")
+    .all(checkUser.checkIfUserIsLogged)
+    .get(accountController.showAdminLogin)
+    .post(accountController.loginAdmin);
+    
+
 // ** COURSES **
 router
     .route("/add/course")

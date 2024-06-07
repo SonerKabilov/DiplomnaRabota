@@ -11,19 +11,13 @@
     <main class="sign">
         <%- include('../partials/flashMessages') %>
 
-        <h1>Вход</h1>
-        
-        <form action="/login" method="POST">
-            <%- include('../partials/loginForm') %>
+        <h1>Администраторски вход</h1>
 
-            <p>Нямате профил? <a class="registerLink" href="/register">Регистрация</a></p>
+        <form action="/admin/login" method="POST">
+            <%- include('../partials/loginForm') %>
 
             <button class="signButton loginBtn">Вход</button>
         </form>
-
-        <div class="bottomBackground"></div>
     </main>
-
-    <script src="/js/getCourseFromLocalStorage.js"></script>
 </body>
 </html>
