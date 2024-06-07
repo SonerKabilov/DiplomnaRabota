@@ -14,9 +14,16 @@ module.exports = {
             coursesTaken
         }
 
-        const shopItems = await shopService.getShopItems();
+        try {
+            const shopItems = await shopService.getShopItems();
 
-        res.render("user/shop", { userData, language, shopItems });
+            res.render("user/shop", { userData, language, shopItems });
+        } catch (error) {
+            console.log(error);
+
+            req.flash("error", "Страницата не съществува!");
+            res.redirect(`/${language}/free/lessons`);
+        }
     },
     makePayment: async (req, res) => {
         const { payment_method_id, itemId } = req.body;
@@ -55,15 +62,22 @@ module.exports = {
         const coursesTaken = req.session.user_courses;
         const language = req.session.language;
 
-        let shopItem = await shopService.getItemForPurchasing(id);
-        shopItem = shopItem[0];
+        try {
+            let shopItem = await shopService.getItemForPurchasing(id);
+            shopItem = shopItem[0];
+    
+            const userData = {
+                userCurrency,
+                coursesTaken
+            }
 
-        const userData = {
-            userCurrency,
-            coursesTaken
+            res.render("user/stripe", { userData, language, shopItem });
+        } catch (error) {
+            console.log(error);
+
+            req.flash("error", "Страницата не съществува!");
+            res.redirect("/shop");
         }
-
-        res.render("user/stripe", { userData, language, shopItem });
     },
     coinsPurchase: async (req, res) => {
         const { itemId } = req.body;
@@ -91,5 +105,73 @@ module.exports = {
         }
 
         res.json({ success: true });
+    },
+    adminShowShopItems: async (req, res) => {
+        const shopItems = await shopService.getShopItems();
+        const paymentTypes = await shopService.getPaymentTypes();
+
+        res.render("admin/showShopItems", { shopItems, paymentTypes });
+    },
+    updateShopItem: async (req, res) => {
+        const { itemId } = req.params;
+        const body = req.body;
+
+        const shopItem = {
+            id: itemId,
+            quantity: body.quantity,
+            cost: body.cost,
+            paymentType: body.paymentTypes
+        }
+
+        console.log(shopItem);
+
+        try {
+            await shopService.updateShopItem(shopItem);
+
+            req.flash("success", "Успешно редактиране на продукт!");
+            res.redirect("/admin/shop-items");
+        } catch {
+            req.flash("error", "Грешка при редактиране на продукт!");
+            res.redirect("/admin/shop-items");
+        }
+    },
+    deleteShopItem: async (req, res) => {
+        const { itemId } = req.params;
+
+        try {
+            await shopService.deleteShopItem(itemId);
+
+            req.flash("success", "Успешно изтрит продукт!");
+            res.redirect("/admin/shop-items");
+        } catch {
+            req.flash("error", "Неуспешно изтрит продукт!");
+            res.redirect("/admin/shop-items");
+        }
+    },
+    showAddShopItemForm: async (req, res) => {
+        const paymentTypes = await shopService.getPaymentTypes();
+        const itemTypes = await shopService.getShopItemTypes();
+
+        res.render("admin/addShopItemForm", { paymentTypes, itemTypes });
+    },
+    addShopItem: async (req, res) => {
+        const body = req.body;
+
+        const shopItem = {
+            quantity: body.quantity,
+            cost: body.cost,
+            itemType: body.itemTypes,
+            paymentType: body.paymentTypes
+        }
+
+        try {
+            await shopService.addShopItem(shopItem);
+
+            req.flash("success", "Успешно добавен продукт!");
+            res.redirect("/admin/shop-items");
+        } catch {
+            req.flash("error", "Грешка при добавяне на продукт!");
+            res.redirect("/admin/shop-items/add");
+        }
     }
 }

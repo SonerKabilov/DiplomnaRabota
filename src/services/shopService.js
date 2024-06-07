@@ -17,5 +17,24 @@ module.exports = {
     },
     getItemForPurchasing: async (id) => {
         return await shopRepository.queryItem(id);
+    },
+    getShopItemTypes: async () => {
+        return await shopRepository.queryShopItemTypes();
+    },
+    getPaymentTypes: async () => {
+        return await shopRepository.queryPaymentTypes();
+    },
+    addShopItem: async (shopItem) => {
+        return await shopRepository.insertShopItem(shopItem);
+    },
+    updateShopItem: async (shopItem) => {
+        if (shopItem.paymentType) {
+            await shopRepository.updateShopItemWithPaymentType(shopItem);
+        } else {
+            await shopRepository.updateShopItemWithoutPaymentType(shopItem);
+        }
+    },
+    deleteShopItem: async (id) => {
+        return await shopRepository.deleteShopItem(id);
     }
 }

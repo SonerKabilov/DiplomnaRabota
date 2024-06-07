@@ -6,6 +6,7 @@ const sectionController = require('../controllers/sectionsController');
 const lessonController = require('../controllers/lessonsController');
 const exercisesController = require('../controllers/exercisesController');
 const accountController = require('../controllers/accountController');
+const shopController = require('../controllers/shopController');
 
 const checkUser = require('../middlewares/requireLogin');
 
@@ -84,7 +85,26 @@ router
     .route("/create/account")
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(accountController.showAdminRegisterForm)
-    .post(accountController.createAdmin)
+    .post(accountController.createAdmin);
+
+
+// ** SHOP ITEMS **
+router
+    .route("/shop-items")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .get(shopController.adminShowShopItems);
+
+router
+    .route("/shop-items/:itemId")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .patch(shopController.updateShopItem)
+    .delete(shopController.deleteShopItem);
+
+router
+    .route("/shop-items/add")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .get(shopController.showAddShopItemForm)
+    .post(shopController.addShopItem);
 
 
 module.exports = router;

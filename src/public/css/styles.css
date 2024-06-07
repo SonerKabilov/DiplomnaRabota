@@ -173,12 +173,14 @@ header a:visited {
     border: none;
 }
 
-.selectCourseDropdown {
+.selectCourseDropdown,
+.profileDropdown {
     position: relative;
     display: inline-block;
 }
 
-.userCourses {
+.userCourses,
+.profileLinks {
     margin-top: 10px;
     border-radius: 5px;
     display: none;
@@ -191,7 +193,8 @@ header a:visited {
     transform: translateX(50%);
 }
 
-.userCourses::before {
+.userCourses::before,
+.profileLinks::before {
     content: "";
     position: absolute;
     bottom: 100%;
@@ -216,7 +219,8 @@ header a:visited {
     padding: 10px;
 }
 
-.selectCourseDropdown:hover .userCourses {
+.selectCourseDropdown:hover .userCourses,
+.profileDropdown:hover .profileLinks {
     display: block;
 }
 

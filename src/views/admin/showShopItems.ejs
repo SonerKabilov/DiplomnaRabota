@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+    <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
+
+        <div class="content">
+            <%- include('../partials/flashMessages') %>
+
+            <h2>Магазин</h2>
+
+            <div class="memberships">
+                <p>Абонаменти</p>
+
+                <% for (const membership of shopItems.memberships) { %>
+                    <form action="/admin/shop-items/<%= membership.id %>/?_method=PATCH" method="POST">
+                        <div class="formInput">
+                            <span>Количество</span>
+                            <div class="shop-input-div">
+                                <input type="text" name="quantity" value="<%= membership.quantity %>">
+                                <span>дни</span>
+                            </div>
+                        </div>
+    
+                        <div class="formInput">
+                            <span>Цена</span>
+                            <div class="shop-input-div">
+                                <input type="text" name="cost" value="<%= membership.cost %>">
+                                <% if (membership.payment_type === "app_currency") { %> 
+                                    <span><i class="fa-solid fa-coins"></i></span>
+                                <% } else if (membership.payment_type === "money") { %>
+                                    <span>лв.</span> 
+                                <% } %>
+                            </div>
+                        </div>
+    
+                        <div class="formInput">
+                            <select name="paymentTypes" id="">
+                                <% for (const paymentType of paymentTypes) { %>
+                                    <% let isSelected = (paymentType.payment_type === membership.payment_type) ? "selected" : ""; %>
+                                    <option <%= isSelected %> value="<%= paymentType.id %>"><%= paymentType.payment_type_bulgarian %></option>
+                                <% } %>
+                            </select>
+                        </div>
+
+                        <br>
+                        <button class="update">Редактиране</button>
+                        
+                    </form>
+
+                    <form action="/admin/shop-items/<%= membership.id %>/?_method=DELETE" method="POST">
+                        <button class="remove">Изтриване</button>
+                    </form>
+                <% } %>
+            </div>
+            
+            <div class="coins">
+                <p>Монети</p>
+
+                <% for (const coins of shopItems.coins) { %>
+                    <form action="/admin/shop-items/<%= coins.id %>/?_method=PATCH" method="POST">
+                        <div class="formInput">
+                            <span>Количество</span>
+                            <div class="shop-input-div">
+                                <input type="text" name="quantity" value="<%= coins.quantity %>">
+                                <span>монети</span>
+                            </div>
+                        </div>
+
+                        <div class="formInput">
+                            <span>Цена</span>
+                            <div class="shop-input-div">
+                                <input type="text" name="cost" value="<%= coins.cost %>">
+                                <span>лв.</span> 
+                            </div>
+                        </div>
+
+                        <br>
+                        <button class="update">Редактиране</button>
+                    </form>
+
+                    <form action="/admin/shop-items/<%= coins.id %>/?_method=DELETE" method="POST">
+                        <button class="remove">Изтриване</button>
+                    </form>
+                <% } %>
+            </div>
+
+            <br>
+            <p>
+                <a class="add" href="/admin/shop-items/add">Добавяне на предмет в магазина</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

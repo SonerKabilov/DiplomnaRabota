@@ -12,24 +12,26 @@
 <body>
     <%- include('../partials/header') %>
 
-    <div class="payment">
-        <div class="product-information">
-            <p><a href="/shop">Назад</a></p>
-            <p class="capitalize"><%= shopItem.item_type_bulgarian %> <%= shopItem.quantity %></p>
-            <h2><%= shopItem.cost %> лв.</h2>
+    <% if (shopItem) { %>
+        <div class="payment">
+            <div class="product-information">
+                <p><a href="/shop">Назад</a></p>
+                <p class="capitalize"><%= shopItem.item_type_bulgarian %> <%= shopItem.quantity %></p>
+                <h2><%= shopItem.cost %> лв.</h2>
+            </div>
+            <form id="payment-form">
+                <p>Име на картодържателя</p>
+                <input id="card-holder-name" type="text" placeholder="Пълно име">
+                <p>Информация за картата</p>
+                <div id="card-number-element"></div>
+                <div id="card-expiry-element"></div>
+                <div id="card-cvc-element"></div>
+                <button id="submit">Плащане</button>
+                <div id="error-message" role="alert"></div>
+            </form>
         </div>
-        <form id="payment-form">
-            <p>Име на картодържателя</p>
-            <input id="card-holder-name" type="text" placeholder="Пълно име">
-            <p>Информация за картата</p>
-            <div id="card-number-element"></div>
-            <div id="card-expiry-element"></div>
-            <div id="card-cvc-element"></div>
-            <button id="submit">Плащане</button>
-            <div id="error-message" role="alert"></div>
-        </form>
-    </div>
 
-    <script src="/js/purchaseShopItem.js" item="<%= shopItem.id %>"></script>
+        <script src="/js/purchaseShopItem.js" item="<%= shopItem.id %>"></script>
+    <% } %>
 </body>
 </html>

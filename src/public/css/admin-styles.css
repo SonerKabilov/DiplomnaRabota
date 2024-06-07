@@ -144,3 +144,14 @@ body {
     width: 5%;
     text-align: center;
 }
+
+
+/* SHOP */
+.shop-input-div {
+    display: flex;
+    align-items: center;
+}
+
+.shop-input-div span {
+    margin-left: 10px;
+}

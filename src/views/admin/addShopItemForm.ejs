@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавяне на продукт в магазина</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+</head>
+<body>
+    <div class="page-content">
+        <%- include('../partials/adminHeader') %>
+
+        <div class="content">
+            <%- include('../partials/flashMessages') %>
+
+            <h2>Добавяне</h2>
+
+            <div class="formDiv">
+                <form action="/admin/shop-items/add" method="POST">
+                    <div class="formInput">
+                        <label for="quantity">Количество</label>
+                        <input id="quantity" type="text" name="quantity">
+                    </div>
+    
+                    <div class="formInput">
+                        <label for="cost">Цена</label>
+                        <input id="cost" type="text" name="cost">
+                    </div>
+    
+                    <div class="formInput">
+                        <label for="item-types">Тип на продукта</label>
+                        <select name="itemTypes" id="item-types">
+                            <% for (const itemType of itemTypes) { %>
+                                <option value="<%= itemType.id %>"><%= itemType.item_type_bulgarian %></option>
+                            <% } %>
+                        </select>
+                    </div>
+    
+                    <div class="formInput">
+                        <label for="payment-types">Тип на плащане</label>
+                        <select name="paymentTypes" id="payment-types">
+                            <% for (const paymentType of paymentTypes) { %>
+                                <option value="<%= paymentType.id %>"><%= paymentType.payment_type_bulgarian %></option>
+                            <% } %>
+                        </select>
+                    </div>
+    
+                    <br>
+                    <button class="add">Добавяне</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
