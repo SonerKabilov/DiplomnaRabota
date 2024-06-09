@@ -12,35 +12,22 @@
     <%- include('../partials/header') %>
 
     <main class="sectionsMain">
-        <section class = "sections">
+        <section class="sections">
             <select name="sectionTypes" class="sectionTypes">
                 <option value="1" url="/<%= language %>/free/lessons">Безплатни раздели</option>
                 <option value="2" url="/<%= language %>/premium/lessons" selected>Платени раздели</option>
             </select>
-
-            <% for (let section of sections) { %>
-                <div class="section" section-id="<%= section.id %>">
-                    <p><%= section.type %></p>
-                    <button class="showLessonsBtn">Show Lessons</button>
-                </div>
-            <% } %>
         </section>
 
         <section class="lessons">
-        <% for (let lesson of lessons) { %>
-            <div class="lesson" lesson-section="<%= lesson.premium_sections_id %>">
-                <i class="fa-solid fa-star" id="popoverBtn<%= lesson.sequence %>"></i>
-
-                <div class="popover" id="myPopover<%= lesson.id %>">
-                    <h3 class="lessonSequence">Урок <%= lesson.sequence %></h3>
-                    <a class="startLesson" href="/exercises/<%= language %>/<%= lesson.type %>/lesson/<%= lesson.sequence %>">Начало</a>
-                </div>
-            </div>
-        <% } %>
+            
         </section>
     </main>
 
     <script src="/js/togglePopover.js"></script>
-    <script src="/js/showSections.js" sections = "<%= JSON.stringify(sections) %>"></script>
+    <script src="/js/showSections.js" 
+        sectionType = "premium"
+        lang = "<%= language %>">
+    </script>
 </body>
 </html>

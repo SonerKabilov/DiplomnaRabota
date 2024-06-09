@@ -6,9 +6,9 @@ const coursesService = require('../services/coursesService');
 
 module.exports = {
     showLessonExercises: async (req, res) => {
-        try {
-            const { language, sectionSequence, lessonSequence } = req.params;
+        const { language, sectionSequence, lessonSequence } = req.params;
 
+        try {
             const sectionDetails = {
                 language,
                 sectionSequence
@@ -19,7 +19,7 @@ module.exports = {
             res.status(200).render("user/exercises", { sectionId, lessonSequence, sectionSequence, language });
         } catch (error) {
             console.error(error);
-            res.status(500).send("Internal Server Error");
+            res.redirect(`/${language}/free/lessons`);
         }
     },
     getFreeExercises: async (req, res) => {
@@ -37,21 +37,26 @@ module.exports = {
     showPremiumExercises: async (req, res) => {
         const { language, type, lessonSequence } = req.params;
 
-        let sectionDetails = {
-            language,
-            type,
-            lessonSequence
-        }
+        try {
+            let sectionDetails = {
+                language,
+                type,
+                lessonSequence
+            }
 
-        const id = await sectionsService.getPremiumSectionIdByLanguage(sectionDetails);
+            const id = await sectionsService.getPremiumSectionIdByLanguage(sectionDetails);
 
-        sectionDetails = {
-            ...sectionDetails,
-            id
-        }
+            sectionDetails = {
+                ...sectionDetails,
+                id
+            }
 
-        if (type === "storymode") {
-            res.render("user/storymodeExercises", { sectionDetails });
+            if (type === "storymode") {
+                res.render("user/storymodeExercises", { sectionDetails });
+            }
+        } catch (error) {
+            console.error(error);
+            res.redirect(`/${language}/premium/lessons`);
         }
     },
     getStorymodeImages: async (req, res) => {
@@ -128,7 +133,7 @@ module.exports = {
     },
     updateCompletedLesson: async (req, res) => {
         const userId = req.session.user_id;
-        const { lessonSequence, language } = req.params;
+        const { lessonSequence, language } = req.body;
 
         const userData = {
             userId,
@@ -136,15 +141,44 @@ module.exports = {
             language
         }
 
-        await accountService.updateUserDataForCompletedLesson(userData);
+        try {
+            await accountService.updateUserDataForCompletedLesson(userData);
+    
+            const currency = await accountService.getUserCurrency(userId);
+            req.session.user_currency = currency;
 
-        const userCourses = await coursesService.getUserCourses(userId);
-        req.session.user_courses = userCourses;
+            res.redirect(`/${language}/premium/lessons`);
+        } catch (error) {
+            console.log(error);
 
-        const currency = await accountService.getUserCurrency(userId);
-        req.session.user_currency = currency;
+            req.flash("error", "Неуспешно приключване на упражнение!");
+            res.redirect(`/${language}/premium/lessons`);
+        }
+    },
+    updatePremiumCompletedLesson: async (req, res) => {
+        const userId = req.session.user_id;
+        const { lessonSequence, language, sectionType } = req.body;
 
-        res.redirect(`/${language}/free/lessons`);
+        const userData = {
+            userId,
+            lessonSequence,
+            language,
+            sectionType
+        }
+
+        try {
+            await accountService.updateUserDataForCompletedPremiumLesson(userData);
+    
+            const currency = await accountService.getUserCurrency(userId);
+            req.session.user_currency = currency;
+
+            res.redirect(`/${language}/premium/lessons`);
+        } catch (error) {
+            console.log(error);
+
+            req.flash("error", "Неуспешно приключване на упражнение!");
+            res.redirect(`/${language}/premium/lessons`);
+        }
     },
     showAddStorymodeExerciseForm: async (req, res) => {
         const { type, lessonSequence, language, sectionId } = req.params;

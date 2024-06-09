@@ -20,6 +20,7 @@ let speech = new SpeechSynthesisUtterance();
 let currentExerciseIndex = 0;
 let progressBarCounter = 1;
 let exercises = [];
+let completedExercises = [];
 
 // Function to shuffle an array using Fisher-Yates algorithm
 const shuffleArray = (array) => {
@@ -291,6 +292,7 @@ const handleButtonClick = async (exerciseId, userAnswer) => {
 
     if (await isAnswerCorrect(exerciseId, userAnswer)) {
         currentExerciseIndex++;
+        completedExercises.push(exerciseId);
     } else {
         console.log("greshka");
     }
@@ -320,22 +322,42 @@ const textToSpeach = (text) => {
     window.speechSynthesis.speak(speech);
 }
 
-const lessonCompleted = () => {
+const lessonCompleted = async () => {
     const lessonCompletedDiv = document.createElement("div");
     lessonCompletedDiv.classList.add("lessonCompleted");
     exerciseSectionDiv.appendChild(lessonCompletedDiv);
 
-    const formCompleted = document.createElement("form");
-    formCompleted.id = "completed";
-    formCompleted.action = `/exercises/${language}/section/${sectionSequence}/lesson/${lessonSequence}?_method=PATCH`;
-    formCompleted.method = "POST";
-    lessonCompletedDiv.appendChild(formCompleted);
-
     const paragraph = document.createElement("p");
     paragraph.textContent = "All exercises completed!";
-    formCompleted.appendChild(paragraph);
+    lessonCompletedDiv.appendChild(paragraph);
 
     const btnCompleted = document.createElement("button");
     btnCompleted.textContent = "Обратно";
-    formCompleted.appendChild(btnCompleted);
+    lessonCompletedDiv.appendChild(btnCompleted);
+
+    btnCompleted.addEventListener("click", async function () {
+        try {
+            if (completedExercises.length === exercises.length) {
+                const response = await fetch(`/exercises/finish-lesson?_method=PATCH`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        language: language,
+                        lessonSequence: lessonSequence
+                    })
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+    
+                window.location.href = `/${language}/free/lessons`;
+                console.log('Lesson marked as completed');
+            } else {
+                console.log('All exercises are not completed yet');
+            }
+        } catch (error) {
+            console.error('Error marking lesson as completed:', error);
+        }
+    });
 }

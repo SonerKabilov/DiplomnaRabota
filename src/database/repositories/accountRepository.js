@@ -70,15 +70,47 @@ module.exports = {
             throw err;
         }
     },
-    getUserProgress: async (userId) => {
+    getCurrentUserCourse: async (userId, language) => {
         try {
             const [result] = await pool.query(`
-                SELECT on_lesson
-                FROM courses_taken
-                WHERE users_id = ?
-            `, [userId]);
+                SELECT ct.*
+                FROM courses_taken ct
+                INNER JOIN courses c
+                ON ct.courses_id = c.id
+                WHERE ct.users_id = ? AND c.language = ?
+            `, [userId, language]);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    getUserProgress: async (userId, language) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT ct.on_lesson
+                FROM courses_taken ct
+                INNER JOIN courses c
+                WHERE ct.users_id = ? AND c.language = ?
+            `, [userId, language]);
 
             return result[0].on_lesson;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    getUserStorymodeProgress: async (userId, language) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT ct.on_storymode_lesson
+                FROM courses_taken ct
+                INNER JOIN courses c
+                WHERE ct.users_id = ? AND c.language = ?
+            `, [userId, language]);
+
+            return result[0].on_storymode_lesson;
         } catch (err) {
             console.error(err);
             throw err;
@@ -90,6 +122,19 @@ module.exports = {
                 UPDATE courses_taken ct
                 INNER JOIN courses c ON ct.courses_id = c.id
                 SET on_lesson = ?
+                WHERE ct.users_id = ? AND c.language = ?
+            `, [onLesson, userId, language]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    updateUserStorymodeProgress: async (onLesson, userId, language) => {
+        try {
+            await pool.query(`
+                UPDATE courses_taken ct
+                INNER JOIN courses c ON ct.courses_id = c.id
+                SET on_storymode_lesson = ?
                 WHERE ct.users_id = ? AND c.language = ?
             `, [onLesson, userId, language]);
         } catch (err) {

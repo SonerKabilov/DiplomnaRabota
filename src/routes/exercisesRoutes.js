@@ -9,8 +9,17 @@ const checkUser = require('../middlewares/requireLogin');
 router
     .route("/:language/section/:sectionSequence/lesson/:lessonSequence")
     .all(checkUser.requireLogin)
-    .get(exercisesController.showLessonExercises)
+    .get(exercisesController.showLessonExercises);
+
+router
+    .route("/finish-lesson")
+    .all(checkUser.requireLogin)
     .patch(exercisesController.updateCompletedLesson);
+
+router
+    .route("/finish-premium-lesson")
+    .all(checkUser.requireLogin)
+    .patch(exercisesController.updatePremiumCompletedLesson);
 
 router
     .route("/section/:sectionId/lesson/:lessonSequence/get-exercises")

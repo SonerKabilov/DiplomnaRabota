@@ -60,13 +60,27 @@ module.exports = {
 
         return false;
     },
+    getCurrentUserCourse: async (userId, language) => {
+        return await accountRepository.getCurrentUserCourse(userId, language);
+    },
     updateUserDataForCompletedLesson: async (userData) => {
-        const onLesson = await accountRepository.getUserProgress(userData.userId);
+        const onLesson = await accountRepository.getUserProgress(userData.userId, userData.language);
 
-        await accountRepository.updateUserCurrency(50, userData.userId);
+        await accountRepository.updateUserCurrency(25, userData.userId);
 
         if (onLesson == userData.lessonSequence) {
             await accountRepository.updateUserProgress(onLesson + 1, userData.userId, userData.language);
+        }
+    },
+    updateUserDataForCompletedPremiumLesson: async (userData) => {
+        if(userData.sectionType === "storymode") {
+            const onStorymodeLesson = await accountRepository.getUserStorymodeProgress(userData.userId, userData.language);
+
+            if (onStorymodeLesson == userData.lessonSequence) {
+                await accountRepository.updateUserCurrency(50, userData.userId);
+
+                await accountRepository.updateUserStorymodeProgress(onStorymodeLesson + 1, userData.userId, userData.language);
+            }
         }
     },
     getUserCurrency: async (userId) => {
@@ -108,5 +122,19 @@ module.exports = {
             console.log("Active membership");
             return false;
         }
+    },
+    checkIfUserHasMembership: async (userId) => {
+        const currentMembership = await accountRepository.getUserMembership(userId);
+        const currentMembershipDate = new Date(currentMembership);
+        const formattedCurrentMembershipDate = format(currentMembershipDate, 'yyyy-MM-dd HH:mm:ss');
+
+        const now = new Date();
+        const formattedCurrentDate = format(now, 'yyyy-MM-dd HH:mm:ss');
+
+        if (formattedCurrentMembershipDate > formattedCurrentDate) {
+            return true;
+        }
+
+        return false;
     }
 }

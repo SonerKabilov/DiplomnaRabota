@@ -1,6 +1,7 @@
 const id = document.currentScript.getAttribute("id");
 const type = document.currentScript.getAttribute("sectionType");
 const lessonSequence = document.currentScript.getAttribute("lessonSequence");
+const language = document.currentScript.getAttribute("lang");
 
 const exerciseSectionDiv = document.querySelector(".exerciseSection");
 const images = document.querySelectorAll(".image-container");
@@ -20,8 +21,17 @@ let sequence = 1;
 let currentExerciseIndex = 0;
 let progressBarCounter = 1;
 let exercises = [];
+let completedExercises = [];
 const answer = new Map();
 let imageData = [];
+
+// Function to shuffle an array using Fisher-Yates algorithm
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
 function getImageName(path) {
     return path.substring(path.lastIndexOf('/') + 1);
@@ -67,6 +77,7 @@ const showExercise = () => {
         imagesDiv.classList.add("images");
         exerciseDiv.appendChild(imagesDiv);
 
+        shuffleArray(exercise.images);
         imageData = []; // Reset imageData
 
         for (let image of exercise.images) {
@@ -186,6 +197,7 @@ const nextExercise = (isCorrect) => {
 
     if (isCorrect) {
         currentExerciseIndex++;
+        // completedExercises.push(exerciseId);
     } else {
         console.log("greshka");
     }
@@ -200,17 +212,37 @@ const lessonCompleted = () => {
     lessonCompletedDiv.classList.add("lessonCompleted");
     exerciseSectionDiv.appendChild(lessonCompletedDiv);
 
-    const formCompleted = document.createElement("form");
-    formCompleted.id = "completed";
-    // formCompleted.action = `/exercises/${language}/section/${sectionSequence}/lesson/${lessonSequence}?_method=PATCH`;
-    formCompleted.method = "POST";
-    lessonCompletedDiv.appendChild(formCompleted);
-
     const paragraph = document.createElement("p");
     paragraph.textContent = "All exercises completed!";
-    formCompleted.appendChild(paragraph);
+    lessonCompletedDiv.appendChild(paragraph);
 
     const btnCompleted = document.createElement("button");
     btnCompleted.textContent = "Обратно";
-    formCompleted.appendChild(btnCompleted);
+    lessonCompletedDiv.appendChild(btnCompleted);
+
+    btnCompleted.addEventListener("click", async function () {
+        try {
+            // if (completedExercises.length === exercises.length) {
+                const response = await fetch(`/exercises/finish-premium-lesson?_method=PATCH`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        language: language,
+                        lessonSequence: lessonSequence,
+                        sectionType: "storymode"
+                    })
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+    
+                window.location.href = `/${language}/premium/lessons`;
+            // } else {
+            //     console.log('All exercises are not completed yet');
+            // }
+        } catch (error) {
+            console.error('Error marking lesson as completed:', error);
+        }
+    });
 }

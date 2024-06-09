@@ -12,54 +12,22 @@
     <%- include('../partials/header') %>
 
     <main class="sectionsMain">
-        <section class = "sections">
+        <section class="sections">
             <select name="sectionTypes" class="sectionTypes">
                 <option value="1" url="/<%= language %>/free/lessons" selected>Безплатни раздели</option>
                 <option value="2" url="/<%= language %>/premium/lessons">Платени раздели</option>
             </select>
-
-            <% for (let section of sections) { %>
-                <div class="section" section-id="<%= section.id %>">
-                    <p>Раздел <%= section.sequence %></p>
-                    <p class="description"><%= section.description %></p>
-                    <button class="showLessonsBtn">Show Lessons</button>
-                </div>
-            <% } %>
         </section>
         
         <section class="lessons">
-            <% 
-                let onLesson = 0;
-
-                for (const courseTaken of userData.coursesTaken) {
-                    if(courseTaken.language === language) {
-                        onLesson = courseTaken.on_lesson;
-                        break;
-                    }
-                }
-            %>
-        <% for (let lesson of lessons) { %>
-            <div class="lesson" lesson-section="<%= lesson.sections_id %>">
-                <%
-                    let isCompleted = "";
-                    let isDisabled = ""
-                    if (lesson.sequence <= onLesson) isCompleted = "completed"
-                    else isDisabled = "disabled"
-                %>
-
-                <i class="fa-solid fa-star <%= isCompleted %>" id="popoverBtn<%= lesson.sequence %>"></i>
-
-                <div class="popover" id="myPopover<%= lesson.id %>">
-                    <p><%= lesson.preview %></p>
-                    <br>
-                    <a class="startLesson <%= isDisabled %>" href="/exercises/<%= language %>/section/<%= lesson.section_sequence %>/lesson/<%= lesson.sequence %>">Старт</a>
-                </div>
-            </div>
-        <% } %>
+            
         </section>
     </main>
 
     <script src="/js/togglePopover.js"></script>
-    <script src="/js/showSections.js" sections = "<%= JSON.stringify(sections) %>"></script>
+    <script src="/js/showSections.js" 
+        sectionType = "free"
+        lang = "<%= language %>">
+    </script>
 </body>
 </html>

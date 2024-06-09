@@ -1,8 +1,9 @@
 const sectionsService = require('../services/sectionsService');
 const lessonsService = require('../services/lessonsService');
+const accountService = require('../services/accountService');
 
 module.exports = {
-    getFreeSections: async (req, res) => {
+    showFreeSectionsPage: async (req, res) => {
         try {
             const { language } = req.params;
 
@@ -26,12 +27,9 @@ module.exports = {
             if (isTaken) {
                 req.session.language = language;
 
-                const sections = await sectionsService.getAllSectionsForCourse(language);
-                const lessons = await lessonsService.getAllLessons(language);
-    
                 res
                     .status(200)
-                    .render("user/freeSections", { userData, language, sections, lessons });
+                    .render("user/freeSections", { userData, language });
             } else {
                 res.redirect("/courses/add");
             }
@@ -43,7 +41,24 @@ module.exports = {
                 .send("Not found");
         }
     },
-    getPremiumSections: async (req, res) => {
+    getFreeSectionsAndLessons: async (req, res) => {
+        try {
+            const { language } = req.params;
+            const userId = req.session.user_id;
+
+            const sections = await sectionsService.getAllSectionsForCourse(language);
+            const lessons = await lessonsService.getAllLessons(language);
+            const courseInformation = await accountService.getCurrentUserCourse(userId, language);
+            const onLesson = courseInformation[0].on_lesson;
+
+            res.json({ sections, lessons, onLesson });
+        } catch (error) {
+            console.error(error);
+
+            res.json([]);
+        }
+    },
+    showPremiumSectionsPage: async (req, res) => {
         try {
             const { language } = req.params;
 
@@ -67,12 +82,9 @@ module.exports = {
             if (isTaken) {
                 req.session.language = language;
 
-                const sections = await sectionsService.getAllPremiumSectionsForCourse(language);
-                const lessons = await lessonsService.getAllPremiumLessons(language);
-
                 res
                     .status(200)
-                    .render("user/premiumSections", { userData, language, sections, lessons });
+                    .render("user/premiumSections", { userData, language });
             } else {
                 res.redirect("/courses/add");
             }
@@ -82,6 +94,36 @@ module.exports = {
             res
                 .status(404)
                 .send("Not found");
+        }
+    },
+    getPremiumSectionsAndLessons: async (req, res) => {
+        try {
+            const { language } = req.params;
+            const userId = req.session.user_id;
+
+            const sections = await sectionsService.getAllPremiumSectionsForCourse(language);
+            const userHasMembership = await accountService.checkIfUserHasMembership(userId);
+
+            let lessons;
+            
+            if(userHasMembership) {
+                lessons = await lessonsService.getAllPremiumLessons(language);
+            } else {
+                lessons = [];
+            }
+            
+            const courseInformation = await accountService.getCurrentUserCourse(userId, language);
+
+            const onLesson = {
+                storymode: courseInformation[0].on_storymode_lesson,
+                test: courseInformation[0].on_test_lesson
+            }
+
+            res.json({ sections, lessons, onLesson });
+        } catch (error) {
+            console.error(error);
+
+            res.json([]);
         }
     },
     showSectionDetails: async (req, res) => {
