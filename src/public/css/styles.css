@@ -142,6 +142,7 @@ body {
 /* HEADER */
 
 header {
+    padding: 0 3.5rem;
     display: flex;
     justify-content: space-between;
     background-color: white;
@@ -892,4 +893,29 @@ main {
 .ElementsApp input {
     border: 1px solid gray !important;
     background-color: white  !important;
+}
+
+
+/* PURCHASE HISTORY  */
+.purchase-history {
+    text-align: center;
+}
+
+.purchase-history {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.purchase-history .table-head {
+    background-color: rgb(255, 238, 145, 0.8);;
+}
+
+.purchase-history td,
+.purchase-history th {
+    padding: 1rem 2rem;
+}
+
+.purchase-history .table-body {
+    border-bottom: 1px solid lightgray;
 }

@@ -1,3 +1,5 @@
+const { format } = require('date-fns');
+
 const shopRepository = require('../database/repositories/shopRepository');
 
 module.exports = {
@@ -36,5 +38,20 @@ module.exports = {
     },
     deleteShopItem: async (id) => {
         return await shopRepository.deleteShopItem(id);
+    },
+    addPaymentHistory: async (itemId, userId) => {
+        const now = new Date();
+        const formattedCurrentDate = format(now, 'yyyy-MM-dd HH:mm:ss');
+
+        return await shopRepository.insertPaymentHistory(formattedCurrentDate, itemId, userId);
+    },
+    getPurchaseHistory: async () => {
+        const purchaseHistory = await shopRepository.queryPurchaseHistory();
+
+        for (const product of purchaseHistory) {
+            product.date = format(product.date, 'yyyy-MM-dd HH:mm:ss');
+        }
+        
+        return purchaseHistory;
     }
 }

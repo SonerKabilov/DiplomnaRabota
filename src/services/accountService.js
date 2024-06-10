@@ -104,10 +104,19 @@ module.exports = {
             console.log("No active membership");
             const userCurrency = await accountRepository.getUserCurrency(userId);
 
-            if(userCurrency >= cost) {
+            if(cost !== '' && userCurrency >= cost) {
                 try {
                     await accountRepository.updateMembership(formattedNewMembershipDate, userId);
                     await accountRepository.reduceCurrency(cost, userId);
+                } catch (error) {
+                    console.log(error);
+                    return false;
+                }
+
+                return true;
+            } else if (cost === '') {
+                try {
+                    await accountRepository.updateMembership(formattedNewMembershipDate, userId);
                 } catch (error) {
                     console.log(error);
                     return false;

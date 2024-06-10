@@ -25,5 +25,9 @@ router
     .all(checkUser.requireLogin)
     .post(shopController.coinsPurchase);
 
+router
+    .route("/purchase-history")
+    .all(checkUser.requireLogin)
+    .get(shopController.showPurchaseHisory);
 
 module.exports = router;

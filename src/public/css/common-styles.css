@@ -6,6 +6,12 @@
     border: none !important; 
 }
 
+.logout {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
 /* LOGIN & REGISTRATION FORMS */
 
 #registerForm {

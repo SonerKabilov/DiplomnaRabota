@@ -35,28 +35,33 @@ module.exports = {
         }
     },
     showPremiumExercises: async (req, res) => {
+        const userId = req.session.user_id;
         const { language, type, lessonSequence } = req.params;
 
-        try {
-            let sectionDetails = {
-                language,
-                type,
-                lessonSequence
+        if (await accountService.checkIfUserHasMembership(userId)) {
+            try {
+                let sectionDetails = {
+                    language,
+                    type,
+                    lessonSequence
+                }
+    
+                const id = await sectionsService.getPremiumSectionIdByLanguage(sectionDetails);
+    
+                sectionDetails = {
+                    ...sectionDetails,
+                    id
+                }
+    
+                if (type === "storymode") {
+                    res.render("user/storymodeExercises", { sectionDetails });
+                }
+            } catch (error) {
+                console.error(error);
+                res.redirect(`/${language}/premium/lessons`);
             }
-
-            const id = await sectionsService.getPremiumSectionIdByLanguage(sectionDetails);
-
-            sectionDetails = {
-                ...sectionDetails,
-                id
-            }
-
-            if (type === "storymode") {
-                res.render("user/storymodeExercises", { sectionDetails });
-            }
-        } catch (error) {
-            console.error(error);
-            res.redirect(`/${language}/premium/lessons`);
+        } else {
+            res.redirect(`/${language}/free/lessons`);
         }
     },
     getStorymodeImages: async (req, res) => {

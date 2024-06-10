@@ -107,5 +107,35 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    insertPaymentHistory: async (date, itemId, userId) => {
+        try {
+            await pool.query(`
+                INSERT INTO purchase_history (date, shop_items_id, users_id)
+                VALUES (?, ?, ?)
+            `, [date, itemId, userId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    queryPurchaseHistory: async () => {
+        try {
+            const [result] = await pool.query(`
+                SELECT ph.date, st.quantity, st.cost, stt.item_type, stt.item_type_bulgarian, pt.payment_type
+                FROM purchase_history ph
+                INNER JOIN shop_items st
+                ON ph.shop_items_id = st.id
+                INNER JOIN shop_item_types stt
+                ON st.shop_item_types_id = stt.id
+                INNER JOIN payment_types pt
+                ON st.payment_types_id = pt.id
+            `);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

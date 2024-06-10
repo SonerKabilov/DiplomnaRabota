@@ -33,7 +33,7 @@ module.exports = {
 
         try {
             // Create payment intent or checkout session using the payment method ID
-            await stripe.paymentIntents.create({
+            const paymentIntent = await stripe.paymentIntents.create({
                 payment_method: payment_method_id, // Payment type -> credit card
                 amount: productData[0].cost * 100,
                 currency: 'bgn',
@@ -41,19 +41,42 @@ module.exports = {
                 return_url: 'http://localhost:3000/shop'
             });
 
-            await accountService.updateCurrency(productData[0].quantity, userId);
+            if (paymentIntent.status === 'succeeded') {
+                if (productData[0].item_type === "coins") {
+                    await accountService.updateCurrency(productData[0].quantity, userId);
 
-            const currency = await accountService.getUserCurrency(userId);
+                    await shopService.addPaymentHistory(itemId, userId);
 
-            req.session.user_currency = currency;
+                    const currency = await accountService.getUserCurrency(userId);
 
-            req.flash("success", "Успешно извършена покупка!");
+                    req.session.user_currency = currency;
 
-            res.status(200).json({ success: true });
+                    req.flash("success", "Успешно извършена покупка!");
+
+                    res.status(200).json({ success: true });
+                } else if (productData[0].item_type === "membership") {
+                    const membership = await accountService.updateMembership(userId, productData[0].quantity, '');
+
+                    if (!membership) {
+                        req.flash("error", "Имате активен абонамент!");
+
+                        res.status(400).json({ error: 'Имате активен абонамент' });
+                    } else {
+                        await shopService.addPaymentHistory(itemId, userId);
+
+                        req.flash("success", "Успешно закупен абонамент!");
+
+                        res.status(200).json({ success: true });
+                    }
+                }
+            } else {
+                req.flash("error", "Грешка при извършване на покупката!");
+                res.status(400).json({ error: 'Грешка при извършване на покупката' });
+            }
         } catch (error) {
             console.error('Error processing payment:', error);
-            req.flash("error", "Грешка при извършване на покупка!");
-            res.status(500).json({ error: 'Payment processing failed' });
+            req.flash("error", "Грешка при извършване на покупката!");
+            res.status(400).json({ error: 'Грешка при извършване на покупката' });
         }
     },
     showStripeForm: async (req, res) => {
@@ -65,7 +88,7 @@ module.exports = {
         try {
             let shopItem = await shopService.getItemForPurchasing(id);
             shopItem = shopItem[0];
-    
+
             const userData = {
                 userCurrency,
                 coursesTaken
@@ -93,6 +116,8 @@ module.exports = {
                     req.flash("error", "Имате активен абонамент!");
                 } else {
                     req.flash("success", "Успешно закупен абонамент!");
+
+                    await shopService.addPaymentHistory(itemId, userId);
 
                     const currency = await accountService.getUserCurrency(userId);
 
@@ -173,5 +198,20 @@ module.exports = {
             req.flash("error", "Грешка при добавяне на продукт!");
             res.redirect("/admin/shop-items/add");
         }
+    },
+    showPurchaseHisory: async (req, res) => {
+        const userCurrency = req.session.user_currency;
+        const coursesTaken = req.session.user_courses;
+        const language = req.session.language;
+
+        const userData = {
+            userCurrency,
+            coursesTaken
+        }
+
+        const purchaseHistory = await shopService.getPurchaseHistory();
+        console.log(purchaseHistory);
+
+        res.render("user/purchaseHistory", { userData, language, purchaseHistory });
     }
 }
