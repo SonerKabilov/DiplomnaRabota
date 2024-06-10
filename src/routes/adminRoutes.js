@@ -16,7 +16,7 @@ router
     .all(checkUser.checkIfUserIsLogged)
     .get(accountController.showAdminLogin)
     .post(accountController.loginAdmin);
-    
+
 
 // ** COURSES **
 router
@@ -37,6 +37,11 @@ router
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(sectionController.showSectionDetails)
     .patch(sectionController.updateSectionDescription);
+
+router
+    .route("/section/:id/remove")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .delete(sectionController.deleteFreeSection);
 
 router
     .route("/add/:courseId/section")
@@ -69,6 +74,11 @@ router
     .post(lessonController.addLesson);
 
 router
+    .route("/:language/sectionId/:sectionId/remove/lesson/:lessonSequence")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .delete(lessonController.deleteFreeLesson);
+
+router
     .route("/add/course/:language/:type/lesson")
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .post(lessonController.addPremiumLesson);
@@ -80,6 +90,12 @@ router
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(exercisesController.showAddExerciseForm)
     .post(exercisesController.addExercise);
+
+router
+    .route("/:language/sectionId/:sectionId/lesson/:lessonSequence/exercise/:id")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .patch(exercisesController.updateFreeExercise)
+    .delete(exercisesController.deleteFreeExercise);
 
 router
     .route("/add/:language/:type/sectionId/:sectionId/lesson/:lessonSequence/exercise")

@@ -12,7 +12,7 @@ module.exports = {
                 ON e.exercise_option_types_id = o.id
                 INNER JOIN exercise_task_types t
                 ON e.exercise_task_types_id = t.id
-                WHERE l.sequence = ? AND l.sections_id = ?
+                WHERE l.sequence = ? AND l.sections_id = ? AND e.is_deleted = '0'
             `, [lessonSequence, sectionId]);
 
             if (result.length > 0) {
@@ -30,7 +30,7 @@ module.exports = {
             throw err;
         }
     },
-    queryFreeExercise: async (exerciseId) => {
+    queryCorrectAnswer: async (exerciseId) => {
         try {
             const [result] = await pool.query(`
                 SELECT correct_answer
@@ -84,7 +84,7 @@ module.exports = {
                 WHERE url = ? AND storymode_exercise_id = ?
             `, [url, exerciseId]);
 
-            return result[0].sequence
+            return result[0].sequence;
         } catch (err) {
             console.error(err);
             throw err;
@@ -127,6 +127,56 @@ module.exports = {
                 INSERT INTO storymode_images (url, sequence, storymode_exercise_id)
                 VALUES (?, ?, ?)
             `, [url, sequence, lastInsertedId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    queryFreeLessonTaskTypes: async () => {
+        try {
+            const [result] = await pool.query(`
+                SELECT *
+                FROM exercise_task_types
+            `);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    queryFreeLessonOptionTypes: async () => {
+        try {
+            const [result] = await pool.query(`
+                SELECT *
+                FROM exercise_option_types
+            `);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    updateFreeExercise: async (exercise) => {
+        try {
+            await pool.query(`
+                    UPDATE free_exercises
+                    SET task = ?, options = ?, correct_answer = ?, exercise_task_types_id = ?, exercise_option_types_id = ?
+                    WHERE id = ?
+                `, [exercise.task, exercise.options, exercise.correctAnswer, exercise.taskTypesId, exercise.optionTypesId, exercise.id]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    updateExerciseDeletedStatus: async (id) => {
+        try {
+            await pool.query(`
+                    UPDATE free_exercises
+                    SET is_deleted = 1
+                    WHERE id = ?
+                `, [id]);
         } catch (err) {
             console.error(err);
             throw err;

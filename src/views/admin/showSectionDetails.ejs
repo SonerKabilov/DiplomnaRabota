@@ -34,6 +34,10 @@
             <form id="addLessonForm" action="/admin/add/course/<%= sectionDetails.language %>/section/<%= sectionDetails.sectionSequence %>/lesson" method="POST">
                 <button class="add">Добавяне на урок</button>
             </form>
+
+            <form action="/admin/section/<%= sectionDetails.id %>/remove?_method=DELETE" method="POST">
+                <button class="remove">Изтриване на раздела</button>
+            </form>
         </div>
     </div>
 </body>

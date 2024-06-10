@@ -22,6 +22,10 @@
                 <button class="update">Редактиране</button>
             </form>
 
+            <form action="/admin/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/remove/lesson/<%= lessonDetails.lessonSequence %>?_method=DELETE" method="POST">
+                <button class="remove">Изтриване на урок</button>
+            </form>
+
             <h3>Упражнения</h3>
             <% for (let exercise of lessonDetails.exercises) { %>
                 <div class="parent">
@@ -30,24 +34,46 @@
                     </p>
 
                     <div class="showHideDiv hidden">
-                        <form action="">
+                        <form action="/admin/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise/<%= exercise.id %>?_method=PATCH" method="POST">
                             <div class="formInput">
                                 <label for="task">Задание</label>
                                 <input type="text" name="task" id="task" value="<%= exercise.task %>">
                             </div>
 
+                            <div class="formInput">
+                                <label for="task-type">Тип на задание</label>
+                                <select name="taskTypes" id="task-type">
+                                    <% for (const taskType of lessonDetails.freeLessonTaskTypes) { %>
+                                        <% let isSelected = (taskType.type === exercise.task_type) ? "selected" : ""; %>
+                                        <option <%= isSelected %> value="<%= taskType.id %>"><%= taskType.task_type_bulgarian %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+
+                            <div class="formInput">
+                                <label for="option-type">Тип на отговор</label>
+                                <select name="optionTypes" id="option-type">
+                                    <% for (const optionType of lessonDetails.freeLessonOptionTypes) { %>
+                                        <% let isSelected = (optionType.type === exercise.option_type) ? "selected" : ""; %>
+                                        <option <%= isSelected %> value="<%= optionType.id %>"><%= optionType.option_type_bulgarian %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+
                             <div class="options">
                                 <% let optionNumber=1; %>
-                                    <% for (let option of exercise.options) { %>
-                                        <div class="formInput option">
-                                            <label for="option<%= optionNumber %>">Вариант <%= optionNumber %></label>
-                                            <input type="text" name="option" id="option<%= optionNumber %>" value="<%= option %>">
-                                        </div>
-                                        <% optionNumber++; } %>
 
-                                            <div class="formInput addOption">
-                                                <button type="button" id="addOptionButton" class="add">+</button>
-                                            </div>
+                                <% for (let option of exercise.options) { %>
+                                    <div class="formInput option">
+                                        <label for="option<%= optionNumber %>">Вариант <%= optionNumber %></label>
+                                        <input type="text" name="options" id="option<%= optionNumber %>" value="<%= option %>">
+                                    </div>
+
+                                <% optionNumber++; } %>
+
+                                <div class="formInput addOption">
+                                    <button type="button" id="addOptionButton" class="add">+</button>
+                                </div>
                             </div>
 
                             <div class="formInput">
@@ -55,9 +81,13 @@
                                 <input type="text" name="correctAnswer" id="correctAnswer" value="<%= exercise.correct_answer %>">
                             </div>
 
-                            <div class="formInput alignCenter">
+                            <div class="formInput">
                                 <button class="update">Редактиране</button>
                             </div>
+                        </form>
+
+                        <form action="/admin/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise/<%= exercise.id %>?_method=DELETE" method="POST">
+                            <button class="remove">Изтриване</button>
                         </form>
                     </div>
                 </div>

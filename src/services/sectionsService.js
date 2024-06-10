@@ -58,5 +58,8 @@ module.exports = {
     },
     updateSectionDescription: async (updatedSection) => {
         return await sectionsRepository.updateSectionDescription(updatedSection);
+    },
+    deleteFreeSection: async (id) => {
+        return await sectionsRepository.updateFreeSectionDeleteStatus(id);
     }
 }

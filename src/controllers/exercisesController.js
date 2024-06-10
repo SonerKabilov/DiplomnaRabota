@@ -45,14 +45,14 @@ module.exports = {
                     type,
                     lessonSequence
                 }
-    
+
                 const id = await sectionsService.getPremiumSectionIdByLanguage(sectionDetails);
-    
+
                 sectionDetails = {
                     ...sectionDetails,
                     id
                 }
-    
+
                 if (type === "storymode") {
                     res.render("user/storymodeExercises", { sectionDetails });
                 }
@@ -148,7 +148,7 @@ module.exports = {
 
         try {
             await accountService.updateUserDataForCompletedLesson(userData);
-    
+
             const currency = await accountService.getUserCurrency(userId);
             req.session.user_currency = currency;
 
@@ -173,7 +173,7 @@ module.exports = {
 
         try {
             await accountService.updateUserDataForCompletedPremiumLesson(userData);
-    
+
             const currency = await accountService.getUserCurrency(userId);
             req.session.user_currency = currency;
 
@@ -227,5 +227,63 @@ module.exports = {
         const result = await exercisesService.checkUserAnswer(userAnswerData);
 
         res.json(result);
+    },
+    updateFreeExercise: async (req, res) => {
+        const { language, sectionId, lessonSequence, id } = req.params;
+        const body = req.body;
+
+        const exercise = {
+            id: id,
+            task: body.task,
+            taskTypesId: body.taskTypes,
+            optionTypesId: body.optionTypes,
+            options: body.options,
+            correctAnswer: body.correctAnswer
+        }
+
+        try {
+            const result = await exercisesService.updateFreeExercise(exercise);
+
+            if (result) {
+                req.flash("success", "Успешно редактирано упражнение!");
+
+                res
+                    .status(201)
+                    .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+            } else {
+                req.flash("error", "Грешни данни за упражнение!");
+
+                res
+                    .status(400)
+                    .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+            }
+        } catch (err) {
+            req.flash("error", "Грешни данни за упражнение!");
+
+            res
+                .status(400)
+                .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
+    },
+    deleteFreeExercise: async (req, res) => {
+        const { language, sectionId, lessonSequence, id } = req.params;
+
+        try {
+            await exercisesService.deleteFreeExercise(id);
+
+            req.flash("success", "Успешно изтрито упражнение!");
+
+            res
+                .status(200)
+                .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        } catch (err) {
+            console.log(err);
+            
+            req.flash("error", "Неуспешно изтриване на упражнение!");
+
+            res
+                .status(400)
+                .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
     }
 }

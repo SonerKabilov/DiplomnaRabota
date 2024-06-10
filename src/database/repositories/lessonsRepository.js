@@ -10,7 +10,7 @@ module.exports = {
                 ON l.sections_id = s.id
                 INNER JOIN courses c
                 ON s.courses_id = c.id
-                WHERE s.sequence = ? AND c.language = ?
+                WHERE s.sequence = ? AND c.language = ? AND l.is_deleted = 0
                 ORDER BY l.sequence
             `, [sectionSequence, language]);
 
@@ -50,7 +50,7 @@ module.exports = {
                 ON l.sections_id = s.id
                 INNER JOIN courses c
                 ON s.courses_id = c.id
-                WHERE c.language = ?
+                WHERE c.language = ? AND l.is_deleted = 0
                 ORDER BY l.sequence
             `, [language]);
 
@@ -59,7 +59,7 @@ module.exports = {
             console.error(err);
             throw err;
         }
-    },    
+    },
     queryPremiumLessonsForUser: async (language) => {
         try {
             const [result] = await pool.query(`
@@ -93,7 +93,7 @@ module.exports = {
                 LIMIT 1
             `, [courseId]);
 
-            if(result.length === 0) {
+            if (result.length === 0) {
                 return 0;
             }
 
@@ -117,7 +117,7 @@ module.exports = {
                 LIMIT 1
             `, [courseId, type]);
 
-            if(result.length === 0) {
+            if (result.length === 0) {
                 return 0;
             }
 
@@ -135,7 +135,7 @@ module.exports = {
                 WHERE sequence = ? AND sections_id = ?
             `, [sequence, sectionId]);
 
-            if(result.length === 0) {
+            if (result.length === 0) {
                 return 0;
             }
 
@@ -153,7 +153,7 @@ module.exports = {
                 WHERE sequence = ? AND premium_sections_id = ?
             `, [sequence, sectionId]);
 
-            if(result.length === 0) {
+            if (result.length === 0) {
                 return 0;
             }
 
@@ -185,7 +185,7 @@ module.exports = {
             throw err;
         }
     },
-    getLessonPreview: async(lessonSequence, sectionId) => {
+    getLessonPreview: async (lessonSequence, sectionId) => {
         try {
             const [result] = await pool.query(`
                 SELECT preview
@@ -193,23 +193,41 @@ module.exports = {
                 WHERE sequence = ? AND sections_id = ?
             `, [lessonSequence, sectionId]);
 
-            if(result.length === 0) {
+            if (result.length === 0) {
                 return;
             }
-            
+
             return result[0].preview;
         } catch (err) {
             console.error(err);
             throw err;
         }
     },
-    updateLessonPreview: async(lessonToUpdate) => {
+    updateLessonPreview: async (lessonToUpdate) => {
         try {
             await pool.query(`
                 UPDATE free_lessons
                 SET preview = ?
                 WHERE sequence = ? AND sections_id = ?
             `, [lessonToUpdate.lessonPreview, lessonToUpdate.lessonSequence, lessonToUpdate.sectionId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    updateFreeLessonDeleteStatus: async (sectionId, lessonSequence) => {
+        try {
+            await pool.query(`
+                UPDATE free_lessons
+                SET is_deleted = 1, sequence = 0
+                WHERE sequence = ? AND sections_id = ?
+            `, [sectionId, lessonSequence]);
+
+            await pool.query(`
+                UPDATE free_lessons
+                SET sequence = sequence - 1
+                WHERE sequence > ? AND sections_id = ? AND is_deleted = 0
+            `, [lessonSequence, sectionId]);
         } catch (err) {
             console.error(err);
             throw err;

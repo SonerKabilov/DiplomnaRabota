@@ -10,7 +10,7 @@ module.exports = {
                 ON st.shop_item_types_id = stt.id
                 INNER JOIN payment_types pt
                 ON st.payment_types_id = pt.id
-                WHERE is_deleted = 1
+                WHERE is_deleted = 0
             `);
 
             return result;
@@ -26,7 +26,7 @@ module.exports = {
                 FROM shop_items st
                 INNER JOIN shop_item_types stt
                 ON st.shop_item_types_id = stt.id
-                WHERE st.id = ? AND is_deleted = 1
+                WHERE st.id = ? AND is_deleted = 0
             `, [id]);
 
             return result;
@@ -100,7 +100,7 @@ module.exports = {
         try {
             await pool.query(`
                 UPDATE shop_items
-                SET is_deleted = 0
+                SET is_deleted = 1
                 WHERE id = ?
             `, [id]);
         } catch (err) {

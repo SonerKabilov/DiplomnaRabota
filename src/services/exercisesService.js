@@ -29,49 +29,17 @@ module.exports = {
             }
         }
 
-        let isValidCorrectAnswer = false;
-
-        // Checks if the correct answer is in the options
-        if (newExercise.optionTypesId == 1) {
-            // For multiple_choice answer
-            for (let option of newExercise.options) {
-                if (option == newExercise.correctAnswer) {
-                    isValidCorrectAnswer = true;
-                    break;
-                }
-            }
-        } else if (newExercise.optionTypesId == 2) {
-            // For make_sentece answer
-            const correctAnswer = newExercise.correctAnswer;
-            const splitAnswer = correctAnswer.split(" ");
-
-            for (let answer of splitAnswer) {
-                isValidCorrectAnswer = false;
-
-                for (let option of newExercise.options) {
-                    if (answer == option) {
-                        isValidCorrectAnswer = true;
-                    }
-                }
-
-                if (!isValidCorrectAnswer) {
-                    break;
-                }
-            }
-        } else if (newExercise.optionTypesId == 3) {
-            // For text answer
-            isValidCorrectAnswer = true;
-        }
-
-        if (!isValidCorrectAnswer) {
-            return false;
-        }
-
         newExercise.options = JSON.stringify(newExercise.options);
 
-        await exercisesRepository.insertExercise(newExercise);
+        const isValidCorrectAnswer = checkCorrectAnswer(exercise);
 
-        return true;
+        if (isValidCorrectAnswer) {
+            await exercisesRepository.insertExercise(newExercise);
+
+            return true;
+        }
+
+        return false;
     },
     addStorymodeExercise: async (exerciseDetails) => {
         const sequences = exerciseDetails.img.sequence;
@@ -102,12 +70,64 @@ module.exports = {
         }
     },
     checkUserAnswer: async (userAnswerData) => {
-        const exercise = await exercisesRepository.queryFreeExercise(userAnswerData.exerciseId);
+        const exercise = await exercisesRepository.queryCorrectAnswer(userAnswerData.exerciseId);
 
         if (exercise === userAnswerData.userAnswer) {
             return true;
         }
 
         return false;
+    },
+    getFreeLessonTaskTypes: async () => {
+        return await exercisesRepository.queryFreeLessonTaskTypes();
+    },
+    getFreeLessonOptionTypes: async () => {
+        return await exercisesRepository.queryFreeLessonOptionTypes();
+    },
+    updateFreeExercise: async (exercise) => {
+        // Removes blank option inputs
+        for (let option of exercise.options) {
+            if (option == "") {
+                const index = exercise.options.indexOf(option);
+                exercise.options.splice(index, 1);
+            }
+        }
+
+        exercise.options = JSON.stringify(exercise.options);
+
+        const isValidCorrectAnswer = checkCorrectAnswer(exercise);
+
+        if (isValidCorrectAnswer) {
+            await exercisesRepository.updateFreeExercise(exercise);
+            
+            return true;
+        }
+
+        return false;
+    },
+    deleteFreeExercise: async (id) => {
+        return await exercisesRepository.updateExerciseDeletedStatus(id);
     }
+}
+
+function checkCorrectAnswer(exercise) { 
+    let isValidCorrectAnswer = false;
+
+    const options = JSON.parse(exercise.options);
+
+    // Checks if the correct answer is in the options
+    if (exercise.optionTypesId == 1) {
+        // For multiple_choice answer
+        isValidCorrectAnswer = options.includes(exercise.correctAnswer);
+    } else if (exercise.optionTypesId == 2) {
+        // For make_sentece answer
+        const splitAnswer = exercise.correctAnswer.split(" ");
+
+        isValidCorrectAnswer = splitAnswer.every(answer => options.includes(answer));
+    } else if (exercise.optionTypesId == 3) {
+        // For text answer
+        isValidCorrectAnswer = true;
+    }
+
+    return isValidCorrectAnswer;
 }

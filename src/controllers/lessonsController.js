@@ -17,13 +17,17 @@ module.exports = {
 
         const exercises = await exercisesService.getAllLessonExercises(sectionId, lessonSequence);
         const lessonPreview = await lessonsService.getLessonPreview(lessonSequence, sectionId);
+        const freeLessonTaskTypes = await exercisesService.getFreeLessonTaskTypes();
+        const freeLessonOptionTypes = await exercisesService.getFreeLessonOptionTypes();
 
         const lessonDetails = {
             language,
             sectionId,
             lessonSequence,
             exercises,
-            lessonPreview
+            lessonPreview,
+            freeLessonTaskTypes,
+            freeLessonOptionTypes
         }
 
         res.render("admin/showLessonDetails", { lessonDetails });
@@ -44,7 +48,7 @@ module.exports = {
             }
 
             console.log(exercises);
-    
+
             res.render("admin/showPremiumLessonDetails", { lessonDetails });
         } catch (err) {
             console.log(err);
@@ -128,6 +132,27 @@ module.exports = {
             req.flash("error", "Грешка при редактиране на описание на урок!");
 
             return res.redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
+    },
+    deleteFreeLesson: async (req, res) => {
+        const { language, sectionId, lessonSequence } = req.params;
+
+        try {
+            await lessonsService.deleteFreeLesson(sectionId, lessonSequence);
+
+            req.flash("success", "Успешно изтриване на урок!");
+
+            res
+                .status(200)
+                .redirect(`/admin/show/${language}/section/${sectionId}/lessons`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно изтриване на урок!");
+
+            res
+                .status(404)
+                .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
         }
     }
 }

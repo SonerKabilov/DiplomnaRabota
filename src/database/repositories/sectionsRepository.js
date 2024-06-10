@@ -8,6 +8,7 @@ module.exports = {
                 FROM free_sections s
                 INNER JOIN courses c
                 ON s.courses_id = c.id
+                WHERE s.is_deleted = '0'
                 ORDER BY sequence
             `);
 
@@ -41,7 +42,7 @@ module.exports = {
                 FROM free_sections s
                 INNER JOIN courses c
                 ON s.courses_id = c.id
-                WHERE c.language = ?
+                WHERE c.language = ? AND s.is_deleted = '0'
                 ORDER BY sequence
             `, [language]);
 
@@ -232,6 +233,35 @@ module.exports = {
             `, [sectionDetails.type, sectionDetails.language]);
 
             return result[0].id;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    updateFreeSectionDeleteStatus: async (id) => {
+        try {
+            const [result] = await pool.query(`
+                    SELECT sequence, courses_id
+                    FROM free_sections
+                    WHERE id = ?
+                `, [id]);
+
+            if (result.length > 0) {
+                const sequence = result[0].sequence;
+                const courseId = result[0].courses_id;
+
+                await pool.query(`
+                    UPDATE free_sections
+                    SET is_deleted = 1, sequence = 0
+                    WHERE id = ?
+                `, [id]);
+
+                await pool.query(`
+                    UPDATE free_sections
+                    SET sequence = sequence - 1,
+                    WHERE sequence > ? AND courses_id = ? AND is_deleted = 0
+                `, [sequence, courseId]);
+            }
         } catch (err) {
             console.error(err);
             throw err;

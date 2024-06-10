@@ -105,13 +105,13 @@ module.exports = {
             const userHasMembership = await accountService.checkIfUserHasMembership(userId);
 
             let lessons;
-            
-            if(userHasMembership) {
+
+            if (userHasMembership) {
                 lessons = await lessonsService.getAllPremiumLessons(language);
             } else {
                 lessons = [];
             }
-            
+
             const courseInformation = await accountService.getCurrentUserCourse(userId, language);
 
             const onLesson = {
@@ -231,6 +231,27 @@ module.exports = {
             console.log(err);
 
             req.flash("error", "Неуспешно редактиране на описание на раздел!");
+
+            res
+                .status(404)
+                .redirect("/admin");
+        }
+    },
+    deleteFreeSection: async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            await sectionsService.deleteFreeSection(id);
+
+            req.flash("success", "Успешно изтриване на раздел!");
+
+            res
+                .status(200)
+                .redirect(`/admin`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно изтриване на раздел!");
 
             res
                 .status(404)
