@@ -718,6 +718,13 @@ main {
     font-size: 25px;
 }
 
+.flashcardsModalDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 /* STUDY FLASHCARDS */
 #flashcardMain {
     flex-direction: column;
@@ -828,7 +835,7 @@ main {
 }
 
 .fa-xmark,
-.fa-check {
+.correctAnswer .fa-check {
     font-size: 30px;
     border: 1px solid;
     border-radius: 100%;

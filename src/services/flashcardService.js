@@ -32,5 +32,19 @@ module.exports = {
         if(flashcardDetails.score >= 1 && flashcardDetails.score <= 5) {
             await flashcardRepository.updateFlashcardScore(flashcardDetails);
         }
+    },
+    addFlashcardRecommendation: async (flashcard) => {
+        const checkIfFlashcardSuggestionExists = await flashcardRepository.getFlashcardRecommendation(flashcard);
+        console.log(checkIfFlashcardSuggestionExists);
+
+        if(checkIfFlashcardSuggestionExists) {
+            return await flashcardRepository.insertFlashcardRecommendation(flashcard);
+        }
+    },
+    getFlashcardRecommendations: async (userId) => {
+        return await flashcardRepository.queryFlashcardRecommendations(userId);
+    },
+    removeFlashcardRecommendation: async (flashcardId) => {
+        return await flashcardRepository.deleteFlashcardRecommendation(flashcardId);
     }
 }

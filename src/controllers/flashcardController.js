@@ -126,7 +126,7 @@ module.exports = {
     },
     addScore: async (req, res) => {
         const { score } = req.body;
-        const { categoryId, flashcardId } = req.params;
+        const { flashcardId } = req.params;
         const userId = req.session.user_id;
 
         const flashcardDetails = {
@@ -135,10 +135,71 @@ module.exports = {
             userId
         }
 
-        await flashcardService.addScore(flashcardDetails);
+        try {
+            await flashcardService.addScore(flashcardDetails);
 
-        res.redirect(`/flashcards/study/${categoryId}`);
+            // res.redirect(`/flashcards/study/${categoryId}`);
+    
+            res.status(200).send({ success: true });
+        } catch(error) {
+            console.log(error);
+        }
+    },
+    addFlashcardRecommendation: async (req, res) => {
+        const { question, answer } = req.body;
+        const userId = req.session.user_id;
 
-        // res.status(200).send({ success: true, message: 'Score added successfully.' });
+        const flashcard = {
+            question: question,
+            answer: answer,
+            userId: userId
+        }
+
+        try {
+            await flashcardService.addFlashcardRecommendation(flashcard);
+            res.status(200).send({ success: true });
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    getFlashcardRecommendations: async (req, res) => {
+        const userId = req.session.user_id;
+
+        try {
+            const flashcards = await flashcardService.getFlashcardRecommendations(userId);
+
+            res.json(flashcards);
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    addRecommendationToFlashcards: async (req, res) => {
+        const { categoryId, flashcardId, question, answer } = req.body;
+
+        const flashcardDetails = {
+            categoryId,
+            question,
+            answer
+        }
+
+        try {
+            await flashcardService.addFlashcard(flashcardDetails);
+            await flashcardService.removeFlashcardRecommendation(flashcardId);
+            res.status(200).send({ success: true });
+        } catch (error) {
+            console.log(error);
+            res.status(400).send({ success: false });
+        }
+    },
+    removeRecommendation: async (req, res) => {
+        const { flashcardId } = req.body;
+
+        try {
+            await flashcardService.removeFlashcardRecommendation(flashcardId);
+            res.status(200).send({ success: true });
+        } catch (error) {
+            console.log(error);
+            res.status(400).send({ success: false });
+        }
     }
 }

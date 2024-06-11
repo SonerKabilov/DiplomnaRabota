@@ -10,7 +10,7 @@ const prevButton = document.querySelector('#prevBtn');
 const scores = document.querySelector('#scores');
 
 function showFlashcard(index) {
-    
+
     if (index < flashcards.length - 1) {
         nextButton.disabled = false;
     } else if (index === flashcards.length - 1) {
@@ -22,7 +22,7 @@ function showFlashcard(index) {
     } else {
         prevButton.classList.remove("disabled");
     }
-    
+
     const flashcard = flashcards[index];
     front.innerHTML = `
         <h2>Въпрос</h2>
@@ -38,12 +38,33 @@ function showFlashcard(index) {
 
     for (let i = 1; i <= 5; i++) {
         const formHTML = `
-        <form action="/flashcards/add/${flashcard.flashcard_categories_id}/flashcard/${flashcard.id}/score" method="POST">
-            <input type="hidden" name="score" value="${i}">
-            <button class="scoreButton${i}">${i}</button>
-        </form>`;
+            <button 
+                class="scoreButton${i} scorebuttons"
+                data-score="${i}"
+                data-category-id="${flashcard.flashcard_categories_id}"
+                data-flashcard-id="${flashcard.id}">
+                ${i}
+            </button>
+        `;
         scores.insertAdjacentHTML('beforeend', formHTML);
     };
+
+    const scoreButtons = document.querySelectorAll(".scorebuttons");
+
+    for (const scoreButton of scoreButtons) {
+        scoreButton.addEventListener("click", async function () {
+            const flashcardId = scoreButton.getAttribute("data-flashcard-id");
+            const score = scoreButton.getAttribute("data-score");
+
+            await fetch(`/flashcards/add/flashcard/${flashcardId}/score`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    score: score
+                })
+            });
+        })
+    }
 }
 
 nextButton.addEventListener('click', () => {

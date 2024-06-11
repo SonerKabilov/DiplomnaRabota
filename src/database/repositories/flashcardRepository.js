@@ -134,5 +134,60 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    insertFlashcardRecommendation: async (flashcard) => {
+        try {
+            await pool.query(`
+                INSERT INTO flashcard_recommendations (question, answer, users_id)
+                VALUES (?, ?, ?)
+            `, [flashcard.question, flashcard.answer, flashcard.userId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    getFlashcardRecommendation: async (flashcard) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT *
+                FROM flashcard_recommendations
+                WHERE question = ? AND answer = ? AND users_id = ?
+            `, [flashcard.question, flashcard.answer, flashcard.userId]);
+
+            if (result.length > 0) {
+                return false;
+            }
+
+            return true;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    queryFlashcardRecommendations: async (userId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT *
+                FROM flashcard_recommendations
+                WHERE users_id = ?
+            `, [userId]);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    deleteFlashcardRecommendation: async (flashcardId) => {
+        try {
+            await pool.query(`
+                DELETE
+                FROM flashcard_recommendations
+                WHERE id = ?
+            `, [flashcardId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

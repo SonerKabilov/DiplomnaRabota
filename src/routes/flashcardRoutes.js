@@ -42,9 +42,24 @@ router
     .get(flashcardController.studyFlashcards);
 
 router
-    .route("/add/:categoryId/flashcard/:flashcardId/score")
+    .route("/add/flashcard/:flashcardId/score")
     .all(checkUser.requireLogin)
     .post(flashcardController.addScore);
 
+router
+    .route("/recommendation")
+    .all(checkUser.requireLogin)
+    .get(flashcardController.getFlashcardRecommendations)
+    .post(flashcardController.addFlashcardRecommendation);
+
+router
+    .route("/accept-recommendation")
+    .all(checkUser.requireLogin)
+    .post(flashcardController.addRecommendationToFlashcards);
+
+router
+    .route("/decline-recommendation")
+    .all(checkUser.requireLogin)
+    .post(flashcardController.removeRecommendation);
 
 module.exports = router;

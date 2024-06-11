@@ -56,37 +56,39 @@
             </div>
             
             <div class="flashcardsDisplay">
-                <button id="openAddFlashcardModalBtn" data-category-id="<%= categoryInformation.id %>" class="add">Добавяне на флашкарта</button>
+                <div class="display-flex">
+                    <button id="openAddFlashcardModalBtn" data-category-id="<%= categoryInformation.id %>" class="add">Добавяне на флашкарта</button>
+                    <button id="openSuggestedFlashcardsModalBtn" data-category-id="<%= categoryInformation.id %>" class="add">Препоръчани флашкарти</button>
+                </div>
 
-                    <% for (flashcard of flashcards) { %>
-                        <div class="flashcardItem">
-                            <p class="score scoreButton<%= flashcard.score %>"><%= flashcard.score %></p>
+                <% for (flashcard of flashcards) { %>
+                    <div class="flashcardItem">
+                        <p class="score scoreButton<%= flashcard.score %>"><%= flashcard.score %></p>
                             
-                            <div class="flashcard">
-                                <p class="flashcardParagraphSolidLine"><span>В</span><%= flashcard.question %></p>
-                                <p class="flashcardParagraphDashedLine"><span>О</span><%= flashcard.answer %></p>
+                        <div class="flashcard">
+                            <p class="flashcardParagraphSolidLine"><span>В</span><%= flashcard.question %></p>
+                            <p class="flashcardParagraphDashedLine"><span>О</span><%= flashcard.answer %></p>
 
-                                <button 
-                                    class="updateFlashcardModalBtn" 
-                                    data-question="<%= flashcard.question %>"
-                                    data-answer="<%= flashcard.answer %>"
-                                    data-flashcard-id="<%= flashcard.id %>">
+                            <button 
+                                class="updateFlashcardModalBtn" 
+                                data-question="<%= flashcard.question %>"
+                                data-answer="<%= flashcard.answer %>"
+                                data-flashcard-id="<%= flashcard.id %>">
 
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
 
-                                <button 
-                                    class="deleteFlashcardModalBtn"
-                                    data-flashcard-id="<%= flashcard.id %>">
+                            <button 
+                                class="deleteFlashcardModalBtn"
+                                data-flashcard-id="<%= flashcard.id %>">
                                     
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </div>
-                    <% } %>
+                    </div>
                 <% } %>
+            <% } %>
             </div>
-
         </div>
     </main>
 

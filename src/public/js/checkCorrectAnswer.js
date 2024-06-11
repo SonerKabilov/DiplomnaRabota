@@ -100,6 +100,7 @@ const showTask = (exercise) => {
 };
 
 const showOptions = (exercise) => {
+    const task = exercise.task;
     const correctAnswer = exercise.correct_answer;
     const exerciseId = exercise.id;
     const options = exercise.options;
@@ -124,13 +125,13 @@ const showOptions = (exercise) => {
     }
 
     if (exercise.option_type === "multiple_choice") {
-        checkMultipleChoiceAnswer(exerciseId, correctAnswer);
+        checkMultipleChoiceAnswer(exerciseId, correctAnswer, task);
     } else if (exercise.option_type === "make_sentence") {
-        checkMakeSentenceAnswer(exerciseId, correctAnswer);
+        checkMakeSentenceAnswer(exerciseId, correctAnswer, task);
     }
 }
 
-const checkMakeSentenceAnswer = (exerciseId, correctAnswer) => {
+const checkMakeSentenceAnswer = (exerciseId, correctAnswer, task) => {
     const makeSentenceDiv = document.querySelector('.makeSentenceDiv');
     const optionsDiv = document.querySelector(".optionsDiv");
 
@@ -180,6 +181,15 @@ const checkMakeSentenceAnswer = (exerciseId, correctAnswer) => {
 
             nextExerciseHeading.textContent = "Правилно!"
         } else {
+            await fetch(`/flashcards/recommendation`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question: task,
+                    answer: correctAnswer
+                })
+            });
+
             audio.src = "/sounds/wrong-answer-126515.mp3";
 
             nextExerciseDiv.classList.add("wrongAnswer");
@@ -212,7 +222,7 @@ const checkMakeSentenceAnswer = (exerciseId, correctAnswer) => {
     showNextButton.addEventListener("click", handleShowNextButtonClick);
 }
 
-const checkMultipleChoiceAnswer = async (exerciseId, correctAnswer) => {
+const checkMultipleChoiceAnswer = async (exerciseId, correctAnswer, task) => {
     const buttons = document.querySelectorAll(".optionButton");
 
     let userAnswer;
@@ -252,6 +262,15 @@ const checkMultipleChoiceAnswer = async (exerciseId, correctAnswer) => {
 
             nextExerciseHeading.textContent = "Правилно!"
         } else {
+            await fetch(`/flashcards/recommendation`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question: task,
+                    answer: correctAnswer
+                })
+            });
+            
             audio.src = "/sounds/wrong-answer-126515.mp3";
 
             nextExerciseDiv.classList.add("wrongAnswer");

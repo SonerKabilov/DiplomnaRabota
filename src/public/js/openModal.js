@@ -195,6 +195,126 @@ function createDeleteModal(formAction) {
 }
 
 
+function createFlashcardRecommendationsModal(flashcards, categoryId) {
+    const flashcardsModalDiv = document.createElement("div");
+    flashcardsModalDiv.classList.add("modal");
+
+    const modalContentDiv = document.createElement("div");
+    modalContentDiv.classList.add("modal-content");
+    flashcardsModalDiv.appendChild(modalContentDiv);
+
+    const closeSpan = document.createElement("span");
+    closeSpan.classList.add("close");
+    modalContentDiv.appendChild(closeSpan);
+    closeSpan.textContent = "×";
+
+    const modalHeader = document.createElement("h2");
+    modalHeader.textContent = "Препоръчани флашкарти";
+    modalHeader.classList.add("modalHeader");
+    modalContentDiv.appendChild(modalHeader);
+
+    const allFlashcardsDiv = document.createElement("div");
+    allFlashcardsDiv.classList.add("flashcardsModalDiv");
+    modalContentDiv.appendChild(allFlashcardsDiv);
+
+    let currentBatch = 0;
+    const batchSize = 2;
+
+    displayFlashcardsBatch(flashcards, allFlashcardsDiv, currentBatch * batchSize, batchSize, categoryId);
+
+    const showMoreBtn = document.createElement("button");
+    showMoreBtn.textContent = "Show More";
+    showMoreBtn.addEventListener("click", () => {
+        currentBatch++;
+        displayFlashcardsBatch(flashcards, allFlashcardsDiv, currentBatch * batchSize, batchSize, categoryId);
+        if ((currentBatch + 1) * batchSize >= flashcards.length) {
+            showMoreBtn.style.display = "none";
+        }
+    });
+
+    modalContentDiv.appendChild(showMoreBtn);
+
+    document.body.appendChild(flashcardsModalDiv);
+
+    flashcardsModalDiv.style.display = "block";
+    flashcardsModalDiv.classList.add("fade-in");
+
+    closeSpan.addEventListener("click", function () {
+        flashcardsModalDiv.remove(); // Remove modal when close button is clicked
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target == flashcardsModalDiv) {
+            flashcardsModalDiv.style.display = "none";
+            flashcardsModalDiv.classList.remove("fade-in");
+        }
+    });
+}
+
+function displayFlashcardsBatch(flashcards, allFlashcardsDiv, startIndex, batchSize, categoryId) {
+    const endIndex = Math.min(startIndex + batchSize, flashcards.length);
+
+    for (let i = startIndex; i < endIndex; i++) {
+        const flashcardDiv = document.createElement("div");
+        flashcardDiv.classList.add("flashcard");
+        allFlashcardsDiv.appendChild(flashcardDiv);
+
+        const question = document.createElement("p");
+        question.textContent = flashcards[i].question;
+        question.classList.add("flashcardParagraphSolidLine");
+        flashcardDiv.appendChild(question);
+
+        const answer = document.createElement("p");
+        answer.textContent = flashcards[i].answer;
+        answer.classList.add("flashcardParagraphDashedLine");
+        flashcardDiv.appendChild(answer);
+
+        const acceptBtn = document.createElement("button");
+        acceptBtn.classList.add("updateFlashcardModalBtn");
+        flashcardDiv.appendChild(acceptBtn);
+
+        acceptBtn.addEventListener("click", async function () {
+            await fetch(`/flashcards/accept-recommendation`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    categoryId: categoryId,
+                    flashcardId: flashcards[i].id,
+                    question: flashcards[i].question,
+                    answer: flashcards[i].answer
+                })
+            });
+
+            window.location.href="/flashcards";
+        });
+
+        const acceptIcon = document.createElement("i");
+        acceptIcon.classList.add("fa-solid", "fa-check");
+        acceptBtn.appendChild(acceptIcon);
+
+        const declineBtn = document.createElement("button");
+        declineBtn.classList.add("updateFlashcardModalBtn");
+        flashcardDiv.appendChild(declineBtn);
+
+        declineBtn.addEventListener("click", async function () {
+            await fetch("/flashcards/decline-recommendation", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    flashcardId: flashcards[i].id
+                })
+            });
+
+            window.location.href="/flashcards";
+        });
+
+        const declineIcon = document.createElement("i");
+        declineIcon.classList.add("fa-solid", "fa-x");
+        declineBtn.appendChild(declineIcon);
+    }
+}
+
+
 // Create add modal when add category button is clicked
 const addCategoryBtn = document.querySelector("#openFlashcardCategoryModalBtn");
 addCategoryBtn.addEventListener('click', function () {
@@ -259,3 +379,22 @@ for (const deleteFlashcardModalBtn of deleteFlashcardModalBtns) {
     }
     )
 };
+
+
+const openSuggestedFlashcardsModalBtn = document.querySelector("#openSuggestedFlashcardsModalBtn");
+openSuggestedFlashcardsModalBtn.addEventListener("click", async function () {
+    try {
+        const response = await fetch(`/flashcards/recommendation`, {
+            method: "GET",
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const flashcards = await response.json();
+
+        const categoryId = flashcardModalBtn.getAttribute("data-category-id");
+
+        createFlashcardRecommendationsModal(flashcards, categoryId);
+    } catch (error) {
+        console.error('Error fetching flashcards:', error);
+    }
+});
