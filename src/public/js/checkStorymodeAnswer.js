@@ -69,7 +69,8 @@ const showExercise = () => {
     exerciseDiv.innerHTML = "";
 
     if (exercise) {
-        const task = document.createElement("p");
+        const task = document.createElement("h2");
+        task.classList.add("storymode-task");
         task.textContent = exercise.task;
         exerciseDiv.appendChild(task);
 

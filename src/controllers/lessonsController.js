@@ -36,18 +36,20 @@ module.exports = {
         const { language, type, sectionId, lessonSequence } = req.params;
 
         try {
-            const exercises = await exercisesService.getAllPremiumLessonExercises(sectionId, type, lessonSequence);
+            const exercise = await exercisesService.getStorymodeTask(sectionId, lessonSequence);
+            const images = await exercisesService.getStorymodeImages(exercise[0].id);
+           
+            console.log(exercise);
+            console.log(images);
 
             const lessonDetails = {
                 language,
                 type,
                 sectionId,
                 lessonSequence,
-                exercises,
-                lessonPreview: ""
+                exercise,
+                images
             }
-
-            console.log(exercises);
 
             res.render("admin/showPremiumLessonDetails", { lessonDetails });
         } catch (err) {
@@ -138,7 +140,7 @@ module.exports = {
         const { language, sectionId, lessonSequence } = req.params;
 
         try {
-            await lessonsService.deleteFreeLesson(sectionId, lessonSequence);
+            await lessonsService.deleteFreeLesson(sectionId, lessonSequence, language);
 
             req.flash("success", "Успешно изтриване на урок!");
 

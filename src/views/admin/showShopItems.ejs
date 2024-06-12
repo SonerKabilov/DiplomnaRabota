@@ -18,7 +18,7 @@
             <h2>Магазин</h2>
 
             <div class="memberships">
-                <p>Абонаменти</p>
+                <h4 class="shop-item-type">Абонаменти</h4>
 
                 <% for (const membership of shopItems.memberships) { %>
                     <form action="/admin/shop-items/<%= membership.id %>/?_method=PATCH" method="POST">
@@ -63,7 +63,7 @@
             </div>
             
             <div class="coins">
-                <p>Монети</p>
+                <h4 class="shop-item-type">Монети</h4>
 
                 <% for (const coins of shopItems.coins) { %>
                     <form action="/admin/shop-items/<%= coins.id %>/?_method=PATCH" method="POST">

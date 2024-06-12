@@ -215,19 +215,23 @@ module.exports = {
             throw err;
         }
     },
-    updateFreeLessonDeleteStatus: async (sectionId, lessonSequence) => {
+    updateFreeLessonDeleteStatus: async (sectionId, lessonSequence, language) => {
         try {
             await pool.query(`
                 UPDATE free_lessons
                 SET is_deleted = 1, sequence = 0
                 WHERE sequence = ? AND sections_id = ?
-            `, [sectionId, lessonSequence]);
+            `, [lessonSequence, sectionId]);
 
             await pool.query(`
-                UPDATE free_lessons
-                SET sequence = sequence - 1
-                WHERE sequence > ? AND sections_id = ? AND is_deleted = 0
-            `, [lessonSequence, sectionId]);
+                UPDATE free_lessons l
+                INNER JOIN free_sections s
+                ON l.sections_id = s.id
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                SET l.sequence = l.sequence - 1
+                WHERE l.sequence > ? AND c.language = ? AND l.is_deleted = 0
+            `, [lessonSequence, language]);
         } catch (err) {
             console.error(err);
             throw err;

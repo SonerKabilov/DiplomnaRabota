@@ -7,6 +7,7 @@ module.exports = {
         const language = req.session.language;
         const userId = req.session.user_id;
         let { categoryId } = req.body;
+        
 
         const userData = {
             userCurrency,
@@ -16,7 +17,11 @@ module.exports = {
         const flashcardCategories = await flashcardService.getFlashcardCategories(userId);
 
         if (categoryId === undefined && flashcardCategories.length > 0) {
-            categoryId = flashcardCategories[0].id;
+            categoryId = req.query.categoryId;
+
+            if (categoryId === undefined) {
+                categoryId = flashcardCategories[0].id;
+            }
         }
 
         const categoryInformation = await flashcardService.getFlashcardCategoryInfo(categoryId);
@@ -35,7 +40,7 @@ module.exports = {
 
         await flashcardService.addCategory(categoryDetails);
 
-        res.redirect("/flashcards");
+        res.redirect(`/flashcards`);
     },
     updateCategoryTitle: async (req, res) => {
         const { categoryId } = req.params;
@@ -50,7 +55,7 @@ module.exports = {
 
         await flashcardService.updateCategoryTitle(categoryDetails);
 
-        res.redirect("/flashcards");
+        res.redirect(`/flashcards?categoryId=${categoryId}`);
     },
     deleteCategory: async (req, res) => {
         const { categoryId } = req.params;
@@ -72,13 +77,14 @@ module.exports = {
 
         await flashcardService.addFlashcard(flashcardDetails);
 
-        res.redirect("/flashcards");
+        res.redirect(`/flashcards?categoryId=${categoryId}`);
     },
     updateFlashcard: async (req, res) => {
         try {
             const { flashcardId } = req.params;
             const { question, answer } = req.body;
             const userId = req.session.user_id;
+            const categoryId = req.query.categoryId;
 
             const flashcardDetails = {
                 flashcardId,
@@ -89,7 +95,7 @@ module.exports = {
 
             await flashcardService.updateFlashcard(flashcardDetails);
 
-            res.redirect("/flashcards");
+            res.redirect(`/flashcards?categoryId=${categoryId}`);
         } catch (error) {
             console.error(error);
         }
@@ -98,6 +104,7 @@ module.exports = {
     deleteFlashcard: async (req, res) => {
         const { flashcardId } = req.params;
         const userId = req.session.user_id;
+        const categoryId = req.query.categoryId;
 
         const flashcardDetails = {
             flashcardId,
@@ -106,7 +113,7 @@ module.exports = {
 
         await flashcardService.deleteFlashcard(flashcardDetails);
 
-        res.redirect("/flashcards");
+        res.redirect(`/flashcards?categoryId=${categoryId}`);
     },
     studyFlashcards: async (req, res) => {
         const userCurrency = req.session.user_currency;

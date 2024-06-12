@@ -10,7 +10,6 @@
     background-color: #ffd900;
     border: 1px solid #ffd900;
     color: white;
-    font-size: 20px;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -53,10 +52,6 @@ body {
 
 
 /* HOME PAGE */
-
-.homepage {
-    font-family: din-round, sans-serif;
-}
 
 .homepage {
     margin: 0;
@@ -234,6 +229,17 @@ header a:visited {
     width: 30px;
 }
 
+.profileLinks {
+    padding: 1rem;
+}
+
+.profileLinks a {
+    margin-bottom: 1rem;
+}
+
+.profileLinks a p {
+    margin-top: 0;
+}
 
 /* SECTIONS & LESSONS */
 
@@ -319,7 +325,6 @@ main {
     align-content: flex-start;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     margin-left: 1rem;
-    height: 7rem;
 }
 
 .section p {
@@ -347,10 +352,12 @@ main {
 }
 
 .description {
-    margin-bottom: 1rem !important;
-    font-size: 15px;
+    font-weight: 500;
 }
 
+.showLessonsBtn {
+    margin-top: 1rem;
+}
 
 /* EXERCISES */
 
@@ -403,7 +410,6 @@ main {
 }
 
 .exitLesson a {
-    font-size: 2rem;
     text-decoration: none;
     color: #8f7901;
     font-weight: bold;
@@ -519,7 +525,6 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 24px;
     font-weight: bold;
     opacity: 0;
     transition: opacity 0.3s;
@@ -531,6 +536,10 @@ main {
 
 .image-container.overlay .overlay-text {
     opacity: 0.8;
+}
+
+.storymode-task {
+    font-weight: 500;
 }
 
 /* FLASHCARDS */
@@ -616,7 +625,6 @@ main {
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
     font-weight: bold;
     padding: 1rem 2rem;
 }
@@ -715,7 +723,6 @@ main {
 .flashcard span {
     color: #ffd900;
     margin: 1rem;
-    font-size: 25px;
 }
 
 .flashcardsModalDiv {
@@ -774,7 +781,6 @@ main {
     border-radius: 100%;
     margin: 0.5rem 1rem;
     border: none;
-    font-size: 1.5rem;
 }
 
 #scores button {
@@ -809,7 +815,6 @@ main {
 
 .fa-star {
     color: lightgray;
-    font-size: 4rem;
     text-shadow: 0px 2px 4px rgba(0, 0, 0);
 }
 
@@ -825,7 +830,6 @@ main {
     background-color: white;
     padding: 2rem;
     border: 1px solid #FCDC2A;
-    font-size: 4rem;
     margin-bottom: 2rem;
 }
 
@@ -836,7 +840,6 @@ main {
 
 .fa-xmark,
 .correctAnswer .fa-check {
-    font-size: 30px;
     border: 1px solid;
     border-radius: 100%;
     padding: 1rem 1.2rem;
@@ -864,10 +867,6 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
     border: 1px solid #ffd900;
-}
-
-.shopItemIcon i {
-    font-size: 4rem;
 }
 
 .shopItemButton {

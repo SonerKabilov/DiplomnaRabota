@@ -1,6 +1,7 @@
 const coursesService = require('../services/coursesService');
 const sectionsService = require('../services/sectionsService');
 const languages = require('../utils/languages');
+const { findFlagUrlByIso2Code } = require('country-flags-svg');
 
 module.exports = {
     showCourses: async (req, res) => {
@@ -31,26 +32,39 @@ module.exports = {
         res.status(200).render("user/startCourseForm", { userData, courses, language });
     },
     addCourseForm: async (req, res) => {
-        const languagesToAdd = await coursesService.checkIfCourseIsAdded(languages);
+        // const languagesToAdd = await coursesService.checkIfCourseIsAdded(languages);
 
-        res.render('admin/addCourseForm', { languagesToAdd })
+        res.render('admin/addCourseForm')
     },
     addCourse: async (req, res) => {
         const body = req.body;
 
-        const parsedLanguageData = JSON.parse(body.languageData);
-
-        const languageData = {
-            language: parsedLanguageData.language,
-            cyrillicName: parsedLanguageData.cyrillicName,
-            flag: parsedLanguageData.flag
+        try {
+            const flag = findFlagUrlByIso2Code(body.iso2);
+            console.log(flag);
+    
+            if (flag != "") {
+                const languageData = {
+                    language: body.language,
+                    cyrillicName: body.cyrillicName,
+                    flag
+                }
+        
+                coursesService.addCourse(languageData);
+        
+                req.flash("success", "Успешно добавяне на курс!");
+        
+                res.redirect("/admin");
+            } else {
+                req.flash("error", "Грешка в ISO2 код!");
+                res.redirect("/admin/add/course");
+            }
+        } catch (error) {
+            console.log(error);
+            req.flash("error", "Неуспешно добавяне на курс!");
+            res.redirect("/admin/add/course");
         }
 
-        coursesService.addCourse(languageData);
-
-        req.flash("success", "Успешно добавяне на курс!");
-
-        res.redirect("/admin");
     },
     addCourseForUser: async (req, res) => {
         const body = req.body;

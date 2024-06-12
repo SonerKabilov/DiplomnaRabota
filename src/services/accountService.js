@@ -8,32 +8,43 @@ module.exports = {
     createUser: async (userInformation) => {
         const checkIfUserExists = await accountRepository.checkIfUserExists(userInformation.username, userInformation.email);
 
-        if (!checkIfUserExists && userInformation.password == userInformation.passwordRepeat) {
-            userInformation.password = await bcrypt.hash(userInformation.password, 12);
-
-            if (userInformation.userTypesId && userInformation.userTypesId === 1) {
-                const user = await accountRepository.createAdminProfile(userInformation);
-
-                return user;
-            } else {
-                const courses = await coursesRepository.queryCourses();
-                let isAdded = false;
-
-                for (const course of courses) {
-                    if (course.id === userInformation.courseId) {
-                        isAdded = true;
+        if (!checkIfUserExists) {
+            if (userInformation.password == userInformation.passwordRepeat) {
+                const regexUsername = /^[A-Za-z0-9_-]+$/;
+                const regexPassword = /^.{8,}$/;
+    
+                if(regexUsername.test(userInformation.username) && regexPassword.test(userInformation.password)) {
+                    userInformation.password = await bcrypt.hash(userInformation.password, 12);
+    
+                    if (userInformation.userTypesId && userInformation.userTypesId === 1) {
+                        const user = await accountRepository.createAdminProfile(userInformation);
+        
+                        return user;
+                    } else {
+                        const courses = await coursesRepository.queryCourses();
+                        let isAdded = false;
+        
+                        for (const course of courses) {
+                            if (course.id === userInformation.courseId) {
+                                isAdded = true;
+                            }
+                        }
+        
+                        if (isAdded) {
+                            const user = await accountRepository.createUserProfile(userInformation);
+        
+                            return user;
+                        }
                     }
+                } else {
+                    return "False regex";
                 }
-
-                if (isAdded) {
-                    const user = await accountRepository.createUserProfile(userInformation);
-
-                    return user;
-                }
+            } else {
+                return "Password does not match";
             }
+        } else {
+            return "Username and password taken";
         }
-
-        return false;
     },
     loginUser: async (userCredentials) => {
         const user = await accountRepository.findUser(userCredentials.username);

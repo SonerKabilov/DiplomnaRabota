@@ -36,18 +36,29 @@ module.exports = {
             courseId: parsedLanguageData.id
         }
 
-        const user = await accountService.createUser(userInformation);
+        try {
+            const user = await accountService.createUser(userInformation);
 
-        if (user) {
-            const userCourses = await coursesService.getUserCourses(user[0].id);
-
-            req.session.user_id = user[0].id;
-            req.session.user_type = user[0].user_types_id;
-            req.session.user_courses = userCourses;
-
-            res.redirect(`/${parsedLanguageData.language}/free/lessons`);
-        } else {
-            req.flash("error", "Потребителското име или имейл са вече заети");
+            if (user === "Username and password taken") {
+                req.flash("error", "Потребителското име или имейл са вече заети");
+                res.redirect("/register");
+            } else if (user === "False regex") {
+                req.flash("error", "Невалидни потребителски данни");
+                res.redirect("/register");
+            } else if (user === "Password does not match") {
+                req.flash("error", "Невалидни потребителски данни");
+                res.redirect("/register");
+            } else {
+                const userCourses = await coursesService.getUserCourses(user[0].id);
+    
+                req.session.user_id = user[0].id;
+                req.session.user_type = user[0].user_types_id;
+                req.session.user_courses = userCourses;
+    
+                res.redirect(`/${parsedLanguageData.language}/free/lessons`);
+            }
+        } catch (error) {
+            req.flash("error", "Неуспешно създаване на потребител");
             res.redirect("/register");
         }
     },

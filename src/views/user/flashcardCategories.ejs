@@ -71,6 +71,7 @@
 
                             <button 
                                 class="updateFlashcardModalBtn" 
+                                data-category-id="<%= categoryInformation.id %>"
                                 data-question="<%= flashcard.question %>"
                                 data-answer="<%= flashcard.answer %>"
                                 data-flashcard-id="<%= flashcard.id %>">
@@ -80,6 +81,7 @@
 
                             <button 
                                 class="deleteFlashcardModalBtn"
+                                data-category-id="<%= categoryInformation.id %>"
                                 data-flashcard-id="<%= flashcard.id %>">
                                     
                                 <i class="fa-solid fa-trash"></i>

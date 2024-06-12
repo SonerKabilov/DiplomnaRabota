@@ -218,7 +218,7 @@ function createFlashcardRecommendationsModal(flashcards, categoryId) {
     modalContentDiv.appendChild(allFlashcardsDiv);
 
     let currentBatch = 0;
-    const batchSize = 2;
+    const batchSize = 5;
 
     displayFlashcardsBatch(flashcards, allFlashcardsDiv, currentBatch * batchSize, batchSize, categoryId);
 
@@ -285,7 +285,7 @@ function displayFlashcardsBatch(flashcards, allFlashcardsDiv, startIndex, batchS
                 })
             });
 
-            window.location.href="/flashcards";
+            window.location.href=`/flashcards?categoryId=${categoryId}`;
         });
 
         const acceptIcon = document.createElement("i");
@@ -305,7 +305,7 @@ function displayFlashcardsBatch(flashcards, allFlashcardsDiv, startIndex, batchS
                 })
             });
 
-            window.location.href="/flashcards";
+            window.location.href=`/flashcards?categoryId=${categoryId}`;
         });
 
         const declineIcon = document.createElement("i");
@@ -348,11 +348,12 @@ flashcardModalBtn.addEventListener('click', function () {
 const updateFlashcardModalBtns = document.querySelectorAll(".updateFlashcardModalBtn");
 for (const updateFlashcardModalBtn of updateFlashcardModalBtns) {
     updateFlashcardModalBtn.addEventListener('click', function () {
+        const categoryId = flashcardModalBtn.getAttribute("data-category-id");
         const flashcardId = updateFlashcardModalBtn.getAttribute("data-flashcard-id");
         const question = updateFlashcardModalBtn.getAttribute("data-question");
         const answer = updateFlashcardModalBtn.getAttribute("data-answer");
 
-        createModalForFlashcards("Редактиране на флашкарта", `/flashcards/${flashcardId}?_method=PATCH`, "Редактиране", "update", question, answer);
+        createModalForFlashcards("Редактиране на флашкарта", `/flashcards/${flashcardId}?categoryId=${categoryId}&_method=PATCH`, "Редактиране", "update", question, answer);
     }
     )
 };
@@ -373,9 +374,10 @@ for (const deleteModalBtn of deleteModalBtns) {
 const deleteFlashcardModalBtns = document.querySelectorAll(".deleteFlashcardModalBtn");
 for (const deleteFlashcardModalBtn of deleteFlashcardModalBtns) {
     deleteFlashcardModalBtn.addEventListener('click', function () {
+        const categoryId = flashcardModalBtn.getAttribute("data-category-id");
         const flashcardId = deleteFlashcardModalBtn.getAttribute("data-flashcard-id");
 
-        createDeleteModal(`/flashcards/${flashcardId}?_method=DELETE`);
+        createDeleteModal(`/flashcards/${flashcardId}?categoryId=${categoryId}&_method=DELETE`);
     }
     )
 };

@@ -10,6 +10,62 @@
     border: none;
     background: none;
     cursor: pointer;
+    padding: 0;
+}
+
+body,
+.homepage,
+.sectionTypes,
+.shopItemButton,
+.logout {
+    font-family: 'Courier New';
+}
+
+p,
+.addLanguage,
+label,
+span,
+select,
+input,
+a,
+.homepage,
+.sign {
+    font-size: 1.15rem;
+}
+
+.sectionTypes,
+button {
+    font-size: 1rem;
+}
+
+.shopItemButton,
+h4 {
+    font-size: 1.30rem;
+}
+
+h2,
+.overlay-text  {
+    font-size: 1.75rem;
+}
+
+h5 {
+    margin: 0;
+}
+
+.fa-xmark,
+.correctAnswer .fa-check {
+    font-size: 2rem;
+}
+
+.exitLesson a {
+    font-size: 2.5rem;
+}
+
+.fa-star,
+.fa-ear-listen,
+
+.shopItemIcon i {
+    font-size: 4rem;
 }
 
 /* LOGIN & REGISTRATION FORMS */
@@ -22,7 +78,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: din-round, sans-serif;
 }
 
 .sign input,
@@ -160,7 +215,6 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    font-family: 'Calibri';
 }
 
 .add {

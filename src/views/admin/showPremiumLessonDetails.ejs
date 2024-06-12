@@ -16,8 +16,10 @@
         <div class="content">
             <%- include('../partials/flashMessages') %>
 
-            <% for (let exercise of lessonDetails.exercises) { %>
-                <p><%= exercise.task %></p>
+            <p><%= lessonDetails.exercise.task %></p>
+
+            <% for (const image of lessonDetails.images) { %>
+                <img src="<%= image.url %>" alt="">
             <% } %>
             <p>
                 <a class="add" href="/admin/add/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
@@ -26,7 +28,6 @@
     </div>
 
     <script src="/js/adminPanelFunctions.js"></script>
-    <script src="/js/addOption.js"></script>
 </body>
 
 </html>

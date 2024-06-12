@@ -46,7 +46,7 @@ module.exports = {
     updateLessonPreview: async (lessonToUpdate) => {
         return await lessonsRepository.updateLessonPreview(lessonToUpdate);
     },
-    deleteFreeLesson: async (sectionId, lessonSequence) => {
-        return await lessonsRepository.updateFreeLessonDeleteStatus(sectionId, lessonSequence);
+    deleteFreeLesson: async (sectionId, lessonSequence, language) => {
+        return await lessonsRepository.updateFreeLessonDeleteStatus(sectionId, lessonSequence, language);
     }
 }

@@ -39,7 +39,7 @@ const showSections = async () => {
             sectionDiv.setAttribute("section-id", section.id);
             sectionsDiv.appendChild(sectionDiv);
 
-            const sectionSequence = document.createElement("p");
+            const sectionSequence = document.createElement("h5");
             sectionSequence.textContent = `Раздел ${section.sequence}`;
             sectionDiv.appendChild(sectionSequence);
 
@@ -99,7 +99,7 @@ const showSections = async () => {
             sectionDiv.setAttribute("section-id", section.id);
             sectionsDiv.appendChild(sectionDiv);
 
-            const sectionType = document.createElement("p");
+            const sectionType = document.createElement("h5");
             sectionType.textContent = section.type;
             sectionDiv.appendChild(sectionType);
 

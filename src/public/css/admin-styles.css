@@ -6,11 +6,6 @@
     text-align: center;
 }
 
-/* #addForm {
-    position: absolute;
-    left: 50%;
-} */
-
 .formInput {
     margin-top: 1rem;
     display: table-caption;
@@ -25,10 +20,6 @@ form select {
 
 form select {
     width: 100%;
-}
-
-form button {
-    font-size: 15px;
 }
 
 a {
@@ -49,12 +40,15 @@ body {
     margin: 0;
 }
 
+.admin-registration {
+    text-align: center;
+}
+
 /* HEADER */
 .page-content {
     display: flex;
     margin: 0;
     height: 100vh;
-    font-family: Arial, sans-serif;
     overflow: hidden;
 }
 
@@ -75,7 +69,6 @@ body {
 .left-header h1 {
     margin: 0;
     padding: 0;
-    font-size: 1.5em;
     padding-top: 20px;
     text-align: center;
 }
@@ -111,6 +104,10 @@ body {
 }
 
 .content h2 {
+    text-align: center;
+}
+
+.admin-logout {
     text-align: center;
 }
 
@@ -154,4 +151,8 @@ body {
 
 .shop-input-div span {
     margin-left: 10px;
+}
+
+.shop-item-type {
+    margin: 2rem 0 0 0;
 }
