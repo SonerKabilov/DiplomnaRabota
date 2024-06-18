@@ -53,6 +53,7 @@ const getStorymodeImages = async () => {
 const initializeExercises = async () => {
     exercises = await getStorymodeImages();
     console.log(exercises);
+    console.log(exercises.length);
 
     if (exercises && exercises.length > 0) {
         showExercise();
@@ -65,23 +66,23 @@ document.addEventListener('DOMContentLoaded', initializeExercises);
 
 const showExercise = () => {
     const exercise = exercises[currentExerciseIndex];
-    
+
     exerciseDiv.innerHTML = "";
 
     if (exercise) {
         const task = document.createElement("h2");
         task.classList.add("storymode-task");
-        task.textContent = exercise.task;
+        task.textContent = exercise.storymodeExercise.task;
         exerciseDiv.appendChild(task);
 
         const imagesDiv = document.createElement("div");
         imagesDiv.classList.add("images");
         exerciseDiv.appendChild(imagesDiv);
 
-        shuffleArray(exercise.images);
+        shuffleArray(exercise.storymodeImages);
         imageData = []; // Reset imageData
 
-        for (let image of exercise.images) {
+        for (let image of exercise.storymodeImages) {
             imageData.push(image);
 
             const imagesContainer = document.createElement("div");
@@ -208,7 +209,7 @@ const nextExercise = (isCorrect) => {
     showExercise();
 }
 
-const lessonCompleted = () => {
+const lessonCompleted = async () => {
     const lessonCompletedDiv = document.createElement("div");
     lessonCompletedDiv.classList.add("lessonCompleted");
     exerciseSectionDiv.appendChild(lessonCompletedDiv);
@@ -221,29 +222,25 @@ const lessonCompleted = () => {
     btnCompleted.textContent = "Обратно";
     lessonCompletedDiv.appendChild(btnCompleted);
 
-    btnCompleted.addEventListener("click", async function () {
-        try {
-            // if (completedExercises.length === exercises.length) {
-                const response = await fetch(`/exercises/finish-premium-lesson?_method=PATCH`, {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        language: language,
-                        lessonSequence: lessonSequence,
-                        sectionType: "storymode"
-                    })
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-    
-                window.location.href = `/${language}/premium/lessons`;
-            // } else {
-            //     console.log('All exercises are not completed yet');
-            // }
-        } catch (error) {
-            console.error('Error marking lesson as completed:', error);
+    try {
+        const response = await fetch(`/exercises/finish-premium-lesson?_method=PATCH`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                language: language,
+                lessonSequence: lessonSequence,
+                sectionType: "storymode"
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+    } catch (error) {
+        console.error('Error marking lesson as completed:', error);
+    }
+
+    btnCompleted.addEventListener("click", function () {
+        window.location.href = `/${language}/premium/lessons`;
     });
 }

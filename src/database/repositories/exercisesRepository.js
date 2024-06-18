@@ -64,10 +64,10 @@ module.exports = {
         try {
             const [result] = await pool.query(`
                 SELECT i.*
-                FROM storymode_exercises s
-                INNER JOIN storymode_images i
+                FROM storymode_images i
+                INNER JOIN storymode_exercises s
                 ON i.storymode_exercise_id = s.id
-                WHERE s.id = ?
+                WHERE i.storymode_exercise_id = ?
             `, [storymodeExerciseId]);
 
             return result;

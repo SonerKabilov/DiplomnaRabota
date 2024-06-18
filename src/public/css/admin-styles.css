@@ -44,6 +44,19 @@ body {
     text-align: center;
 }
 
+.course,
+.exercise {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.course:hover,
+.exercise:hover {
+    text-decoration: underline 2px;
+}
+
 /* HEADER */
 .page-content {
     display: flex;

@@ -6,15 +6,19 @@ module.exports = {
     },
     getAllPremiumLessonExercises: async (sectionId, type, lessonSequence) => {
         if (type === "storymode") {
-            const storymodeExercise = await exercisesRepository.queryStorymodeExercise(sectionId, lessonSequence);
+            const storymodeExercises = await exercisesRepository.queryStorymodeExercise(sectionId, lessonSequence);
 
-            if (storymodeExercise.length > 0) {
-                const storymodeImages = await exercisesRepository.queryStorymodeImages(storymodeExercise[0].id);
+            if (storymodeExercises.length > 0) {
+                let exercises = [];
 
-                return {
-                    storymodeExercise,
-                    storymodeImages
-                };
+                for (const storymodeExercise of storymodeExercises) {
+                    const storymodeImages = await exercisesRepository.queryStorymodeImages(storymodeExercise.id);
+
+                    exercises.push({storymodeExercise, storymodeImages});
+                }
+                
+
+                return exercises;
             }
         }
 

@@ -7,6 +7,7 @@
     <title>Детайли на урок</title>
     <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
     <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+    <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -16,17 +17,40 @@
         <div class="content">
             <%- include('../partials/flashMessages') %>
 
-            <p><%= lessonDetails.exercise.task %></p>
+            <% let counter = 1 %>
 
-            <% for (const image of lessonDetails.images) { %>
-                <img src="<%= image.url %>" alt="">
+            <% for (const exercise of lessonDetails.exercise) { %>
+                <div class="parent">
+                    <p>
+                        <button class="exercise">
+                            Упражнение <%= counter %>
+                            <span class="chevron"><i class="fa-solid fa-chevron-right"></i></span>
+                        </button>
+                    </p>
+
+                    <% counter++ %>
+
+                    <div class="showHideDiv hidden">
+                        <div class="formInput">
+                            <input type="text" value="<%= exercise.storymodeExercise.task %>">
+                        </div>
+
+                        <% for (const exerciseImage of exercise.storymodeImages) { %>
+                            <div class="formInput">
+                                <img src="/img/storymode/<%= exerciseImage.url %>" alt="Img">
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
             <% } %>
+
             <p>
                 <a class="add" href="/admin/add/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
             </p>
         </div>
     </div>
 
+    <script src="/js/adminPanelFunctions.js"></script>
     <script src="/js/adminPanelFunctions.js"></script>
 </body>
 

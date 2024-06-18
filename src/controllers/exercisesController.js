@@ -69,14 +69,14 @@ module.exports = {
 
         try {
             const storymodeExercises = await exercisesService.getAllPremiumLessonExercises(id, type, lessonSequence);
+            console.log(storymodeExercises)
 
-            const storymodeExerciseData = storymodeExercises.storymodeExercise.map((exercise) => ({
-                id: exercise.id,
-                task: exercise.task,
-                images: storymodeExercises.storymodeImages || []
-            }));
+            // const storymodeExerciseData = storymodeExercises.storymodeExercise.map((exercise) => ({
+            //     id: exercise.id,
+            //     storymodeExercises
+            // }));
 
-            res.json(storymodeExerciseData);
+            res.json(storymodeExercises);
         } catch (err) {
             res.json([]);
         }

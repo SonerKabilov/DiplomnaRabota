@@ -7,6 +7,7 @@
     <title>Админски панел</title>
     <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
     <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+    <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -17,10 +18,13 @@
             <%- include('../partials/flashMessages') %>
 
             <h2>Раздели</h2>
-
+            
             <% for (let course of adminPageDetails.courses) { %>
                 <div class="parent">
-                    <button><%= course.language %></button>
+                    <button class="course">
+                        <%= course.language %>
+                        <span class="chevron"><i class="fa-solid fa-chevron-right"></i></span>
+                    </button>
         
                     <div class="hidden">
                         <h4>Безплатни раздели</h4>

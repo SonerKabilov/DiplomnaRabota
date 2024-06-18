@@ -7,6 +7,7 @@
     <title>Детайли на урок</title>
     <link rel="stylesheet" type="text/css" href="/css/admin-styles.css" />
     <link rel="stylesheet" type="text/css" href="/css/common-styles.css" />
+    <script src="https://kit.fontawesome.com/13ecc83974.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -26,12 +27,19 @@
                 <button class="remove">Изтриване на урок</button>
             </form>
 
+            <% let counter = 1 %>
+
             <h3>Упражнения</h3>
             <% for (let exercise of lessonDetails.exercises) { %>
                 <div class="parent">
                     <p>
-                        <button>Упражнение</button>
+                        <button class="exercise">
+                            Упражнение <%= counter %>
+                            <span class="chevron"><i class="fa-solid fa-chevron-right"></i></span>
+                        </button>
                     </p>
+
+                    <% counter++ %>
 
                     <div class="showHideDiv hidden">
                         <form action="/admin/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise/<%= exercise.id %>?_method=PATCH" method="POST">

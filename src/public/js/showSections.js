@@ -170,6 +170,7 @@ async function showFirstSectionLessons() {
 
     if (sections.length > 0) {
         firstSectionId = sections[0].getAttribute('section-id');
+        sections[0].classList.add("selected-section");
     }
 
     for (const lesson of lessons) {
@@ -188,9 +189,16 @@ function addLessonToggleListeners() {
 
     for (const section of sections) {
         const button = section.querySelector('.showLessonsBtn');
+        
 
         button.addEventListener('click', function () {
             const sectionId = section.getAttribute('section-id');
+
+            for (const section of sections) {
+                section.classList.remove("selected-section");
+            }
+
+            section.classList.add("selected-section");
 
             for (const lesson of lessons) {
                 const lessonSectionId = lesson.getAttribute('lesson-section');

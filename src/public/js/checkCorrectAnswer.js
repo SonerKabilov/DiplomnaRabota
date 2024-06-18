@@ -354,29 +354,30 @@ const lessonCompleted = async () => {
     btnCompleted.textContent = "Обратно";
     lessonCompletedDiv.appendChild(btnCompleted);
 
-    btnCompleted.addEventListener("click", async function () {
-        try {
-            if (completedExercises.length === exercises.length) {
-                const response = await fetch(`/exercises/finish-lesson?_method=PATCH`, {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        language: language,
-                        lessonSequence: lessonSequence
-                    })
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-    
-                window.location.href = `/${language}/free/lessons`;
-                console.log('Lesson marked as completed');
-            } else {
-                console.log('All exercises are not completed yet');
+    try {
+        if (completedExercises.length === exercises.length) {
+            const response = await fetch(`/exercises/finish-lesson?_method=PATCH`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    language: language,
+                    lessonSequence: lessonSequence
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        } catch (error) {
-            console.error('Error marking lesson as completed:', error);
+            
+            console.log('Lesson marked as completed');
+        } else {
+            console.log('All exercises are not completed yet');
         }
+    } catch (error) {
+        console.error('Error marking lesson as completed:', error);
+    }
+
+    btnCompleted.addEventListener("click", function () {
+        window.location.href = `/${language}/free/lessons`;
     });
 }

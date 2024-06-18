@@ -327,6 +327,76 @@ main {
     margin-left: 1rem;
 }
 
+.section:nth-child(5n),
+.section:nth-child(5n) button {
+    background-color: #ff86d0;
+}
+
+.section:nth-child(5n) button {
+    border: 2px solid #e455ad;
+    box-shadow: 0 2px #e455ad;
+}
+
+.section:nth-child(5n+1),
+.section:nth-child(5n+1) button {
+    background-color: #1cb0f6;
+}
+
+.section:nth-child(5n+1) button {
+    border: 2px solid #1a9edb;
+    box-shadow: 0 2px #1a9edb;
+}
+
+.section:nth-child(5n+2),
+.section:nth-child(5n+2) button {
+    background-color: #58cc02;
+}
+
+.section:nth-child(5n+2) button {
+    border: 2px solid #4fb401;
+    box-shadow: 0 2px #4fb401;
+}
+
+.section:nth-child(5n+3),
+.section:nth-child(5n+3) button {
+    background-color: #00cd9c;
+}
+
+.section:nth-child(5n+3) button {
+    border: 2px solid #00ad85;
+    box-shadow: 0 2px #00ad85;
+}
+
+.section:nth-child(5n+4),
+.section:nth-child(5n+4) button {
+    background-color: #ce82ff;
+}
+
+.section:nth-child(5n+4) button {
+    border: 2px solid #bd5aff;
+    box-shadow: 0 2px #bd5aff;
+}
+
+.section:nth-child(5n+5),
+.section:nth-child(5n+5) button {
+    background-color: #ff9600;
+}
+
+.section:nth-child(5n+5) button {
+    border: 2px solid #e28400;
+    box-shadow: 0 2px #e28400;
+}
+
+.selected-section,
+.selected-section button {
+    background-color: #ffd900 !important;
+}
+
+.selected-section button {
+    border: 2px solid #e0bf00 !important;
+    box-shadow: 0 2px #e0bf00 !important;
+}
+
 .section p {
     margin: 0;
 }
@@ -335,19 +405,13 @@ main {
     text-decoration: none;
     color: white;
     font-weight: bold;
-    border: 2px solid #c9ab00;
-    background-color: #ffd900;
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    box-shadow: 0 2px rgba(0, 0, 0, 0.2);
+    
     cursor: pointer;
 }
 
 .section button:hover {
-    background-color: #e6c302;
-}
-
-.section button:active {
     box-shadow: none;
 }
 

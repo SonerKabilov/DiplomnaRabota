@@ -36,19 +36,14 @@ module.exports = {
         const { language, type, sectionId, lessonSequence } = req.params;
 
         try {
-            const exercise = await exercisesService.getStorymodeTask(sectionId, lessonSequence);
-            const images = await exercisesService.getStorymodeImages(exercise[0].id);
-           
-            console.log(exercise);
-            console.log(images);
+            const exercise = await exercisesService.getAllPremiumLessonExercises(sectionId, type, lessonSequence);
 
             const lessonDetails = {
                 language,
                 type,
                 sectionId,
                 lessonSequence,
-                exercise,
-                images
+                exercise
             }
 
             res.render("admin/showPremiumLessonDetails", { lessonDetails });
