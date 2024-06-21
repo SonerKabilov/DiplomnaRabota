@@ -4,22 +4,24 @@
 }
 
 .startLesson,
-.shopItemButton {
+.shopItemButton,
+.reviewLesson {
     transition: 0.5s;
     text-decoration: none;
-    background-color: #ffd900;
-    border: 1px solid #ffd900;
+    background-color: #ffc800;
+    border: 1px solid #ffc800;
     color: white;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .startLesson:hover,
-.shopItemButton:hover {
+.shopItemButton:hover,
+.reviewLesson:hover {
     transition: 0.5s;
-    border: 1px solid #ffd900;
+    border: 1px solid #ffc800;
     background-color: white;
-    color: #ffd900;
+    color: #ffc800;
 }
 
 body {
@@ -87,7 +89,7 @@ body {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: #ffd900;
+    background-color: #ffc800;
     border-top-left-radius: 70%;
 }
 
@@ -260,7 +262,7 @@ main {
     position: absolute;
     background-color: #fff;
     color: #333;
-    border: 1px solid #ffd900;
+    border: 1px solid #ffc800;
     padding: 2rem 4rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -276,12 +278,18 @@ main {
     left: 50%;
     border-width: 10px;
     border-style: solid;
-    border-color: transparent transparent #ffd900 transparent;
+    border-color: transparent transparent #ffc800 transparent;
     transform: translateX(-50%);
 }
 
-.startLesson {
+.startLesson,
+.reviewLesson {
     padding: 1rem 4rem;
+}
+
+.reviewLesson {
+    margin-bottom: 1rem;
+    cursor: pointer;
 }
 
 .sections,
@@ -305,7 +313,7 @@ main {
 .lessonSequence {
     margin-top: 0;
     margin-bottom: 2rem;
-    color: #ffd900;
+    color: #ffc800;
     font-family: cursive;
 }
 
@@ -317,7 +325,7 @@ main {
 
 .section {
     padding: 1.5rem 15rem 1.5rem 1rem;
-    background-color: #ffd900;
+    background-color: #ffc800;
     border-radius: 15px;
     color: white;
     font-size: 2rem;
@@ -389,12 +397,12 @@ main {
 
 .selected-section,
 .selected-section button {
-    background-color: #ffd900 !important;
+    background-color: #ffc800 !important;
 }
 
 .selected-section button {
-    border: 2px solid #e0bf00 !important;
-    box-shadow: 0 2px #e0bf00 !important;
+    border: 2px solid #d6a800 !important;
+    box-shadow: 0 2px #d6a800 !important;
 }
 
 .section p {
@@ -747,6 +755,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    margin: 1rem;
 }
 
 .flashcardsDisplay {
@@ -764,7 +773,7 @@ main {
     background-color: white;
     margin-bottom: 1rem;
     width: 80%;
-    border: 1px solid #ffd900;
+    border: 1px solid #ffc800;
     border-radius: 10px;
 }
 
@@ -777,15 +786,15 @@ main {
 }
 
 .flashcardParagraphSolidLine {
-    border-right: 3px solid #ffd900;
+    border-right: 3px solid #ffc800;
 }
 
 .flashcardParagraphDashedLine {
-    border-right: 2px dashed #ffd900;
+    border-right: 2px dashed #ffc800;
 }
 
 .flashcard span {
-    color: #ffd900;
+    color: #ffc800;
     margin: 1rem;
 }
 
@@ -796,7 +805,22 @@ main {
     width: 100%;
 }
 
+.study-flashcards-button {
+    background-color: #1cb0f6;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 10px;
+    color: white;
+    border-bottom: 3px solid #1899d6;
+}
+
+.study-flashcards-button:active {
+    border-bottom: none;
+}
+
 /* STUDY FLASHCARDS */
+
 #flashcardMain {
     flex-direction: column;
     align-items: center;
@@ -875,6 +899,8 @@ main {
     background-color: greenyellow;
 }
 
+
+
 /* ICONS */
 
 .fa-star {
@@ -887,7 +913,7 @@ main {
 }
 
 .completed {
-    color: #ffd900;
+    color: #ffc800;
 }
 
 .fa-ear-listen {
@@ -930,7 +956,7 @@ main {
     padding: 2rem 1.5rem 1.5rem 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
-    border: 1px solid #ffd900;
+    border: 1px solid #ffc800;
 }
 
 .shopItemButton {

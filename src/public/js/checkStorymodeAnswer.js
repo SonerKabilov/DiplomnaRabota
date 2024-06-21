@@ -52,8 +52,6 @@ const getStorymodeImages = async () => {
 
 const initializeExercises = async () => {
     exercises = await getStorymodeImages();
-    console.log(exercises);
-    console.log(exercises.length);
 
     if (exercises && exercises.length > 0) {
         showExercise();
@@ -100,10 +98,16 @@ const showExercise = () => {
             imagesContainer.appendChild(sequenceDiv);
         }
 
+        checkAnswerButton.classList.add("disabled");
+
         document.querySelectorAll('.image-container').forEach(imageContainer => {
             imageContainer.addEventListener('click', function () {
                 const overlayText = this.querySelector(".overlay-text");
                 const imageUrl = getImageName(this.querySelector("img").src);
+
+                checkAnswerButton.classList.remove("disabled");
+
+                
 
                 if (!this.classList.contains("overlay")) {
                     answer.set(imageUrl, sequence);
@@ -113,6 +117,10 @@ const showExercise = () => {
                     sequence--;
                     const removedSequence = answer.get(imageUrl);
                     answer.delete(imageUrl);
+
+                    if(answer.size === 0) {
+                        checkAnswerButton.classList.add("disabled");
+                    }
 
                     for (let [url, seq] of answer) {
                         if (seq > removedSequence) {

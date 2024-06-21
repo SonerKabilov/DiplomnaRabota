@@ -1,3 +1,7 @@
+.center {
+    text-align: center;
+}
+
 .hidden {
     display: none;
 }
@@ -44,7 +48,8 @@ h4 {
 }
 
 h2,
-.overlay-text  {
+.overlay-text,
+.lessonSequence  {
     font-size: 1.75rem;
 }
 

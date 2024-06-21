@@ -19,7 +19,11 @@
 
             <form action="/admin/show/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>?_method=PATCH" method="POST">
                 <h3>Редактиране на урок</h3>
-                <input type="text" value="<%= lessonDetails.lessonPreview %>" name="lessonPreview">
+                <button type="button" class="addNewlineButton">Нов ред</button>
+                <button type="button" class="boldText">Удебеляване</button>
+                <br>
+                <textarea id="lessonPreview" type="text" name="lessonPreview"><%= lessonDetails.lessonPreview %></textarea>
+                <br>
                 <button class="update">Редактиране</button>
             </form>
 
@@ -109,6 +113,7 @@
 
     <script src="/js/adminPanelFunctions.js"></script>
     <script src="/js/addOption.js"></script>
+    <script src="/js/textAreaStyles.js"></script>
 </body>
 
 </html>

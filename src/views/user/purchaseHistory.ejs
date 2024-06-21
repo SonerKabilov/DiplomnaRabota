@@ -11,38 +11,43 @@
 <body>
     <%- include('../partials/header') %>
 
-    <table class="purchase-history">
-        <tr class="table-head">
-            <th>Дата</th>
-            <th>Количество</th>
-            <th>Цена</th>
-            <th>Продукт</th>
-        </tr>
-        <% for (const product of purchaseHistory) { %>
-            <tr class="table-body">
-                <td><%= product.date %></td>
-                <td>
-                    <%= product.quantity %>
-                
-                    <% if (product.item_type === "coins") { %>
-                        <span>монети</span>
-                    <% } else if (product.item_type === "membership") { %>
-                        <span>дни</span>
-                    <% } %>
-                </td>
-                <td>
-                    <%= product.cost %>
-
-                    <% if (product.payment_type === "app_currency") { %>
-                        <i class="fa-solid fa-coins"></i>
-                    <% } else if (product.payment_type === "money") { %>
-                        <span>лв.</span>
-                    <% } %>
-                </td>
-                <td><%= product.item_type_bulgarian %></td>
+    <% if(purchaseHistory.length > 0) { %>
+        <table class="purchase-history">
+            <tr class="table-head">
+                <th>Дата</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Продукт</th>
             </tr>
-        <% } %>
-    </table>
+            <% for (const product of purchaseHistory) { %>
+                <tr class="table-body">
+                    <td><%= product.date %></td>
+                    <td>
+                        <%= product.quantity %>
+                    
+                        <% if (product.item_type === "coins") { %>
+                            <span>монети</span>
+                        <% } else if (product.item_type === "membership") { %>
+                            <span>дни</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <%= product.cost %>
+    
+                        <% if (product.payment_type === "app_currency") { %>
+                            <i class="fa-solid fa-coins"></i>
+                        <% } else if (product.payment_type === "money") { %>
+                            <span>лв.</span>
+                        <% } %>
+                    </td>
+                    <td><%= product.item_type_bulgarian %></td>
+                </tr>
+            <% } %>
+        </table>
+    <% } else { %>
+        <h4 class="center">Не са извършвани покупки</h4>
+    <% } %>
+    
 
 </body>
 </html>

@@ -119,7 +119,7 @@ module.exports = {
             throw err;
         }
     },
-    queryPurchaseHistory: async () => {
+    queryPurchaseHistory: async (userId) => {
         try {
             const [result] = await pool.query(`
                 SELECT ph.date, st.quantity, st.cost, stt.item_type, stt.item_type_bulgarian, pt.payment_type
@@ -130,7 +130,8 @@ module.exports = {
                 ON st.shop_item_types_id = stt.id
                 INNER JOIN payment_types pt
                 ON st.payment_types_id = pt.id
-            `);
+                WHERE ph.users_id = ?
+            `, [userId]);
 
             return result;
         } catch (err) {

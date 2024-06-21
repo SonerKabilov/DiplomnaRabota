@@ -45,8 +45,8 @@ module.exports = {
 
         return await shopRepository.insertPaymentHistory(formattedCurrentDate, itemId, userId);
     },
-    getPurchaseHistory: async () => {
-        const purchaseHistory = await shopRepository.queryPurchaseHistory();
+    getPurchaseHistory: async (userId) => {
+        const purchaseHistory = await shopRepository.queryPurchaseHistory(userId);
 
         for (const product of purchaseHistory) {
             product.date = format(product.date, 'yyyy-MM-dd HH:mm:ss');

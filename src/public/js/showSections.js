@@ -75,9 +75,23 @@ const showSections = async () => {
             header.textContent = `Урок ${lesson.sequence}`;
             popoverDiv.appendChild(header);
 
+            if(lesson.preview != null) {
+                const previewBtn = document.createElement("button");
+                previewBtn.classList.add("reviewLesson");
+                previewBtn.textContent = "Преглед";
+                popoverDiv.appendChild(previewBtn);
+
+                previewBtn.addEventListener("click", function () {
+                    createModalForLessionPreview(lesson.preview);
+                });
+            }
+
+            const linkParagraph = document.createElement("p");
+            popoverDiv.appendChild(linkParagraph);
+
             const startLesson = document.createElement("a");
             startLesson.classList.add("startLesson");
-            popoverDiv.appendChild(startLesson);
+            linkParagraph.appendChild(startLesson);
 
             if (lesson.sequence <= onLesson) {
                 icon.classList.add("completed");
@@ -210,6 +224,45 @@ function addLessonToggleListeners() {
             }
         });
     }
+}
+
+const createModalForLessionPreview = (previewText) => {
+    const previewModal = document.createElement("div");
+    previewModal.classList.add("modal");
+
+    const modalContentDiv = document.createElement("div");
+    modalContentDiv.classList.add("modal-content");
+    previewModal.appendChild(modalContentDiv);
+
+    const closeSpan = document.createElement("span");
+    closeSpan.classList.add("close");
+    modalContentDiv.appendChild(closeSpan);
+    closeSpan.textContent = "×";
+
+    const modalHeader = document.createElement("h2");
+    modalHeader.textContent = "Преглед на урок";
+    modalHeader.classList.add("modalHeader");
+    modalContentDiv.appendChild(modalHeader);
+
+    const txt = document.createElement("p");
+    txt.innerHTML  = previewText;
+    modalContentDiv.appendChild(txt);
+
+    document.body.appendChild(previewModal);
+
+    previewModal.style.display = "block";
+    previewModal.classList.add("fade-in");
+
+    closeSpan.addEventListener("click", function () {
+        previewModal.remove();
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target == previewModal) {
+            previewModal.style.display = "none";
+            previewModal.classList.remove("fade-in");
+        }
+    });
 }
 
 sectionTypesSelect.addEventListener("change", function () {

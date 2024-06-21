@@ -1,6 +1,5 @@
 const coursesService = require('../services/coursesService');
 const sectionsService = require('../services/sectionsService');
-const languages = require('../utils/languages');
 const { findFlagUrlByIso2Code } = require('country-flags-svg');
 
 module.exports = {
@@ -32,8 +31,6 @@ module.exports = {
         res.status(200).render("user/startCourseForm", { userData, courses, language });
     },
     addCourseForm: async (req, res) => {
-        // const languagesToAdd = await coursesService.checkIfCourseIsAdded(languages);
-
         res.render('admin/addCourseForm')
     },
     addCourse: async (req, res) => {
@@ -82,6 +79,6 @@ module.exports = {
         const userCourses = await coursesService.getUserCourses(userId);
         req.session.user_courses = userCourses;
 
-        res.redirect(`/section/1/${parsedLanguageData.language}/lessons`);
+        res.redirect(`/${parsedLanguageData.language}/free/lessons`);
     }
 }

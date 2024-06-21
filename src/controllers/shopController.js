@@ -148,8 +148,6 @@ module.exports = {
             paymentType: body.paymentTypes
         }
 
-        console.log(shopItem);
-
         try {
             await shopService.updateShopItem(shopItem);
 
@@ -203,14 +201,14 @@ module.exports = {
         const userCurrency = req.session.user_currency;
         const coursesTaken = req.session.user_courses;
         const language = req.session.language;
+        const userId = req.session.user_id;
 
         const userData = {
             userCurrency,
             coursesTaken
         }
 
-        const purchaseHistory = await shopService.getPurchaseHistory();
-        console.log(purchaseHistory);
+        const purchaseHistory = await shopService.getPurchaseHistory(userId);
 
         res.render("user/purchaseHistory", { userData, language, purchaseHistory });
     }
