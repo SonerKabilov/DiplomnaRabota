@@ -20,12 +20,15 @@
                 <h2><%= shopItem.cost %> лв.</h2>
             </div>
             <form id="payment-form">
-                <p>Име на картодържателя</p>
+                <img class="stripe-logo" src="/img/logos/pngwing.com.png" alt="Stripe Logo">
+                <label for="card-holder-name">Име на картодържателя</label>
                 <input id="card-holder-name" type="text" placeholder="Пълно име">
-                <p>Информация за картата</p>
+                <br>
+                <span>Информация за картата</span>
                 <div id="card-number-element"></div>
                 <div id="card-expiry-element"></div>
                 <div id="card-cvc-element"></div>
+                <br>
                 <button id="submit">Плащане</button>
                 <div id="error-message" role="alert"></div>
             </form>

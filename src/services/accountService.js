@@ -74,6 +74,9 @@ module.exports = {
     getCurrentUserCourse: async (userId, language) => {
         return await accountRepository.getCurrentUserCourse(userId, language);
     },
+    getFreeProgress: async (userId, language) => {
+        return await accountRepository.getUserProgress(userId, language);
+    },
     updateUserDataForCompletedLesson: async (userData) => {
         const onLesson = await accountRepository.getUserProgress(userData.userId, userData.language);
 
@@ -82,6 +85,9 @@ module.exports = {
         if (onLesson == userData.lessonSequence) {
             await accountRepository.updateUserProgress(onLesson + 1, userData.userId, userData.language);
         }
+    },
+    getStorymodeProgress: async (userId, language) => {
+        return await accountRepository.getUserStorymodeProgress(userId, language);
     },
     updateUserDataForCompletedPremiumLesson: async (userData) => {
         if(userData.sectionType === "storymode") {

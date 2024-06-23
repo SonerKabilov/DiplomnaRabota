@@ -222,17 +222,26 @@ function createFlashcardRecommendationsModal(flashcards, categoryId) {
 
     displayFlashcardsBatch(flashcards, allFlashcardsDiv, currentBatch * batchSize, batchSize, categoryId);
 
-    const showMoreBtn = document.createElement("button");
-    showMoreBtn.textContent = "Show More";
-    showMoreBtn.addEventListener("click", () => {
-        currentBatch++;
-        displayFlashcardsBatch(flashcards, allFlashcardsDiv, currentBatch * batchSize, batchSize, categoryId);
-        if ((currentBatch + 1) * batchSize >= flashcards.length) {
-            showMoreBtn.style.display = "none";
-        }
-    });
-
-    modalContentDiv.appendChild(showMoreBtn);
+    if (flashcards.length > 5) {
+        const showMoreDiv = document.createElement("div");
+        showMoreDiv.classList.add("show-more-div");
+        modalContentDiv.appendChild(showMoreDiv);
+    
+        const showMoreBtn = document.createElement("button");
+        showMoreBtn.textContent = "Повече";
+        showMoreBtn.classList.add("show-more");
+    
+        showMoreBtn.addEventListener("click", () => {
+            currentBatch++;
+            displayFlashcardsBatch(flashcards, allFlashcardsDiv, currentBatch * batchSize, batchSize, categoryId);
+            if ((currentBatch + 1) * batchSize >= flashcards.length) {
+                showMoreBtn.style.display = "none";
+            }
+        });
+    
+        showMoreDiv.appendChild(showMoreBtn);
+    }
+    
 
     document.body.appendChild(flashcardsModalDiv);
 

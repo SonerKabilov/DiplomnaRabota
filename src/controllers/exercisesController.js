@@ -6,6 +6,7 @@ const coursesService = require('../services/coursesService');
 
 module.exports = {
     showLessonExercises: async (req, res) => {
+        const userId = req.session.user_id;
         const { language, sectionSequence, lessonSequence } = req.params;
 
         try {
@@ -14,9 +15,15 @@ module.exports = {
                 sectionSequence
             }
 
-            const sectionId = await sectionsService.getSectionIdByLanguage(sectionDetails);
+            const onFreeLesson = await accountService.getFreeProgress(userId, language);
 
-            res.status(200).render("user/exercises", { sectionId, lessonSequence, sectionSequence, language });
+            if (onFreeLesson >= lessonSequence) {
+                const sectionId = await sectionsService.getSectionIdByLanguage(sectionDetails);
+
+                res.status(200).render("user/exercises", { sectionId, lessonSequence, sectionSequence, language });
+            } else {
+                res.redirect(`/${language}/free/lessons`);
+            }
         } catch (error) {
             console.error(error);
             res.redirect(`/${language}/free/lessons`);
@@ -54,7 +61,13 @@ module.exports = {
                 }
 
                 if (type === "storymode") {
-                    res.render("user/storymodeExercises", { sectionDetails });
+                    const storymodeProgress = await accountService.getStorymodeProgress(userId, language);
+
+                    if (storymodeProgress >= lessonSequence) {
+                        res.render("user/storymodeExercises", { sectionDetails });
+                    } else {
+                        res.redirect(`/${language}/premium/lessons`);
+                    }
                 }
             } catch (error) {
                 console.error(error);
@@ -69,12 +82,6 @@ module.exports = {
 
         try {
             const storymodeExercises = await exercisesService.getAllPremiumLessonExercises(id, type, lessonSequence);
-            console.log(storymodeExercises)
-
-            // const storymodeExerciseData = storymodeExercises.storymodeExercise.map((exercise) => ({
-            //     id: exercise.id,
-            //     storymodeExercises
-            // }));
 
             res.json(storymodeExercises);
         } catch (err) {
@@ -278,7 +285,7 @@ module.exports = {
                 .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
         } catch (err) {
             console.log(err);
-            
+
             req.flash("error", "Неуспешно изтриване на упражнение!");
 
             res

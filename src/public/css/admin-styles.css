@@ -72,7 +72,8 @@ textarea {
     resize: none;
 }
 
-.addNewlineButton {
+.addNewlineButton,
+.boldText {
     background: none;
     border:none;
     text-decoration: underline;
@@ -191,4 +192,43 @@ textarea {
 
 .shop-item-type {
     margin: 2rem 0 0 0;
+}
+
+
+/* RESPONSIVE */
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .storymode-image img {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .page-content {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .left-header {
+        height: auto;
+    }
+
+    textarea {
+        width: 100%;
+    }
+
+    .admin-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .admin-form input {
+        margin-bottom: 1rem;
+    }
+
+    .storymode-image {
+        display: block;
+    }
 }

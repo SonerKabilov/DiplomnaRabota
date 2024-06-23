@@ -18,6 +18,8 @@ sectionTypes.addEventListener("change", function() {
             premiumSectionsDiv.removeChild(testButton);
             premiumSectionsDiv.removeChild(inputHidden);
         }
+
+        premiumSectionsDiv.innerHTML = '';
     } else if (sectionTypes.value === "premium") {
         if (!storymodeButton && !testButton && !inputHidden) {
             createPremiumSectionsDivContent();
@@ -80,13 +82,6 @@ function createPremiumSectionsDivContent() {
     storymodeButton.textContent = "Истории";
     storymodeButton.classList.add("premiumSectionsButton");
     premiumSectionsDiv.appendChild(storymodeButton);
-    
-    testButton = document.createElement("button");
-    testButton.id = "test";
-    testButton.type = "button";
-    testButton.textContent = "testButton";
-    testButton.classList.add("premiumSectionsButton");
-    premiumSectionsDiv.appendChild(testButton);
 
     inputHidden = document.createElement("input");
     inputHidden.id = "inputHidden";

@@ -21,7 +21,7 @@ module.exports = {
     queryAllPremiumSections: async () => {
         try {
             const [result] = await pool.query(`
-                SELECT ps.courses_id, pt.type, c.language
+                SELECT ps.courses_id, pt.type, pt.section_type_bulgarian, c.language
                 FROM premium_sections ps
                 INNER JOIN courses c
                 ON ps.courses_id = c.id
@@ -55,7 +55,7 @@ module.exports = {
     queryPremiumSectionsForCourse: async (language) => {
         try {
             const [result] = await pool.query(`
-                SELECT ps.id, ps.description, pt.type, c.language
+                SELECT ps.id, ps.description, pt.type, pt.section_type_bulgarian, c.language
                 FROM premium_sections ps
                 INNER JOIN courses c
                 ON ps.courses_id = c.id
@@ -139,9 +139,9 @@ module.exports = {
     insertSection: async (sectionToInsert) => {
         try {
             await pool.query(`
-                INSERT INTO free_sections (sequence, description, section_types_id, courses_id)
-                VALUES (?, ?, ?, ?)
-            `, [sectionToInsert.sequence, sectionToInsert.description, sectionToInsert.sectionType, sectionToInsert.courseId]);
+                INSERT INTO free_sections (sequence, description, courses_id)
+                VALUES (?, ?, ?)
+            `, [sectionToInsert.sequence, sectionToInsert.description, sectionToInsert.courseId]);
         } catch (err) {
             console.error(err);
             throw err;
@@ -258,7 +258,7 @@ module.exports = {
 
                 await pool.query(`
                     UPDATE free_sections
-                    SET sequence = sequence - 1,
+                    SET sequence = sequence - 1
                     WHERE sequence > ? AND courses_id = ? AND is_deleted = 0
                 `, [sequence, courseId]);
             }

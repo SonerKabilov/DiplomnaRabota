@@ -12,9 +12,9 @@ const scores = document.querySelector('#scores');
 function showFlashcard(index) {
 
     if (index < flashcards.length - 1) {
-        nextButton.disabled = false;
+        nextButton.classList.remove("disabled");
     } else if (index === flashcards.length - 1) {
-        nextButton.disabled = true;
+        nextButton.classList.add("disabled");
     }
 
     if (index === 0) {

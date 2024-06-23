@@ -52,12 +52,12 @@
                 <p><%= categoryInformation.title %></p>
                 <form action="/flashcards/study/<%= categoryInformation.id %>" method="GET">
                     <button class="study-flashcards-button">Преглед</button>
-                    <button class="study-flashcards-button">Слаби страни</button>
+                    <button class="study-flashcards-button">Ниски оценки</button>
                 </form>
             </div>
             
             <div class="flashcardsDisplay">
-                <div class="display-flex">
+                <div class="display-flex flashcards-add-buttons">
                     <button id="openAddFlashcardModalBtn" data-category-id="<%= categoryInformation.id %>" class="add">Добавяне на флашкарта</button>
                     <button id="openSuggestedFlashcardsModalBtn" data-category-id="<%= categoryInformation.id %>" class="add">Препоръчани флашкарти</button>
                 </div>

@@ -35,7 +35,6 @@ module.exports = {
     },
     addFlashcardRecommendation: async (flashcard) => {
         const checkIfFlashcardSuggestionExists = await flashcardRepository.getFlashcardRecommendation(flashcard);
-        console.log(checkIfFlashcardSuggestionExists);
 
         if(checkIfFlashcardSuggestionExists) {
             return await flashcardRepository.insertFlashcardRecommendation(flashcard);

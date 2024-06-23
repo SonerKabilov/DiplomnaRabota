@@ -8,7 +8,7 @@
     </div>
     <div class="right">
         <ul>
-            <li>
+            <li class="currency">
                 <i class="fa-solid fa-coins"></i>
                 <%= userData.userCurrency %>
             </li>
@@ -29,7 +29,7 @@
                             <form action="/<%= course.language %>/free/lessons">
                                 <button class="course <%= isSelected %>">
                                     <img src="<%= course.flag %>" alt="flag">
-                                    <%= course.language %>
+                                    <%= course.cyrillicName %>
                                 </button>
                             </form>
                         <% } %>

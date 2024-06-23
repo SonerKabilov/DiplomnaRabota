@@ -189,6 +189,7 @@ header a:visited {
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     right: 50%;
     transform: translateX(50%);
+    z-index: 1;
 }
 
 .userCourses::before,
@@ -283,7 +284,8 @@ main {
 }
 
 .startLesson,
-.reviewLesson {
+.reviewLesson,
+.lessonCompleted button {
     padding: 1rem 4rem;
 }
 
@@ -432,6 +434,9 @@ main {
 }
 
 /* EXERCISES */
+.optionButton {
+    margin-bottom: 1rem;
+}
 
 .exerciseSection {
     margin-top: 1rem;
@@ -562,6 +567,34 @@ main {
     align-items: center;
 }
 
+.lessonCompleted {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lessonCompleted h1 {
+    text-align: center;
+}
+
+.lessonCompleted button {
+    cursor: pointer;
+    text-decoration: none;
+    background-color: #58cc02;
+    border: 1px solid #4fb401;
+    color: white;
+    border-radius: 15px;
+    box-shadow: 0 2px #4fb401;
+}
+
+.coins-reward {
+    border: 2px solid #ffc800;
+    border-top: 20px solid #ffc800;
+    padding: 1rem 3rem;
+    border-radius: 15px;
+    margin-bottom: 3rem;
+}
+
 
 /* STORYMODE */
 .images {
@@ -572,8 +605,8 @@ main {
 
 .image-container {
     position: relative;
-    width: 25%; /* Adjust the width as needed */
-    height: auto; /* Adjust the height as needed */
+    width: 25%;
+    height: auto;
 }
 
 .image-container img {
@@ -589,7 +622,7 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Change the color and opacity as needed */
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .overlay-text {
@@ -695,15 +728,21 @@ main {
 }
 
 .close {
+    transform: translateX(50%) translateY(-50%);
+    background-color: white;
+    font-size: 2rem;
+    border-radius: 100px;
+    border: 1px solid #aaa;
+    width: 35px;
+    text-align: center;
     color: #aaa;
     float: right;
     font-weight: bold;
-    padding: 1rem 2rem;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
+    background-color: #eaeaea;
     text-decoration: none;
     cursor: pointer;
 }
@@ -819,6 +858,18 @@ main {
     border-bottom: none;
 }
 
+.show-more-div {
+    text-align: center;
+}
+
+.show-more {
+    background-color: #dfdfdf;
+    border: 1px solid #aaa;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
 /* STUDY FLASHCARDS */
 
 #flashcardMain {
@@ -899,6 +950,24 @@ main {
     background-color: greenyellow;
 }
 
+.flashcard-navigation {
+    display: flex;
+    margin-top: 1rem;
+}
+
+#prevBtn {
+    margin-right: 1rem;
+}
+
+#prevBtn,
+#nextBtn {
+    background-color: #1cb0f6;
+    border: none;
+    border-bottom: 3px solid #1899d6;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
 
 
 /* ICONS */
@@ -971,12 +1040,40 @@ main {
 }
 .payment {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     margin-top: 2rem;
+    height: 80vh;
 }
 
-.payment input {
-    width: 100%;
+.product-information {
+    background-color: #ffc800;
+    border-radius: 15px 0 0 15px;
+}
+
+.product-information,
+.payment form {
+    padding: 0 7rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.payment form {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    justify-content: center;
+    border-radius: 0 15px 15px 0;
+}
+
+.stripe-logo {
+    width: 30%;
+    margin: 0 auto;
+}
+
+.payment #submit {
+    background-color: #ffc800;
+    border: 1px solid #ffc800;
+    padding: 1rem;
+    border-radius: 10px;
 }
 
 #card-holder-name,
@@ -1014,4 +1111,194 @@ main {
 
 .purchase-history .table-body {
     border-bottom: 1px solid lightgray;
+}
+
+.burger-menu {
+    display: none;
+}
+
+/* RESPONSIVE */
+/* Extra small devices (phones, 600px and down) */
+/* Small devices (portrait tablets and large phones, 600px and up) */
+/* Medium devices (landscape tablets, 768px - 992px) */
+@media only screen and (max-width: 992px) {
+    .membershipItems,
+    .coinsItems,
+    #scores,
+    .homepage,
+    .flashcardItem,
+    .images {
+        flex-direction: column;
+    }
+
+    /* HOMEPAGE */
+
+    .homepage {
+        position: static;
+    }
+
+    .homepage-left, .homepage-right {
+        height: 50vh;
+        width: 100%;
+    }
+
+    .homepage-right::before {
+        border-top-left-radius: 0;
+    }
+
+    .sign h1 {
+        text-align: center;
+    }
+
+    header {
+        flex-direction: column;
+    }
+
+    #registerForm {
+        width: 100%;
+    }
+
+    #registerForm input {
+        width: auto !important;
+    }
+
+    .prevBtn {
+        margin-bottom: 1rem;
+    }
+
+    /* SECTIONS */
+
+    .currency {
+        text-align: center;
+    }
+
+    .burger-menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 25px;
+        cursor: pointer;
+        margin: 10px;
+    }
+    
+    .burger-menu .line {
+        height: 3px;
+        background: black;
+    }
+
+    .sections {
+        display: none;
+        flex-direction: column;
+        padding: 10px;
+        padding: 0;
+    }
+
+    .sectionTypes {
+        margin: 0;
+        width: 100%;
+    }
+    
+    .sections.active {
+        display: flex;
+    }
+
+    .sectionsMain,
+    .flashcardsMain {
+        display: block;
+        overflow: visible;
+    }
+
+    .section {
+        padding: 1.5rem 0 1.5rem 0;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+        text-align: center;
+    }
+
+    /* FLASHCARDS */
+
+    .courses,
+    .flashcardsMain {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .flashcardCategories,
+    .flashcards {
+        width: 100%;
+    }
+
+    .flashcardsTop {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flashcards-add-buttons {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .flashcard {
+        width: 95%;
+    }
+
+
+    /* EXERCISES */
+
+    .exerciseSection {
+        height: 100vh;
+    }
+
+    .nextExercise, .checkAnswer {
+        position: fixed;
+    }
+
+    .image-container {
+        width: 100%;
+    }
+
+
+    /* SHOP */
+
+    .payment {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .product-information, .payment form {
+        padding: 0 1rem;
+    }
+
+    .product-information {
+        text-align: center;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .payment form {
+        padding-bottom: 1rem;
+        border-radius: 0 0 15px 15px;
+    }
+
+    /* MODALS */
+
+    .modal-content {
+        width: 100%;
+        text-align: center;
+    }
+
+    .modalHeader {
+        padding: 0;
+    }
+
+    .modalBtnsDiv {
+        text-align: center;
+        padding-right: 0;
+    }
+
+    .close {
+        transform: none;
+        border: none;
+    }
 }

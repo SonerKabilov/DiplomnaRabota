@@ -22,7 +22,7 @@
             <% for (let course of adminPageDetails.courses) { %>
                 <div class="parent">
                     <button class="course">
-                        <%= course.language %>
+                        <%= course.cyrillicName %>
                         <span class="chevron"><i class="fa-solid fa-chevron-right"></i></span>
                     </button>
         
@@ -40,7 +40,7 @@
                         <% for (let premiumSection of adminPageDetails.premiumSections) { %>
                             <% if (premiumSection.courses_id === course.id) { %>
                                 <p>
-                                    <a href="/admin/show/<%= premiumSection.language %>/<%= premiumSection.type %>/lessons"><%= premiumSection.type %></a>
+                                    <a href="/admin/show/<%= premiumSection.language %>/<%= premiumSection.type %>/lessons"><%= premiumSection.section_type_bulgarian %></a>
                                 </p>
                             <% } %>
                         <% } %>
@@ -48,6 +48,12 @@
                         <p>
                             <a class="add" href="admin/add/<%= course.id %>/section">Добавяне на раздел</a>
                         </p>
+
+                        <form action="">
+                            <p>
+                                <button class="remove">Изтриване на раздел</button>
+                            </p>
+                        </form>
                     </div>
                 </div>
             <% } %>

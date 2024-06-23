@@ -114,7 +114,7 @@ const showSections = async () => {
             sectionsDiv.appendChild(sectionDiv);
 
             const sectionType = document.createElement("h5");
-            sectionType.textContent = section.type;
+            sectionType.textContent = section.section_type_bulgarian;
             sectionDiv.appendChild(sectionType);
 
             const showLessonBtn = document.createElement("button");

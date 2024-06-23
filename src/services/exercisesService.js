@@ -24,12 +24,6 @@ module.exports = {
 
         return [];
     },
-    getStorymodeTask: async (sectionId, lessonSequence) => {
-        return await exercisesRepository.queryStorymodeExercise(sectionId, lessonSequence);;
-    },
-    getStorymodeImages: async (storymodeExerciseId) => {
-        return await exercisesRepository.queryStorymodeImages(storymodeExerciseId);
-    },
     addExercise: async (newExercise) => {
         // Removes blank option inputs
         for (let option of newExercise.options) {

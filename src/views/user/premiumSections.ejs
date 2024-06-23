@@ -12,6 +12,11 @@
     <%- include('../partials/header') %>
 
     <main class="sectionsMain">
+        <div class="burger-menu" id="burgerMenu">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
         <section class="sections">
             <select name="sectionTypes" class="sectionTypes">
                 <option value="1" url="/<%= language %>/free/lessons">Безплатни раздели</option>
@@ -25,6 +30,7 @@
     </main>
 
     <script src="/js/togglePopover.js"></script>
+    <script src="/js/toggleBurgerMenu.js"></script>
     <script src="/js/showSections.js" 
         sectionType = "premium"
         lang = "<%= language %>">

@@ -38,7 +38,6 @@ module.exports = {
 
         try {
             const flag = findFlagUrlByIso2Code(body.iso2);
-            console.log(flag);
     
             if (flag != "") {
                 const languageData = {

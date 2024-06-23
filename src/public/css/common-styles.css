@@ -66,9 +66,13 @@ h5 {
     font-size: 2.5rem;
 }
 
+.lessonCompleted h1 {
+    font-size: 3rem !important;
+    color: #ffc800;
+}
+
 .fa-star,
 .fa-ear-listen,
-
 .shopItemIcon i {
     font-size: 4rem;
 }
@@ -238,8 +242,8 @@ h5 {
 }
 
 .disabled {
-    background-color: lightgray;
-    border-color: lightgray;
+    background-color: lightgray !important;
+    border-color: lightgray !important;
     pointer-events: none;
     cursor: default;
 }

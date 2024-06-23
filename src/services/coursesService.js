@@ -14,7 +14,7 @@ module.exports = {
     checkIfCourseIsAdded: async (languages) => {
         const addedLanguages = await coursesRepository.queryCourses();
 
-        for (addedLanguage of addedLanguages) {
+        for (const addedLanguage of addedLanguages) {
             const index = languages.findIndex(language => language.language.toLowerCase() === addedLanguage.language.toLowerCase());
 
             if (index !== -1) {

@@ -14,7 +14,7 @@
         <div class="content">
             <%- include('../partials/flashMessages') %>
 
-            <form action="#?_method=PATCH" method="POST">
+            <form class="admin-form" action="#?_method=PATCH" method="POST">
                 <h3>Редактиране на описанието на раздела</h3>
                 <input type="text" name="description" value="<%= sectionDetails.description %>">
                 <button class="update">Редактиране</button>

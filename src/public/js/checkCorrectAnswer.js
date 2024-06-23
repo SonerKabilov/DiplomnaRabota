@@ -346,9 +346,14 @@ const lessonCompleted = async () => {
     lessonCompletedDiv.classList.add("lessonCompleted");
     exerciseSectionDiv.appendChild(lessonCompletedDiv);
 
-    const paragraph = document.createElement("p");
-    paragraph.textContent = "All exercises completed!";
+    const paragraph = document.createElement("h1");
+    paragraph.textContent = "Успешно преминат урок!";
     lessonCompletedDiv.appendChild(paragraph);
+
+    const coinsReward = document.createElement("p");
+    coinsReward.classList.add("coins-reward");
+    coinsReward.innerHTML = `<i class="fa-solid fa-coins"></i> 25`;
+    lessonCompletedDiv.appendChild(coinsReward);
 
     const btnCompleted = document.createElement("button");
     btnCompleted.textContent = "Обратно";
