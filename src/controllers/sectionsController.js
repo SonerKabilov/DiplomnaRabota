@@ -104,13 +104,7 @@ module.exports = {
             const sections = await sectionsService.getAllPremiumSectionsForCourse(language);
             const userHasMembership = await accountService.checkIfUserHasMembership(userId);
 
-            let lessons;
-
-            if (userHasMembership) {
-                lessons = await lessonsService.getAllPremiumLessons(language);
-            } else {
-                lessons = [];
-            }
+            const lessons = await lessonsService.getAllPremiumLessons(language);
 
             const courseInformation = await accountService.getCurrentUserCourse(userId, language);
 
@@ -119,7 +113,7 @@ module.exports = {
                 test: courseInformation[0].on_test_lesson
             }
 
-            res.json({ sections, lessons, onLesson });
+            res.json({ sections, lessons, onLesson, userHasMembership });
         } catch (error) {
             console.error(error);
 

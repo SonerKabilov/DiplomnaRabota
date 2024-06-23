@@ -4,8 +4,6 @@ const sectionType = document.currentScript.getAttribute("sectionType");
 const sectionsDiv = document.querySelector('.sections');
 const lessonsDiv = document.querySelector('.lessons');
 const sectionTypesSelect = document.querySelector('.sectionTypes');
-// const sections = document.querySelectorAll('.section');
-// const lessons = document.querySelectorAll('.lesson');
 
 const getSectionsAndLessons = async () => {
     try {
@@ -30,7 +28,7 @@ const getSectionsAndLessons = async () => {
 }
 
 const showSections = async () => {
-    const { sections, lessons, onLesson } = await getSectionsAndLessons();
+    const { sections, lessons, onLesson, userHasMembership } = await getSectionsAndLessons();
 
     if (sectionType === "free") {
         for (const section of sections) {
@@ -75,7 +73,7 @@ const showSections = async () => {
             header.textContent = `Урок ${lesson.sequence}`;
             popoverDiv.appendChild(header);
 
-            if(lesson.preview != null) {
+            if (lesson.preview != null) {
                 const previewBtn = document.createElement("button");
                 previewBtn.classList.add("reviewLesson");
                 previewBtn.textContent = "Преглед";
@@ -107,64 +105,72 @@ const showSections = async () => {
             }
         }
     } else if (sectionType === "premium") {
-        for (const section of sections) {
-            const sectionDiv = document.createElement("div");
-            sectionDiv.classList.add("section");
-            sectionDiv.setAttribute("section-id", section.id);
-            sectionsDiv.appendChild(sectionDiv);
+        if (sections.length > 0) {
+            for (const section of sections) {
+                const sectionDiv = document.createElement("div");
+                sectionDiv.classList.add("section");
+                sectionDiv.setAttribute("section-id", section.id);
+                sectionsDiv.appendChild(sectionDiv);
 
-            const sectionType = document.createElement("h5");
-            sectionType.textContent = section.section_type_bulgarian;
-            sectionDiv.appendChild(sectionType);
+                const sectionType = document.createElement("h5");
+                sectionType.textContent = section.section_type_bulgarian;
+                sectionDiv.appendChild(sectionType);
 
-            const showLessonBtn = document.createElement("button");
-            showLessonBtn.classList.add("showLessonsBtn");
-            showLessonBtn.textContent = "Начало";
-            sectionDiv.appendChild(showLessonBtn);
+                const showLessonBtn = document.createElement("button");
+                showLessonBtn.classList.add("showLessonsBtn");
+                showLessonBtn.textContent = "Начало";
+                sectionDiv.appendChild(showLessonBtn);
+            }
+        } else {
+            const p = document.createElement("h1");
+            p.textContent = "Не съществуват налични платени раздели";
+            sectionsDiv.appendChild(p);
         }
 
-        if (lessons.length > 0) {
-            for (const lesson of lessons) {
-                const lessonDiv = document.createElement("div");
-                lessonDiv.classList.add("lesson");
-                lessonDiv.setAttribute("lesson-section", lesson.premium_sections_id);
-                lessonsDiv.appendChild(lessonDiv);
+        if (userHasMembership) {
+            if (lessons.length > 0) {
+                for (const lesson of lessons) {
+                    const lessonDiv = document.createElement("div");
+                    lessonDiv.classList.add("lesson");
+                    lessonDiv.setAttribute("lesson-section", lesson.premium_sections_id);
+                    lessonsDiv.appendChild(lessonDiv);
 
-                const icon = document.createElement("i");
-                icon.classList.add("fa-solid", "fa-star");
-                icon.id = `popoverBtn${lesson.premium_sections_id}`;
-                lessonDiv.appendChild(icon);
+                    const icon = document.createElement("i");
+                    icon.classList.add("fa-solid", "fa-star");
+                    icon.id = `popoverBtn${lesson.premium_sections_id}`;
+                    lessonDiv.appendChild(icon);
 
-                const popoverDiv = document.createElement("div");
-                popoverDiv.classList.add("popover");
-                popoverDiv.id = `myPopover${lesson.premium_sections_id}`;
-                lessonDiv.appendChild(popoverDiv);
+                    const popoverDiv = document.createElement("div");
+                    popoverDiv.classList.add("popover");
+                    popoverDiv.id = `myPopover${lesson.premium_sections_id}`;
+                    lessonDiv.appendChild(popoverDiv);
 
-                const header = document.createElement("h3");
-                header.classList.add("lessonSequence");
-                header.textContent = `Урок ${lesson.sequence}`;
-                popoverDiv.appendChild(header);
+                    const header = document.createElement("h3");
+                    header.classList.add("lessonSequence");
+                    header.textContent = `Урок ${lesson.sequence}`;
+                    popoverDiv.appendChild(header);
 
-                const startLesson = document.createElement("a");
-                startLesson.classList.add("startLesson");
-                popoverDiv.appendChild(startLesson);
+                    const startLesson = document.createElement("a");
+                    startLesson.classList.add("startLesson");
+                    popoverDiv.appendChild(startLesson);
 
-                if (lesson.sequence <= onLesson[lesson.type]) {
-                    icon.classList.add("completed");
-                    startLesson.textContent = "Начало";
-                    startLesson.href = `/exercises/${language}/${lesson.type}/lesson/${lesson.sequence}`;
-                } else {
-                    const lockIcon = document.createElement("i")
-                    lockIcon.classList.add("fa-solid", "fa-lock");
-                    startLesson.appendChild(lockIcon);
+                    if (lesson.sequence <= onLesson[lesson.type]) {
+                        icon.classList.add("completed");
+                        startLesson.textContent = "Начало";
+                        startLesson.href = `/exercises/${language}/${lesson.type}/lesson/${lesson.sequence}`;
+                    } else {
+                        const lockIcon = document.createElement("i")
+                        lockIcon.classList.add("fa-solid", "fa-lock");
+                        startLesson.appendChild(lockIcon);
 
-                    startLesson.classList.add("disabled");
-                    startLesson.href = `/${language}/premium/lessons`;
+                        startLesson.classList.add("disabled");
+                        startLesson.href = `/${language}/premium/lessons`;
+                    }
                 }
             }
         } else {
             const p = document.createElement("p");
-            p.textContent = "Нямате абонамент"
+            p.textContent = "Нямате абонамент";
             lessonsDiv.appendChild(p);
         }
     }
@@ -203,7 +209,7 @@ function addLessonToggleListeners() {
 
     for (const section of sections) {
         const button = section.querySelector('.showLessonsBtn');
-        
+
 
         button.addEventListener('click', function () {
             const sectionId = section.getAttribute('section-id');
@@ -245,7 +251,7 @@ const createModalForLessionPreview = (previewText) => {
     modalContentDiv.appendChild(modalHeader);
 
     const txt = document.createElement("p");
-    txt.innerHTML  = previewText;
+    txt.innerHTML = previewText;
     txt.classList.add("lesson-preview");
     modalContentDiv.appendChild(txt);
 
