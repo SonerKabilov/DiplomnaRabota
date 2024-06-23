@@ -211,7 +211,8 @@ module.exports = {
         }
 
         const purchaseHistory = await shopService.getPurchaseHistory(userId);
+        const membership = await accountService.getMembership(userId);
 
-        res.render("user/purchaseHistory", { userData, language, purchaseHistory });
+        res.render("user/purchaseHistory", { userData, language, purchaseHistory, membership });
     }
 }

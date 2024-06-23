@@ -246,6 +246,7 @@ const createModalForLessionPreview = (previewText) => {
 
     const txt = document.createElement("p");
     txt.innerHTML  = previewText;
+    txt.classList.add("lesson-preview");
     modalContentDiv.appendChild(txt);
 
     document.body.appendChild(previewModal);

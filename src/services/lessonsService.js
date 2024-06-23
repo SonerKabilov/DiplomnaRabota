@@ -56,5 +56,8 @@ module.exports = {
     },
     deleteFreeLesson: async (sectionId, lessonSequence, language) => {
         return await lessonsRepository.updateFreeLessonDeleteStatus(sectionId, lessonSequence, language);
+    },
+    deletePremiumLesson: async (sectionId, lessonSequence, language) => {
+        return await lessonsRepository.updateStorymodeLessonDeleteStatus(sectionId, lessonSequence, language);
     }
 }

@@ -175,6 +175,24 @@ module.exports = {
             throw err;
         }
     },
+    checkIfPremiumSectionExists: async (sectionTypeId, courseId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT id
+                FROM premium_sections
+                WHERE premium_section_types_id = ? AND courses_id = ?
+            `, [sectionTypeId, courseId]);
+
+            if (result.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
     insertPremiumSection: async (sectionToInsert) => {
         try {
             await pool.query(`
@@ -261,6 +279,24 @@ module.exports = {
                     SET sequence = sequence - 1
                     WHERE sequence > ? AND courses_id = ? AND is_deleted = 0
                 `, [sequence, courseId]);
+            }
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    checkIfSectionHasLessons: async (id) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT *
+                FROM free_lessons
+                WHERE sections_id = ?
+            `, [id]);
+
+            if (result.length > 0) {
+                return true;
+            } else {
+                return false;
             }
         } catch (err) {
             console.error(err);

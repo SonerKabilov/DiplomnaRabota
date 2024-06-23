@@ -433,6 +433,10 @@ main {
     margin-top: 1rem;
 }
 
+.lesson-preview {
+    text-align: center;
+}
+
 /* EXERCISES */
 .optionButton {
     margin-bottom: 1rem;

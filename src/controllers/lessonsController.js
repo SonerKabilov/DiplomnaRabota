@@ -159,5 +159,26 @@ module.exports = {
                 .status(404)
                 .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
         }
+    },
+    deletePremiumLesson: async (req, res) => {
+        const { language, sectionId, lessonSequence, type } = req.params;
+
+        try {
+            await lessonsService.deletePremiumLesson(sectionId, lessonSequence, language);
+
+            req.flash("success", "Успешно изтриване на урок!");
+
+            res
+                .status(200)
+                .redirect(`/admin/show/${language}/section/${sectionId}/lessons`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно изтриване на урок!");
+
+            res
+                .status(404)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
     }
 }

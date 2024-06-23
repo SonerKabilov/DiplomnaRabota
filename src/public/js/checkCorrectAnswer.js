@@ -17,6 +17,21 @@ const topDiv = document.querySelector(".top");
 const audio = new Audio();
 
 let speech = new SpeechSynthesisUtterance();
+
+const setSpeechLanguage = (text) => {
+    const langDetector = new RegExp("[\u0400-\u04FF]+"); // Cyrillic script
+
+    if (langDetector.test(text)) {
+        speech.lang = "bg-BG";
+    } else {
+        if (language == "French") {
+            speech.lang = "fr-FR";
+        }else if (language == "English") {
+            speech.lang = "en-EN";
+        }
+    } 
+};
+
 let currentExerciseIndex = 0;
 let progressBarCounter = 1;
 let exercises = [];
@@ -337,6 +352,7 @@ const textToSpeach = (text) => {
         speechSynthesis.cancel();
     }
 
+    setSpeechLanguage(text);
     speech.text = text;
     window.speechSynthesis.speak(speech);
 }

@@ -17,6 +17,10 @@
         <div class="content">
             <%- include('../partials/flashMessages') %>
 
+            <form action="/admin/<%= lessonDetails.language %>/sectionId/<%= lessonDetails.sectionId %>/remove/<%= lessonDetails.type %>/<%= lessonDetails.lessonSequence %>?_method=DELETE" method="POST">
+                <button class="remove">Изтриване на урок</button>
+            </form>
+
             <% let counter = 1 %>
 
             <% for (const exercise of lessonDetails.exercise) { %>

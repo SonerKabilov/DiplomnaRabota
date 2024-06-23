@@ -11,6 +11,8 @@
 <body>
     <%- include('../partials/header') %>
 
+    <p class="center">Изтичане на последно закупен абонамент: <%= membership %></p>
+
     <% if(purchaseHistory.length > 0) { %>
         <table class="purchase-history">
             <tr class="table-head">

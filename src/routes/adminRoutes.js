@@ -80,6 +80,11 @@ router
     .delete(lessonController.deleteFreeLesson);
 
 router
+    .route("/:language/sectionId/:sectionId/remove/:type/:lessonSequence")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .delete(lessonController.deletePremiumLesson);
+
+router
     .route("/add/course/:language/:type/lesson")
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .post(lessonController.addPremiumLesson);

@@ -195,13 +195,22 @@ module.exports = {
         }
 
         try {
-            await sectionsService.addSection(newSection);
+            const section = await sectionsService.addSection(newSection);
 
-            req.flash("success", "Успешно създаден раздел!");
+            if (!section) {
+                req.flash("error", "Разделът съществува!");
 
-            res
-                .status(201)
-                .redirect("/admin");
+                res
+                    .status(400)
+                    .redirect("/admin");
+            } else {
+                req.flash("success", "Успешно създаден раздел!");
+
+                res
+                    .status(201)
+                    .redirect("/admin");
+            }
+
         } catch (err) {
             console.log(err);
 
@@ -244,13 +253,21 @@ module.exports = {
         const { id } = req.params;
 
         try {
-            await sectionsService.deleteFreeSection(id);
+            const is_deleted = await sectionsService.deleteFreeSection(id);
 
-            req.flash("success", "Успешно изтриване на раздел!");
+            if (is_deleted) {
+                req.flash("success", "Успешно изтриване на раздел!");
 
-            res
-                .status(200)
-                .redirect(`/admin`);
+                res
+                    .status(200)
+                    .redirect(`/admin`);
+            } else {
+                req.flash("error", "Разделът има уроци!");
+
+                res
+                    .status(400)
+                    .redirect(`/admin`);
+            }
         } catch (err) {
             console.log(err);
 

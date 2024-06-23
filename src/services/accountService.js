@@ -162,5 +162,17 @@ module.exports = {
         }
 
         return false;
+    },
+    getMembership: async (userId) => {
+        const currentMembership = await accountRepository.getUserMembership(userId);
+        
+        if (currentMembership) {
+            const currentMembershipDate = new Date(currentMembership);
+            const formattedCurrentMembershipDate = format(currentMembershipDate, 'yyyy-MM-dd HH:mm:ss');
+    
+            return formattedCurrentMembershipDate;
+        } else {
+            return "Няма наличен абонамент";
+        }
     }
 }

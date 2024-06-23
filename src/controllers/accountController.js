@@ -80,9 +80,27 @@ module.exports = {
             userTypesId: 1
         }
 
-        await accountService.createUser(userInformation);
+        try {
+            const user = await accountService.createUser(userInformation);
 
-        res.redirect("/admin");
+            if (user === "Username and password taken") {
+                req.flash("error", "Потребителското име или имейл са вече заети");
+                res.redirect("/admin/create/account");
+            } else if (user === "False regex") {
+                req.flash("error", "Невалидни потребителски данни");
+                res.redirect("/admin/create/account");
+            } else if (user === "Password does not match") {
+                req.flash("error", "Невалидни потребителски данни");
+                res.redirect("/admin/create/account");
+            } else {
+                req.flash("success", "Усешно създаден профил");
+
+                res.redirect(`/admin/create/account`);
+            }
+        } catch (error) {
+            req.flash("error", "Неуспешно създаване на потребител");
+            res.redirect("/admin/create/account");
+        }
     },
     loginUser: async (req, res) => {
         const userBody = req.body;

@@ -32,8 +32,6 @@ module.exports = {
         return await sectionsRepository.getPremiumSectionData(language, type);
     },
     addSection: async (newSection) => {
-        let section;
-
         if (newSection.sectionType === "free") {
             const lastSequence = await sectionsRepository.getLastSectionSequence(newSection.courseId);
 
@@ -42,24 +40,39 @@ module.exports = {
                 sequence: lastSequence + 1
             }
     
-            section = await sectionsRepository.insertSection(sectionToInsert);
+            await sectionsRepository.insertSection(sectionToInsert);
+
+            return true;
         } else if (newSection.sectionType === "premium") {
             const premiumSectionTypeId = await sectionsRepository.getPremiumSectionTypeId(newSection.premiumSection);
+            const is_added = await sectionsRepository.checkIfPremiumSectionExists(premiumSectionTypeId, newSection.courseId);
 
-            const sectionToInsert = {
-                ...newSection,
-                premiumSectionTypeId
+            if (!is_added) {
+                const sectionToInsert = {
+                    ...newSection,
+                    premiumSectionTypeId
+                }
+    
+                await sectionsRepository.insertPremiumSection(sectionToInsert);
+
+                return true;
+            } else {
+                return false;
             }
-
-            section = await sectionsRepository.insertPremiumSection(sectionToInsert);
         }
-
-        return section;
     },
     updateSectionDescription: async (updatedSection) => {
         return await sectionsRepository.updateSectionDescription(updatedSection);
     },
     deleteFreeSection: async (id) => {
-        return await sectionsRepository.updateFreeSectionDeleteStatus(id);
+        const has_lessons = await sectionsRepository.checkIfSectionHasLessons(id);
+
+        if(!has_lessons) {
+            await sectionsRepository.updateFreeSectionDeleteStatus(id);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }

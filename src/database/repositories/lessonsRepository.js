@@ -31,7 +31,7 @@ module.exports = {
                 ON s.courses_id = c.id
                 INNER JOIN premium_section_types pt
                 ON s.premium_section_types_id = pt.id
-                WHERE pt.type = ? AND c.language = ?
+                WHERE pt.type = ? AND c.language = ? AND l.is_deleted = 0
                 ORDER BY l.sequence
             `, [type, language]);
 
@@ -71,7 +71,7 @@ module.exports = {
                 ON s.courses_id = c.id
                 INNER JOIN premium_section_types st
                 ON s.premium_section_types_id = st.id
-                WHERE c.language = ?
+                WHERE c.language = ? AND l.is_deleted = 0
                 ORDER BY l.sequence
             `, [language]);
 
@@ -243,6 +243,45 @@ module.exports = {
                 ON ct.courses_id = c.id
                 SET ct.on_lesson = ct.on_lesson - 1
                 WHERE ct.on_lesson >= ? AND c.language = ? AND ct.on_lesson > 1;
+            `, [lessonSequence, language]);
+
+            await connection.commit();
+        } catch (err) {
+            await connection.rollback();
+            console.error(err);
+            throw err;
+        } finally {
+            connection.release();
+        }
+    },
+    updateStorymodeLessonDeleteStatus: async (sectionId, lessonSequence, language) => {
+        const connection = await pool.getConnection();
+
+        try {
+            await connection.beginTransaction();
+
+            await connection.query(`
+                UPDATE premium_lessons
+                SET is_deleted = 1, sequence = 0
+                WHERE sequence = ? AND premium_sections_id = ?
+            `, [lessonSequence, sectionId]);
+
+            await connection.query(`
+                UPDATE premium_lessons l
+                INNER JOIN premium_sections s
+                ON l.premium_sections_id = s.id
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                SET l.sequence = l.sequence - 1
+                WHERE l.sequence > ? AND c.language = ? AND l.is_deleted = 0
+            `, [lessonSequence, language]);
+
+            await connection.query(`
+                UPDATE courses_taken ct
+                INNER JOIN courses c
+                ON ct.courses_id = c.id
+                SET ct.on_storymode_lesson = ct.on_storymode_lesson - 1
+                WHERE ct.on_storymode_lesson >= ? AND c.language = ? AND ct.on_storymode_lesson > 1;
             `, [lessonSequence, language]);
 
             await connection.commit();
