@@ -37,20 +37,40 @@
 
                         <% for (const exerciseImage of exercise.storymodeImages) { %>
                             <div class="formInput storymode-image">
+                                <p>Последователност: <%= exerciseImage.sequence %></p>
                                 <img src="/img/storymode/<%= exerciseImage.url %>" alt="Img">
+
+                                <form 
+                                    action="/admin/delete/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/storymode-image/<%= exerciseImage.id %>?_method=DELETE"
+                                    method="POST">
+
+                                        <button class="remove">Изтриване</button>
+                                </form>
                             </div>
                         <% } %>
+
+                        <br>
+                        <form 
+                            action="/admin/add/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise/<%= exercise.storymodeExercise.id %>/storymode-image"
+                            method="POST"
+                            enctype="multipart/form-data">
+
+                                <p>Добавяне на снимка</p>
+                                <input class="border-none" type="file" name="imgUrl" accept="image/*">
+                                <br>
+                                <button class="add">Добавяне</button>
+                        </form>
                     </div>
                 </div>
             <% } %>
 
+            <br>
             <p>
                 <a class="add" href="/admin/add/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise">Добавяне на упражнение</a>
             </p>
         </div>
     </div>
 
-    <script src="/js/adminPanelFunctions.js"></script>
     <script src="/js/adminPanelFunctions.js"></script>
 </body>
 

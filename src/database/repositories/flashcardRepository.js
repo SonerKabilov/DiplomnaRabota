@@ -82,6 +82,22 @@ module.exports = {
             throw err;
         }
     },
+    queryFlashcardsWithLowScore: async (categoryId, userId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT f.*
+                FROM flashcards f
+                INNER JOIN flashcard_categories fc
+                ON f.flashcard_categories_id = fc.id
+                WHERE f.flashcard_categories_id = ? AND fc.users_id = ? AND score <= 3 AND score > 0
+            `, [categoryId, userId]);
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
     addFlashcard: async (flashcardDetails) => {
         try {
             await pool.query(`

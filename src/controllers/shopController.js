@@ -134,8 +134,9 @@ module.exports = {
     adminShowShopItems: async (req, res) => {
         const shopItems = await shopService.getShopItems();
         const paymentTypes = await shopService.getPaymentTypes();
+        const userType = req.session.user_type;
 
-        res.render("admin/showShopItems", { shopItems, paymentTypes });
+        res.render("admin/showShopItems", { shopItems, paymentTypes, userType });
     },
     updateShopItem: async (req, res) => {
         const { itemId } = req.params;
@@ -174,8 +175,9 @@ module.exports = {
     showAddShopItemForm: async (req, res) => {
         const paymentTypes = await shopService.getPaymentTypes();
         const itemTypes = await shopService.getShopItemTypes();
+        const userType = req.session.user_type;
 
-        res.render("admin/addShopItemForm", { paymentTypes, itemTypes });
+        res.render("admin/addShopItemForm", { paymentTypes, itemTypes, userType });
     },
     addShopItem: async (req, res) => {
         const body = req.body;

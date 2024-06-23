@@ -6,6 +6,7 @@ const coursesService = require('../services/coursesService');
 module.exports = {
     showLessonDetails: async (req, res) => {
         const { language, sectionId, lessonSequence } = req.params;
+        const userType = req.session.user_type;
 
         const checkIfLessonExists = await lessonsService.getLessonId(lessonSequence, sectionId);
 
@@ -30,10 +31,11 @@ module.exports = {
             freeLessonOptionTypes
         }
 
-        res.render("admin/showLessonDetails", { lessonDetails });
+        res.render("admin/showLessonDetails", { lessonDetails, userType });
     },
     showPremiumLessonDetails: async (req, res) => {
         const { language, type, sectionId, lessonSequence } = req.params;
+        const userType = req.session.user_type;
 
         try {
             const exercise = await exercisesService.getAllPremiumLessonExercises(sectionId, type, lessonSequence);
@@ -46,7 +48,7 @@ module.exports = {
                 exercise
             }
 
-            res.render("admin/showPremiumLessonDetails", { lessonDetails });
+            res.render("admin/showPremiumLessonDetails", { lessonDetails, userType });
         } catch (err) {
             console.log(err);
 
@@ -68,11 +70,17 @@ module.exports = {
 
             const sectionId = await sectionsService.getSectionId(sectionDetails);
 
-            await lessonsService.addLesson(courseId, sectionId);
+            const addedLesson = await lessonsService.addLesson(courseId, sectionId);
 
-            req.flash("success", "Успешно добавен урок!");
+            if (addedLesson) {
+                req.flash("success", "Успешно добавен урок!");
 
-            res.redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
+                res.redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
+            } else {
+                req.flash("error", "Може да се добавя урок само към последния раздел!");
+
+                res.redirect(`/admin/show/${language}/section/${sectionSequence}/lessons`);
+            }
         } catch (err) {
             console.log(err);
 

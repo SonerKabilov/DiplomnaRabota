@@ -128,6 +128,7 @@ module.exports = {
     },
     showSectionDetails: async (req, res) => {
         const { language, sectionSequence } = req.params;
+        const userType = req.session.user_type;
 
         try {
             const lessons = await lessonsService.getAllLessonsForAdmin(language, sectionSequence);
@@ -141,7 +142,7 @@ module.exports = {
                 description: sectionData.description
             }
 
-            res.render("admin/showSectionDetails", { sectionDetails });
+            res.render("admin/showSectionDetails", { sectionDetails, userType });
         } catch (err) {
             console.log(err);
 
@@ -153,6 +154,7 @@ module.exports = {
     },
     showPremiumSectionDetails: async (req, res) => {
         const { language, type } = req.params;
+        const userType = req.session.user_type;
 
         try {
             const lessons = await lessonsService.getAllPremiumLessonsForAdmin(language, type);
@@ -166,7 +168,7 @@ module.exports = {
                 type
             }
 
-            res.render("admin/showPremiumSectionDetails", { sectionDetails });
+            res.render("admin/showPremiumSectionDetails", { sectionDetails, userType });
         } catch (err) {
             console.log(err);
 
@@ -177,8 +179,9 @@ module.exports = {
     },
     showAddSectionForm: (req, res) => {
         const { courseId } = req.params;
+        const userType = req.session.user_type;
 
-        res.render("admin/addSection", { courseId });
+        res.render("admin/addSection", { courseId, userType });
     },
     addSection: async (req, res) => {
         const { courseId } = req.params;

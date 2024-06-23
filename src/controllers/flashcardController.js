@@ -131,6 +131,22 @@ module.exports = {
 
         res.render("user/studyFlashcards", { userData, language, flashcards });
     },
+    studyFlashcardswithLowScore: async (req, res) => {
+        const userCurrency = req.session.user_currency;
+        const coursesTaken = req.session.user_courses;
+        const language = req.session.language;
+        const userId = req.session.user_id;
+        const { categoryId } = req.params;
+
+        const userData = {
+            userCurrency,
+            coursesTaken
+        }
+
+        const flashcards = await flashcardService.showFlashcardsWithLowScore(categoryId, userId);
+
+        res.render("user/studyFlashcards", { userData, language, flashcards });
+    },
     addScore: async (req, res) => {
         const { score } = req.body;
         const { flashcardId } = req.params;
@@ -145,9 +161,7 @@ module.exports = {
         try {
             await flashcardService.addScore(flashcardDetails);
 
-            // res.redirect(`/flashcards/study/${categoryId}`);
-    
-            res.status(200).send({ success: true });
+            res.status(200).send({ success: true, msg: `Успешно оценена флашкарта: ${score}` });
         } catch(error) {
             console.log(error);
         }

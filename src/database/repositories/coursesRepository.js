@@ -65,5 +65,21 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    queryLastSectionForCourse: async (courseId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT id
+                FROM free_sections
+                WHERE courses_id = ?
+                ORDER BY sequence DESC
+                LIMIT 1;
+            `, [courseId]);
+
+            return result[0].id;
+        } catch(err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

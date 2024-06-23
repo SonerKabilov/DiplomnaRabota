@@ -179,6 +179,10 @@ textarea {
     text-align: center;
 }
 
+.storymode-image img {
+    width: 100%;
+}
+
 
 /* SHOP */
 .shop-input-div {
@@ -197,11 +201,6 @@ textarea {
 
 /* RESPONSIVE */
 /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-    .storymode-image img {
-        width: 100%;
-    }
-}
 
 @media only screen and (max-width: 992px) {
     .page-content {

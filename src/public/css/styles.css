@@ -648,6 +648,9 @@ main {
 }
 
 /* FLASHCARDS */
+.flashcard-buttons button {
+    margin-right: 0.5rem;
+}
 
 .flashcardCategories {
     width: 30%;

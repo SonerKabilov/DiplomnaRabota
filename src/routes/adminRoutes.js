@@ -9,6 +9,7 @@ const accountController = require('../controllers/accountController');
 const shopController = require('../controllers/shopController');
 
 const checkUser = require('../middlewares/requireLogin');
+const upload = require('../middlewares/uploadFile');
 
 // LOGIN
 router
@@ -101,7 +102,17 @@ router
     .route("/add/:language/:type/sectionId/:sectionId/lesson/:lessonSequence/exercise")
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(exercisesController.showAddStorymodeExerciseForm)
-    .post(exercisesController.addStorymodeExercise);
+    .post(upload.array('img[url]', 10), exercisesController.addStorymodeExercise);
+
+router
+    .route("/delete/:language/:type/sectionId/:sectionId/lesson/:lessonSequence/storymode-image/:id")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .delete(exercisesController.deleteStorymodeImage);
+
+router
+    .route("/add/:language/:type/sectionId/:sectionId/lesson/:lessonSequence/exercise/:id/storymode-image")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .post(upload.single("imgUrl"), exercisesController.uploadImage);
 
 
 // ** ACOUNT **

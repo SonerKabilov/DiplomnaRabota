@@ -7,7 +7,7 @@ module.exports.requireLogin = (req, res, next) => {
 }
 
 module.exports.checkUserType = (req, res, next) => {
-    if(req.session.user_type != 1) {
+    if(req.session.user_type == 2) {
         req.session.destroy();
         return res.redirect('/');
     }

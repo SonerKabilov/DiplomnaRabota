@@ -50,10 +50,14 @@
             <% if(flashcardCategories.length > 0) { %>
             <div class="flashcardsTop">
                 <p><%= categoryInformation.title %></p>
-                <form action="/flashcards/study/<%= categoryInformation.id %>" method="GET">
-                    <button class="study-flashcards-button">Преглед</button>
-                    <button class="study-flashcards-button">Ниски оценки</button>
-                </form>
+                <div class="flex flashcard-buttons">
+                    <form action="/flashcards/study/<%= categoryInformation.id %>" method="GET">
+                        <button class="study-flashcards-button">Преглед</button>
+                    </form>
+                    <form action="/flashcards/study/<%= categoryInformation.id %>/low-score" method="GET">
+                        <button class="study-flashcards-button">Ниски оценки</button>
+                    </form>
+                </div>
             </div>
             
             <div class="flashcardsDisplay">

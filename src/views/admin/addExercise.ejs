@@ -20,7 +20,7 @@
                 <form id="addForm" action="/admin/add/<%= language %>/sectionId/<%= sectionId %>/lesson/<%= lessonSequence %>/exercise" method="POST">
                     <div class="formInput">
                         <label for="task">Задание</label>
-                        <input type="text" name="task" id="task">
+                        <input type="text" name="task" id="task" required>
                     </div>
             
                     <div class="formInput">
@@ -63,7 +63,7 @@
             
                     <div class="formInput">
                         <label for="correctAnswer">Правилен отговор</label>
-                        <input type="text" name="correctAnswer" id="correctAnswer">
+                        <input type="text" name="correctAnswer" id="correctAnswer" required>
                     </div>
                     
                     <div class="formInput alignCenter">

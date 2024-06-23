@@ -19,6 +19,9 @@ module.exports = {
     showFlashcards: async (categoryId, userId) => {
         return await flashcardRepository.queryFlashcards(categoryId, userId);
     },
+    showFlashcardsWithLowScore: async (categoryId, userId) => {
+        return await flashcardRepository.queryFlashcardsWithLowScore(categoryId, userId);
+    },
     addFlashcard: async (flashcardDetails) => {
         await flashcardRepository.addFlashcard(flashcardDetails);
     },

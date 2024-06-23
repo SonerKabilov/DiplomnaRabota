@@ -22,7 +22,14 @@ module.exports = {
         res.render("user/register", { courses, userData });
     },
     showAdminRegisterForm: (req, res) => {
-        res.render("admin/adminRegister");
+        const userType = req.session.user_type;
+
+        if (userType == 3) {
+            res.render("admin/adminRegister", { userType });
+        } else {
+            res.redirect("admin");
+        }
+
     },
     createUser: async (req, res) => {
         const userBody = req.body;
@@ -50,11 +57,11 @@ module.exports = {
                 res.redirect("/register");
             } else {
                 const userCourses = await coursesService.getUserCourses(user[0].id);
-    
+
                 req.session.user_id = user[0].id;
                 req.session.user_type = user[0].user_types_id;
                 req.session.user_courses = userCourses;
-    
+
                 res.redirect(`/${parsedLanguageData.language}/free/lessons`);
             }
         } catch (error) {
@@ -122,7 +129,7 @@ module.exports = {
         try {
             const user = await accountService.loginUser(userCredentials);
 
-            if (user && user.user_types_id == 1) {
+            if (user && (user.user_types_id == 1 || user.user_types_id == 3)) {
                 const userCourses = await coursesService.getUserCourses(user.id);
 
                 req.session.user_id = user.id;
@@ -137,7 +144,7 @@ module.exports = {
             }
         } catch (error) {
             console.log(error);
-            
+
             req.flash("error", "Грешно потребителско име или парола");
             res.redirect("/admin/login");
         }

@@ -47,11 +47,12 @@ module.exports = {
     },
     addStorymodeExercise: async (exerciseDetails) => {
         const sequences = exerciseDetails.img.sequence;
-        const urls = exerciseDetails.img.url;
+        const urls = exerciseDetails.img.urls;
         const images = new Map();
 
         if (sequences.length === urls.length) {
             for (let i = 0; i < sequences.length; i++) {
+                // Check if sequence data has not been changed
                 if (sequences[i] == i + 1) {
                     images.set(sequences[i], urls[i])
                 } else {
@@ -65,13 +66,22 @@ module.exports = {
                 for (const [sequence, url] of images) {
                     await exercisesRepository.insertStorymodeImages(url, sequence, lastInsertedId);
                 }
+
+                return true;
             } catch (err) {
                 console.log(err);
+
+                return false;
             }
         } else {
             console.log("Different Length");
             return false;
         }
+    },
+    uploadImage: async (id, file) => {
+        console.log(file);
+        await exercisesRepository.insertStorymodeImage(id, file);
+
     },
     checkUserAnswer: async (userAnswerData) => {
         const exercise = await exercisesRepository.queryCorrectAnswer(userAnswerData.exerciseId);
@@ -111,6 +121,9 @@ module.exports = {
     },
     deleteFreeExercise: async (id) => {
         return await exercisesRepository.updateExerciseDeletedStatus(id);
+    },
+    deleteStorymodeImage: async (id) => {
+        return await exercisesRepository.deleteStorymodeImage(id);
     }
 }
 

@@ -1,3 +1,4 @@
+const coursesRepository = require('../database/repositories/coursesRepository');
 const lessonsRepository = require('../database/repositories/lessonsRepository');
 
 module.exports = {
@@ -14,15 +15,22 @@ module.exports = {
         return lessons = await lessonsRepository.queryPremiumLessons(language, type);
     },
     addLesson: async (courseId, sectionId) => {
-        const lessonSequence = await lessonsRepository.queryLastLessonSequence(courseId);
-        
-        const lessonToInsert = {
-            preview: "",
-            sequence: lessonSequence + 1,
-            section_id: sectionId
-        }
+        const lastSectionId = await coursesRepository.queryLastSectionForCourse(courseId);
 
-        await lessonsRepository.insertLesson(lessonToInsert);
+        if (lastSectionId === sectionId) {
+            const lessonSequence = await lessonsRepository.queryLastLessonSequence(courseId);
+        
+            const lessonToInsert = {
+                preview: "",
+                sequence: lessonSequence + 1,
+                section_id: sectionId
+            }
+    
+            await lessonsRepository.insertLesson(lessonToInsert);
+            return true;
+        } else {
+            return false;
+        }
     },
     addPremiumLesson: async (courseId, sectionId, type) => {
         const lessonSequence = await lessonsRepository.queryLastPremiumLessonSequence(courseId, type);

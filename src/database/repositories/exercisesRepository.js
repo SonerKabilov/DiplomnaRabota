@@ -181,5 +181,66 @@ module.exports = {
             console.error(err);
             throw err;
         }
+    },
+    deleteStorymodeImage: async (id) => {
+        const connection = await pool.getConnection();
+
+        try {
+            await connection.beginTransaction();
+
+            const [imageInfo] = await connection.query(`
+                SELECT sequence, storymode_exercise_id
+                FROM storymode_images
+                WHERE id = ?
+            `, [id]);
+
+            await connection.query(`
+                DELETE
+                FROM storymode_images
+                WHERE id = ?
+            `, [id]);
+
+            await connection.query(`
+                UPDATE storymode_images
+                SET sequence = sequence - 1
+                WHERE storymode_exercise_id = ? AND sequence > ?
+            `, [imageInfo[0].storymode_exercise_id, imageInfo[0].sequence]);
+
+            await connection.commit();
+        } catch (err) {
+            await connection.rollback();
+            console.error(err);
+            throw err;
+        } finally {
+            connection.release();
+        }
+    },
+    insertStorymodeImage: async (id, file) => {
+        const connection = await pool.getConnection();
+
+        try {
+            await connection.beginTransaction();
+
+            const [maxSequenceResult]  = await connection.query(`
+                SELECT COALESCE(MAX(sequence), 0) AS max_sequence
+                FROM storymode_images
+                WHERE storymode_exercise_id = ?
+            `, [id]);
+
+            const nextSequence = maxSequenceResult[0].max_sequence + 1;
+
+            await connection.query(`
+                INSERT INTO storymode_images (url, sequence, storymode_exercise_id)
+                VALUES (?, ?, ?)
+            `, [file, nextSequence, id]);
+
+            await connection.commit();
+        } catch (err) {
+            await connection.rollback();
+            console.error(err);
+            throw err;
+        } finally {
+            connection.release();
+        }
     }
 }

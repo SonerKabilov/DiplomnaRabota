@@ -8,6 +8,7 @@ const back = document.querySelector('.back');
 const nextButton = document.getElementById('nextBtn');
 const prevButton = document.querySelector('#prevBtn');
 const scores = document.querySelector('#scores');
+const resultParagraph = document.querySelector("#scores-result");
 
 function showFlashcard(index) {
 
@@ -34,6 +35,7 @@ function showFlashcard(index) {
         <p>${flashcard.answer}</p>
     `;
 
+    resultParagraph.textContent = '';
     scores.innerHTML = '';
 
     for (let i = 1; i <= 5; i++) {
@@ -56,13 +58,19 @@ function showFlashcard(index) {
             const flashcardId = scoreButton.getAttribute("data-flashcard-id");
             const score = scoreButton.getAttribute("data-score");
 
-            await fetch(`/flashcards/add/flashcard/${flashcardId}/score`, {
+            const response = await fetch(`/flashcards/add/flashcard/${flashcardId}/score`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     score: score
                 })
             });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                resultParagraph.textContent = result.msg;
+            }
         })
     }
 }

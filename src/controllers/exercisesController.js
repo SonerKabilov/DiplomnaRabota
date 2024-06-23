@@ -90,6 +90,7 @@ module.exports = {
     },
     showAddExerciseForm: async (req, res) => {
         const { language, sectionId, lessonSequence } = req.params;
+        const userType = req.session.user_type;
 
         const checkIfLessonExists = await lessonsService.getLessonId(lessonSequence, sectionId);
 
@@ -99,7 +100,7 @@ module.exports = {
             return res.redirect("/admin");
         }
 
-        res.render("admin/addExercise", { language, sectionId, lessonSequence });
+        res.render("admin/addExercise", { language, sectionId, lessonSequence, userType });
     },
     addExercise: async (req, res) => {
         const { language, sectionId, lessonSequence } = req.params;
@@ -194,12 +195,14 @@ module.exports = {
     },
     showAddStorymodeExerciseForm: async (req, res) => {
         const { type, lessonSequence, language, sectionId } = req.params;
+        const userType = req.session.user_type;
 
-        res.render("admin/addStorymodeExercise", { type, lessonSequence, language, sectionId });
+        res.render("admin/addStorymodeExercise", { type, lessonSequence, language, sectionId, userType });
     },
     addStorymodeExercise: async (req, res) => {
         const { type, lessonSequence, language, sectionId } = req.params;
         const exercise = req.body;
+        const files = req.files;
 
         try {
             const lessonId = await lessonsService.getPremiumLessonId(lessonSequence, sectionId);
@@ -207,14 +210,28 @@ module.exports = {
             const exerciseDetails = {
                 lessonId,
                 task: exercise.task,
-                img: exercise.img
+                img: {
+                    sequence: exercise.img.sequence,
+                    urls: req.files.map(file => file.filename)
+                }
             }
 
-            await exercisesService.addStorymodeExercise(exerciseDetails);
+            const addExercise = await exercisesService.addStorymodeExercise(exerciseDetails, files);
 
-            res
-                .status(201)
-                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+            if (addExercise) {
+                req.flash("success", "Успешно добавяне на упражнение!");
+
+                res
+                    .status(201)
+                    .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+            } else {
+                req.flash("error", "Грешни при добавяне на упражнение!");
+
+                res
+                    .status(400)
+                    .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+            }
+
         } catch (err) {
             req.flash("error", "Грешни данни за упражнение!");
 
@@ -291,6 +308,49 @@ module.exports = {
             res
                 .status(400)
                 .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
+    },
+    deleteStorymodeImage: async (req, res) => {
+        const { language, type, sectionId, lessonSequence, id } = req.params;
+
+        try {
+            await exercisesService.deleteStorymodeImage(id);
+
+            req.flash("success", "Успешно изтриване на снимка!");
+
+            res
+                .status(200)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно изтриване на упражнение!");
+
+            res
+                .status(400)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
+    },
+    uploadImage: async (req, res) => {
+        const { language, type, sectionId, lessonSequence, id } = req.params;
+        const file = req.file;
+
+        try {
+            await exercisesService.uploadImage(id, file.filename);
+
+            req.flash("success", "Успешно добавяне на снимка!");
+
+            res
+                .status(200)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно добавяне на упражнение!");
+
+            res
+                .status(400)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
         }
     }
 }

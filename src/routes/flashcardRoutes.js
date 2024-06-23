@@ -42,6 +42,11 @@ router
     .get(flashcardController.studyFlashcards);
 
 router
+    .route("/study/:categoryId/low-score")
+    .all(checkUser.requireLogin)
+    .get(flashcardController.studyFlashcardswithLowScore);
+
+router
     .route("/add/flashcard/:flashcardId/score")
     .all(checkUser.requireLogin)
     .post(flashcardController.addScore);

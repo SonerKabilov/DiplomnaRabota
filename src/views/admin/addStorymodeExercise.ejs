@@ -15,10 +15,10 @@
             <%- include('../partials/flashMessages') %>
 
             <div class="formDiv">
-                <form id="addForm" action="/admin/add/<%= language %>/<%= type %>/sectionId/<%= sectionId %>/lesson/<%= lessonSequence %>/exercise" method="POST">
+                <form id="addForm" action="/admin/add/<%= language %>/<%= type %>/sectionId/<%= sectionId %>/lesson/<%= lessonSequence %>/exercise" method="POST" enctype="multipart/form-data">
                     <div class="formInput">
                         <label for="task">Задание</label><br>
-                        <input class="width-fill" type="text" name="task" id="task">
+                        <input class="width-fill" type="text" name="task" id="task" required>
                     </div>
 
                     <div class="formInput images">
@@ -26,21 +26,21 @@
                             <p>Добавяне на снимки</p>
                             <div class="imageInputsDiv">
                                 <input class="imageSequence disabled" type="text" name="img[sequence]" value="1">
-                                <input class="border-none" type="file" name="img[url]" accept="image/*">
+                                <input class="border-none" type="file" name="img[url]" accept="image/*" required>
                             </div>
                         </div>
                 
                         <div class="formInput img">
                             <div class="imageInputsDiv">
                                 <input class="imageSequence disabled" type="text" name="img[sequence]" value="2">
-                                <input class="border-none" type="file" name="img[url]" accept="image/*">
+                                <input class="border-none" type="file" name="img[url]" accept="image/*" required>
                             </div>
                         </div>
                 
                         <div class="formInput img">
                             <div class="imageInputsDiv">
                                 <input class="imageSequence disabled" type="text" name="img[sequence]" value="3">
-                                <input class="border-none" type="file" name="img[url]" accept="image/*">
+                                <input class="border-none" type="file" name="img[url]" accept="image/*" required>
                             </div>
                         </div>
 

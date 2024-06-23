@@ -216,14 +216,18 @@ module.exports = {
         }
     },
     updateFreeLessonDeleteStatus: async (sectionId, lessonSequence, language) => {
+        const connection = await pool.getConnection();
+
         try {
-            await pool.query(`
+            await connection.beginTransaction();
+
+            await connection.query(`
                 UPDATE free_lessons
                 SET is_deleted = 1, sequence = 0
                 WHERE sequence = ? AND sections_id = ?
             `, [lessonSequence, sectionId]);
 
-            await pool.query(`
+            await connection.query(`
                 UPDATE free_lessons l
                 INNER JOIN free_sections s
                 ON l.sections_id = s.id
@@ -232,9 +236,22 @@ module.exports = {
                 SET l.sequence = l.sequence - 1
                 WHERE l.sequence > ? AND c.language = ? AND l.is_deleted = 0
             `, [lessonSequence, language]);
+
+            await connection.query(`
+                UPDATE courses_taken ct
+                INNER JOIN courses c
+                ON ct.courses_id = c.id
+                SET ct.on_lesson = ct.on_lesson - 1
+                WHERE ct.on_lesson >= ? AND c.language = ? AND ct.on_lesson > 1;
+            `, [lessonSequence, language]);
+
+            await connection.commit();
         } catch (err) {
+            await connection.rollback();
             console.error(err);
             throw err;
+        } finally {
+            connection.release();
         }
     }
 }
