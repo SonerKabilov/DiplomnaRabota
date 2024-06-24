@@ -242,5 +242,28 @@ module.exports = {
         } finally {
             connection.release();
         }
+    },
+    updateStorymodeTask: async (id, task) => {
+        try {
+            await pool.query(`
+                UPDATE storymode_exercises
+                SET task = ?
+                WHERE id = ?
+            `, [task, id]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    deleteStorymodeExercise: async (id) => {
+        try {
+            await pool.query(`
+                DELETE FROM storymode_exercises
+                WHERE id = ?
+            `, [id]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }

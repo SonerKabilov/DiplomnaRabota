@@ -131,6 +131,7 @@ module.exports = {
                 INNER JOIN payment_types pt
                 ON st.payment_types_id = pt.id
                 WHERE ph.users_id = ?
+                ORDER BY ph.date DESC
             `, [userId]);
 
             return result;

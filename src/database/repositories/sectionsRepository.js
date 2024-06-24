@@ -290,7 +290,7 @@ module.exports = {
             const [result] = await pool.query(`
                 SELECT *
                 FROM free_lessons
-                WHERE sections_id = ?
+                WHERE sections_id = ? AND is_deleted = 0
             `, [id]);
 
             if (result.length > 0) {

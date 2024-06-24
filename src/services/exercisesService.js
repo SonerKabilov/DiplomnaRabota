@@ -35,7 +35,7 @@ module.exports = {
 
         newExercise.options = JSON.stringify(newExercise.options);
 
-        const isValidCorrectAnswer = checkCorrectAnswer(exercise);
+        const isValidCorrectAnswer = checkCorrectAnswer(newExercise);
 
         if (isValidCorrectAnswer) {
             await exercisesRepository.insertExercise(newExercise);
@@ -124,6 +124,12 @@ module.exports = {
     },
     deleteStorymodeImage: async (id) => {
         return await exercisesRepository.deleteStorymodeImage(id);
+    },
+    updateStorymodeTask: async (id, task) => {
+        return await exercisesRepository.updateStorymodeTask(id, task);
+    },
+    deleteStorymodeExercise: async (id) => {
+        return await exercisesRepository.deleteStorymodeExercise(id);
     }
 }
 

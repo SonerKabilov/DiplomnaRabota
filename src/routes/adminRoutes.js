@@ -67,7 +67,6 @@ router
     .route("/show/:language/:type/sectionId/:sectionId/lesson/:lessonSequence")
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .get(lessonController.showPremiumLessonDetails)
-    .patch();
 
 router
     .route("/add/course/:language/section/:sectionSequence/lesson")
@@ -118,6 +117,12 @@ router
     .route("/add/:language/:type/sectionId/:sectionId/lesson/:lessonSequence/exercise/:id/storymode-image")
     .all(checkUser.requireLogin, checkUser.checkUserType)
     .post(upload.single("imgUrl"), exercisesController.uploadImage);
+
+router
+    .route("/:language/:type/sectionId/:sectionId/lesson/:lessonSequence/exercise/:id")
+    .all(checkUser.requireLogin, checkUser.checkUserType)
+    .patch(exercisesController.updateStorymodeTask)
+    .delete(exercisesController.deleteStorymodeExercise);
 
 
 // ** ACOUNT **

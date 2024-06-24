@@ -113,7 +113,7 @@ module.exports = {
                 const membership = await accountService.updateMembership(userId, shopItem[0].quantity, shopItem[0].cost);
 
                 if (!membership) {
-                    req.flash("error", "Имате активен абонамент!");
+                    req.flash("error", "Нямате достатъчно монети или имате активен абонамент!");
                 } else {
                     req.flash("success", "Успешно закупен абонамент!");
 

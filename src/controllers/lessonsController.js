@@ -149,7 +149,7 @@ module.exports = {
 
             res
                 .status(200)
-                .redirect(`/admin/show/${language}/section/${sectionId}/lessons`);
+                .redirect(`/admin`);
         } catch (err) {
             console.log(err);
 
@@ -157,7 +157,7 @@ module.exports = {
 
             res
                 .status(404)
-                .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+                .redirect(`/admin`);
         }
     },
     deletePremiumLesson: async (req, res) => {
@@ -170,7 +170,7 @@ module.exports = {
 
             res
                 .status(200)
-                .redirect(`/admin/show/${language}/section/${sectionId}/lessons`);
+                .redirect(`/admin/show/${language}/${type}/lessons`);
         } catch (err) {
             console.log(err);
 
@@ -178,7 +178,7 @@ module.exports = {
 
             res
                 .status(404)
-                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+                .redirect(`/admin/show/${language}/${type}/lessons`);
         }
     }
 }

@@ -36,7 +36,13 @@
 
                     <div class="showHideDiv hidden">
                         <div class="formInput">
-                            <input type="text" value="<%= exercise.storymodeExercise.task %>">
+                            <form 
+                                action="/admin/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise/<%= exercise.storymodeExercise.id %>?_method=PATCH"
+                                method="POST">
+
+                                    <input type="text" name="task" value="<%= exercise.storymodeExercise.task %>">
+                                    <button class="update">Редактиране</button>
+                            </form>
                         </div>
 
                         <% for (const exerciseImage of exercise.storymodeImages) { %>
@@ -59,10 +65,20 @@
                             method="POST"
                             enctype="multipart/form-data">
 
-                                <p>Добавяне на снимка</p>
+                                <h3>Добавяне на снимка</h3>
                                 <input class="border-none" type="file" name="imgUrl" accept="image/*">
                                 <br>
                                 <button class="add">Добавяне</button>
+                        </form>
+
+                        <br>
+
+                        <form 
+                            action="/admin/<%= lessonDetails.language %>/<%= lessonDetails.type %>/sectionId/<%= lessonDetails.sectionId %>/lesson/<%= lessonDetails.lessonSequence %>/exercise/<%= exercise.storymodeExercise.id %>?_method=DELETE"
+                            method="POST">
+                            
+                                <h3>Изтриване на упражнение</h3>
+                                <button class="remove">Изтриване</button>
                         </form>
                     </div>
                 </div>

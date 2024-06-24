@@ -352,5 +352,48 @@ module.exports = {
                 .status(400)
                 .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
         }
+    },
+    updateStorymodeTask: async (req, res) => {
+        const { language, type, sectionId, lessonSequence, id } = req.params;
+        const { task } = req.body;
+
+        try {
+            await exercisesService.updateStorymodeTask(id, task);
+
+            req.flash("success", "Успешно редактиране на упражнение!");
+
+            res
+                .status(200)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно редактиране на упражнение!");
+
+            res
+                .status(400)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
+    },
+    deleteStorymodeExercise: async (req, res) => {
+        const { language, type, sectionId, lessonSequence, id } = req.params;
+
+        try {
+            await exercisesService.deleteStorymodeExercise(id);
+
+            req.flash("success", "Успешно изтриване на упражнение!");
+
+            res
+                .status(200)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Неуспешно изтриване на упражнение!");
+
+            res
+                .status(400)
+                .redirect(`/admin/show/${language}/${type}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+        }
     }
 }
