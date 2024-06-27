@@ -106,38 +106,49 @@ module.exports = {
         const { language, sectionId, lessonSequence } = req.params;
         const exercise = req.body;
 
-        if (
-            exercise.task == "" ||
-            exercise.correctAnswer == ""
-        ) {
-            req.flash("error", "Полетата за 'Задание' и 'Правилен отговор' са задължителни полета!");
+        try {
+            if (
+                exercise.task == "" ||
+                exercise.correctAnswer == ""
+            ) {
+                req.flash("error", "Полетата за 'Задание' и 'Правилен отговор' са задължителни полета!");
 
-            return res
-                .status(400)
-                .redirect(`/admin/add/${language}/sectionId/${sectionId}/lesson/${lessonSequence}/exercise`);
-        }
+                return res
+                    .status(400)
+                    .redirect(`/admin/add/${language}/sectionId/${sectionId}/lesson/${lessonSequence}/exercise`);
+            }
 
-        const lessonId = await lessonsService.getLessonId(lessonSequence, sectionId);
+            const lessonId = await lessonsService.getLessonId(lessonSequence, sectionId);
 
-        const newExercise = {
-            task: exercise.task,
-            taskTypesId: exercise.taskTypes,
-            optionTypesId: exercise.optionTypes,
-            options: exercise.options,
-            correctAnswer: exercise.correctAnswer,
-            lessonId
-        }
+            const newExercise = {
+                task: exercise.task,
+                taskTypesId: exercise.taskTypes,
+                optionTypesId: exercise.optionTypes,
+                options: exercise.options,
+                correctAnswer: exercise.correctAnswer,
+                lessonId
+            }
 
-        const addedExercise = await exercisesService.addExercise(newExercise);
+            const addedExercise = await exercisesService.addExercise(newExercise);
 
-        if (addedExercise) {
-            req.flash("success", "Успешно добавено упражнение!");
 
-            res
-                .status(201)
-                .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
-        } else {
-            req.flash("error", "Грешни данни за упражнение!");
+            if (addedExercise) {
+                req.flash("success", "Успешно добавено упражнение!");
+
+                res
+                    .status(201)
+                    .redirect(`/admin/show/${language}/sectionId/${sectionId}/lesson/${lessonSequence}`);
+            } else {
+                req.flash("error", "Грешни данни за упражнение!");
+
+                res
+                    .status(400)
+                    .redirect(`/admin/add/${language}/sectionId/${sectionId}/lesson/${lessonSequence}/exercise`);
+            }
+        } catch (err) {
+            console.log(err);
+
+            req.flash("error", "Грешка при добавяне на упражнение!");
 
             res
                 .status(400)

@@ -37,7 +37,7 @@ let progressBarCounter = 1;
 let exercises = [];
 let completedExercises = [];
 
-// Function to shuffle an array using Fisher-Yates algorithm
+// Function to shuffle an array
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));

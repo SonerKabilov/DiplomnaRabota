@@ -16,11 +16,11 @@ app.use(session(
     { 
         name: process.env.SESSION_NAME,
         resave: false,
-        saveUninitialized: false, //Will not save empty sessions
+        saveUninitialized: false, // Will not save empty sessions
         secret: process.env.SESSION_SECRET,
         cookie: {
-            maxAge: 7 * 24 * 60 * 60 * 1000, //One week
-            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // One week
+            httpOnly: true, // Prevents client side scripts from accessing data
             sameSite: true
         }
     }

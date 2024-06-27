@@ -17,7 +17,6 @@ module.exports = {
                     exercises.push({storymodeExercise, storymodeImages});
                 }
                 
-
                 return exercises;
             }
         }
@@ -35,7 +34,7 @@ module.exports = {
 
         newExercise.options = JSON.stringify(newExercise.options);
 
-        const isValidCorrectAnswer = checkCorrectAnswer(newExercise);
+        const isValidCorrectAnswer = checkAnswerData(newExercise);
 
         if (isValidCorrectAnswer) {
             await exercisesRepository.insertExercise(newExercise);
@@ -79,7 +78,6 @@ module.exports = {
         }
     },
     uploadImage: async (id, file) => {
-        console.log(file);
         await exercisesRepository.insertStorymodeImage(id, file);
 
     },
@@ -109,7 +107,7 @@ module.exports = {
 
         exercise.options = JSON.stringify(exercise.options);
 
-        const isValidCorrectAnswer = checkCorrectAnswer(exercise);
+        const isValidCorrectAnswer = checkAnswerData(exercise);
 
         if (isValidCorrectAnswer) {
             await exercisesRepository.updateFreeExercise(exercise);
@@ -133,7 +131,7 @@ module.exports = {
     }
 }
 
-function checkCorrectAnswer(exercise) { 
+function checkAnswerData(exercise) { 
     let isValidCorrectAnswer = false;
 
     const options = JSON.parse(exercise.options);
@@ -147,9 +145,6 @@ function checkCorrectAnswer(exercise) {
         const splitAnswer = exercise.correctAnswer.split(" ");
 
         isValidCorrectAnswer = splitAnswer.every(answer => options.includes(answer));
-    } else if (exercise.optionTypesId == 3) {
-        // For text answer
-        isValidCorrectAnswer = true;
     }
 
     return isValidCorrectAnswer;

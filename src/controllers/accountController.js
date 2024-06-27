@@ -29,7 +29,6 @@ module.exports = {
         } else {
             res.redirect("admin");
         }
-
     },
     createUser: async (req, res) => {
         const userBody = req.body;
@@ -65,6 +64,8 @@ module.exports = {
                 res.redirect(`/${parsedLanguageData.language}/free/lessons`);
             }
         } catch (error) {
+            console.log(error);
+            
             req.flash("error", "Неуспешно създаване на потребител");
             res.redirect("/register");
         }
