@@ -55,32 +55,38 @@ const showSections = async () => {
         for (const lesson of lessons) {
             const lessonDiv = document.createElement("div");
             lessonDiv.classList.add("lesson");
-            lessonDiv.setAttribute("lesson-section", lesson.sections_id);
+            lessonDiv.setAttribute("lesson-section", lesson.lesson.sections_id);
             lessonsDiv.appendChild(lessonDiv);
 
             const icon = document.createElement("i");
             icon.classList.add("fa-solid", "fa-star");
-            icon.id = `popoverBtn${lesson.id}`;
+            icon.id = `popoverBtn${lesson.lesson.id}`;
             lessonDiv.appendChild(icon);
 
             const popoverDiv = document.createElement("div");
             popoverDiv.classList.add("popover");
-            popoverDiv.id = `myPopover${lesson.id}`;
+            popoverDiv.id = `myPopover${lesson.lesson.id}`;
             lessonDiv.appendChild(popoverDiv);
 
             const header = document.createElement("h3");
             header.classList.add("lessonSequence");
-            header.textContent = `Урок ${lesson.sequence}`;
+            header.textContent = `Урок ${lesson.lesson.sequence}`;
             popoverDiv.appendChild(header);
 
-            if (lesson.preview != null) {
+            if (lesson.efficiency >= 0) {
+                const efficiencyParagraph = document.createElement("p");
+                efficiencyParagraph.textContent = `Успеваемост: ${lesson.efficiency}%`;
+                popoverDiv.appendChild(efficiencyParagraph);
+            }
+
+            if (lesson.lesson.preview != null) {
                 const previewBtn = document.createElement("button");
                 previewBtn.classList.add("reviewLesson");
                 previewBtn.textContent = "Преглед";
                 popoverDiv.appendChild(previewBtn);
 
                 previewBtn.addEventListener("click", function () {
-                    createModalForLessionPreview(lesson.preview);
+                    createModalForLessionPreview(lesson.lesson.preview);
                 });
             }
 
@@ -91,9 +97,9 @@ const showSections = async () => {
             startLesson.classList.add("startLesson");
             linkParagraph.appendChild(startLesson);
 
-            if (lesson.sequence <= onLesson) {
+            if (lesson.lesson.sequence <= onLesson) {
                 icon.classList.add("completed");
-                startLesson.href = `/exercises/${language}/section/${lesson.section_sequence}/lesson/${lesson.sequence}`;
+                startLesson.href = `/exercises/${language}/section/${lesson.lesson.section_sequence}/lesson/${lesson.lesson.sequence}`;
                 startLesson.textContent = "Начало";
             } else {
                 const lockIcon = document.createElement("i")

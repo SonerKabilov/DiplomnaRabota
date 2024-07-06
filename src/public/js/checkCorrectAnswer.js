@@ -18,6 +18,8 @@ const audio = new Audio();
 
 let speech = new SpeechSynthesisUtterance();
 
+let efficiency = 100;
+
 const setSpeechLanguage = (text) => {
     const langDetector = new RegExp("[\u0400-\u04FF]+"); // Cyrillic script
 
@@ -328,7 +330,7 @@ const handleButtonClick = async (exerciseId, userAnswer) => {
         currentExerciseIndex++;
         completedExercises.push(exerciseId);
     } else {
-        console.log("greshka");
+        efficiency = Math.round(efficiency - 100/exercises.length);
     }
 
     showExercise();
@@ -382,7 +384,8 @@ const lessonCompleted = async () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     language: language,
-                    lessonSequence: lessonSequence
+                    lessonSequence: lessonSequence,
+                    efficiency: efficiency
                 })
             });
 

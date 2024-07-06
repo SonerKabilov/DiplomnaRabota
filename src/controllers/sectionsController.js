@@ -47,7 +47,7 @@ module.exports = {
             const userId = req.session.user_id;
 
             const sections = await sectionsService.getAllSectionsForCourse(language);
-            const lessons = await lessonsService.getAllLessons(language);
+            const lessons = await lessonsService.getAllLessons(language, userId);
             const courseInformation = await accountService.getCurrentUserCourse(userId, language);
             const onLesson = courseInformation[0].on_lesson;
 

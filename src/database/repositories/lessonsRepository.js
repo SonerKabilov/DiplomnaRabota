@@ -145,6 +145,28 @@ module.exports = {
             throw err;
         }
     },
+    getLessonIdByLanguage: async (sequence, language) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT l.id
+                FROM free_lessons l
+                INNER JOIN free_sections s
+                ON l.sections_id = s.id
+                INNER JOIN courses c
+                ON s.courses_id = c.id
+                WHERE l.sequence = ? AND c.language = ?
+            `, [sequence, language]);
+
+            if (result.length === 0) {
+                return 0;
+            }
+
+            return result[0].id;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
     getPremiumLessonId: async (sequence, sectionId) => {
         try {
             const [result] = await pool.query(`
@@ -291,6 +313,63 @@ module.exports = {
             throw err;
         } finally {
             connection.release();
+        }
+    },
+    hasEfficiency: async (lessonId, userId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT *
+                FROM lesson_efficiency
+                WHERE lessons_id = ? AND users_id = ?
+            `, [lessonId, userId]);
+
+            if (result.length === 0) {
+                return false;
+            }
+
+            return true;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    addEfficiency: async (efficiency, lessonId, userId) => {
+        try {
+            await pool.query(`
+                INSERT INTO lesson_efficiency (efficiency, users_id, lessons_id)
+                VALUES (?, ?, ?)
+            `, [efficiency, userId, lessonId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    updateEfficiency: async (efficiency, lessonId, userId) => {
+        try {
+            await pool.query(`
+                UPDATE lesson_efficiency
+                SET efficiency = ?
+                WHERE users_id = ? AND lessons_id = ?
+            `, [efficiency, userId, lessonId]);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    },
+    selectLessonEficiency: async (lessonId, userId) => {
+        try {
+            const [result] = await pool.query(`
+                SELECT efficiency
+                FROM lesson_efficiency
+                WHERE lessons_id = ? AND users_id = ?
+            `, [lessonId, userId]);
+
+            if (result.length > 0) {
+                return result[0].efficiency;
+            }
+        } catch (err) {
+            console.error(err);
+            throw err;
         }
     }
 }

@@ -2,8 +2,17 @@ const coursesRepository = require('../database/repositories/coursesRepository');
 const lessonsRepository = require('../database/repositories/lessonsRepository');
 
 module.exports = {
-    getAllLessons: async (language) => {
-        return await lessonsRepository.queryLessonsForUser(language);
+    getAllLessons: async (language, userId) => {
+        const lessons = await lessonsRepository.queryLessonsForUser(language);
+
+        const lessonsArray = [];
+
+        for (const lesson of lessons) {
+            const efficiency = await lessonsRepository.selectLessonEficiency(lesson.id, userId);
+            lessonsArray.push({lesson, efficiency});
+        }
+        
+        return lessonsArray;
     },
     getAllPremiumLessons: async (language) => {
         return await lessonsRepository.queryPremiumLessonsForUser(language);
@@ -59,5 +68,20 @@ module.exports = {
     },
     deletePremiumLesson: async (sectionId, lessonSequence, language) => {
         return await lessonsRepository.updateStorymodeLessonDeleteStatus(sectionId, lessonSequence, language);
+    },
+    getLessonIdByLanguage: async (sequence, language) => {
+        return await lessonsRepository.getLessonIdByLanguage(sequence, language);
+    },
+    addLessonEfficiency: async (efficiency, lessonId, userId) => {
+        const has_efficiency = await lessonsRepository.hasEfficiency(lessonId, userId);
+
+        if(has_efficiency) {
+            await lessonsRepository.updateEfficiency(efficiency, lessonId, userId);
+        } else {
+            await lessonsRepository.addEfficiency(efficiency, lessonId, userId);
+        }
+    },
+    selectLessonEfficiency: async (lessonId, userId) => {
+        return await lessonsRepository.selectLessonEficiency(lessonId, userId);
     }
 }

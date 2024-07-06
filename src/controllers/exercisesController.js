@@ -157,7 +157,7 @@ module.exports = {
     },
     updateCompletedLesson: async (req, res) => {
         const userId = req.session.user_id;
-        const { lessonSequence, language } = req.body;
+        const { lessonSequence, language, efficiency } = req.body;
 
         const userData = {
             userId,
@@ -167,6 +167,10 @@ module.exports = {
 
         try {
             await accountService.updateUserDataForCompletedLesson(userData);
+
+            const lessonId = await lessonsService.getLessonIdByLanguage(lessonSequence, language);
+            
+            await lessonsService.addLessonEfficiency(efficiency, lessonId, userId);
 
             const currency = await accountService.getUserCurrency(userId);
             req.session.user_currency = currency;
